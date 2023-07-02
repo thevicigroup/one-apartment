@@ -40,7 +40,7 @@ export const Map = () => {
             mapTypeId={google.maps.MapTypeId.ROADMAP}
             mapContainerStyle={{
                 width: "100%",
-                height: "100%"
+                height: "100%",
             }}
             onLoad={(map) => console.log("Map Loaded")}
         />

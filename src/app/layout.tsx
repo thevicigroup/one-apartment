@@ -4,9 +4,9 @@ import { Inter } from "next/font/google";
 import "@/globals.css";
 
 import { cn } from "@/lib/utils";
+import { LockBodyScroll } from "@/components/layout/lock-body-scroll";
 import { MainNav } from "@/components/layout/navbar";
 import { Logo } from "@/components/logo";
-import { LockBodyScroll } from "@/components/layout/lock-body-scroll";
 
 const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 
