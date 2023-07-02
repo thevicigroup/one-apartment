@@ -4,6 +4,8 @@ import { Inter } from "next/font/google";
 import "@/globals.css";
 
 import { cn } from "@/lib/utils";
+import { MainNav } from "@/components/layout/navbar";
+import { Logo } from "@/components/logo";
 
 const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 
@@ -17,9 +19,14 @@ export default function RootLayout({ children }: Props) {
         <html lang="en">
             <head />
             <body className={cn("min-h-screen bg-background text-foreground", inter.className)}>
-                {children}
+                <div className="flex min-h-screen flex-col">
+                    <header className="container hidden md:flex justify-between py-1">
+                        <Logo />
+                        <MainNav />
+                    </header>
+                    <main className="flex-1 overflow-y-auto">{children}</main>
+                </div>
             </body>
         </html>
     );
 }
-
