@@ -11,3 +11,6 @@
 
 ## Website Hosting
 - Vercel (https://www.vercel.com/)
+
+## UI Components
+- ShadcnUI (https://ui.shadcn.com/)
