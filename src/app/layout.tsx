@@ -6,6 +6,7 @@ import "@/globals.css";
 import { cn } from "@/lib/utils";
 import { MainNav } from "@/components/layout/navbar";
 import { Logo } from "@/components/logo";
+import { LockBodyScroll } from "@/components/layout/lock-body-scroll";
 
 const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: Props) {
                         <MainNav />
                     </header>
                     <main className="flex-1 overflow-y-auto">{children}</main>
+                    <LockBodyScroll />
                 </div>
             </body>
         </html>
