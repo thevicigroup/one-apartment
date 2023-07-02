@@ -1,0 +1,54 @@
+.h1 {
+    color: rgb(49, 49, 49);
+    margin-top: 40px;
+    text-align: center;
+    font-size: 32px
+  }
+  
+  .input-group {
+    margin: 5px 5px;
+  }
+  
+  .input-group input{
+    height: 45px;
+    width: 403px;
+  }
+  
+  .btn-add{
+    background-color: rgb(12, 187, 50);
+    height: 35px;
+    color: white;
+    padding: 0px 63px;
+    border-radius: 25px;
+  }
+  
+  
+  .btn-remove{
+    background-color: rgb(187, 12, 12);
+    height: 35px;
+    color: white;
+    padding: 0px 50px;
+    border-radius: 25px;
+  }
+  
+  .ul{
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+  }
+  
+  .li {
+    position: relative;
+    display: block;
+    padding: 10px 20px;
+  
+    margin-bottom: 10px;
+    background-color: #fff;
+    border: 1px solid rgb(163, 163, 163);
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+  }
