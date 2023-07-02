@@ -20,7 +20,7 @@ export const Map: React.FC<Props> = ({ coords }) => {
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
         libraries: libraries as any,
     });
-    if (!isLoaded) return null;
+    if (!isLoaded) return <div className="w-full h-full"></div>;
     return (
         <GoogleMap
             options={mapOptions}
