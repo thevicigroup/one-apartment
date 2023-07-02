@@ -1,5 +1,4 @@
 import React from "react";
-
 import { Building } from "lucide-react";
 
 export const Logo = () => {
@@ -9,4 +8,4 @@ export const Logo = () => {
             <h1 className="text-sm font-medium">Apartments.gov</h1>
         </div>
     );
-}
+};
