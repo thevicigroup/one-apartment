@@ -1,22 +1,24 @@
 import React from "react";
+import { shell } from "@/test-isochrone";
 
 import { Map } from "@/components/map/map";
+import { Sidebar } from "@/components/layout/sidebar";
 
 const coordinates = [
-    { lat: 42.360, lon: -71.058 },
-    { lat: 42.361, lon: -71.058 },
-    { lat: 42.360, lon: -71.051 },
-    { lat: 42.364, lon: -71.058 },
-    { lat: 42.364, lon: -71.054 },
-    { lat: 42.366, lon: -71.059 },
-    { lat: 42.367, lon: -71.058 },
+    { lat: 42.36, lng: -71.058 },
+    { lat: 42.361, lng: -71.058 },
+    { lat: 42.36, lng: -71.051 },
+    { lat: 42.364, lng: -71.058 },
+    { lat: 42.364, lng: -71.054 },
+    { lat: 42.366, lng: -71.059 },
+    { lat: 42.367, lng: -71.058 },
 ];
 
 export default function Home() {
     return (
         <div className="grid grid-cols-[1fr_.55fr] h-screen">
-            <Map coords={coordinates} />
-            <div className="bg-slate-500">Info</div>
+            <Map aparmentMarkers={coordinates} isochronePath={shell} />
+            <Sidebar />
         </div>
     );
 }
