@@ -1,20 +1,34 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { GoogleMap, MarkerF, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, Polygon, useLoadScript } from "@react-google-maps/api";
 
 interface Props {
-    coords: { lat: number, lon: number }[];
+    isochronePath?: { lat: number; lng: number }[];
+    aparmentMarkers: { lat: number; lng: number }[];
 }
 
-export const Map: React.FC<Props> = ({ coords }) => {
-    const mapCenter  = useMemo(() => ({ lat: 42.3601, lng: -71.0589 }), [42.3601, -71.0589]);
-    const mapOptions = useMemo<google.maps.MapOptions>(() => ({
-        clickableIcons: true,
-        disableDefaultUI: true,
-        scrollwheel: true,
-    }), []);
-        
+export const Map: React.FC<Props> = ({ isochronePath, aparmentMarkers }) => {
+    const mapCenter = useMemo(() => ({ lat: 42.3601, lng: -71.0589 }), [42.3601, -71.0589]);
+    const mapOptions = useMemo<google.maps.MapOptions>(
+        () => ({
+            clickableIcons: false,
+            disableDefaultUI: true,
+            scrollwheel: true,
+            zoomControl: true,
+            zoomControlOptions: { position: 1 },
+            controlSize: 25,
+            styles: [{
+                "featureType": "all",
+                "elementType": "labels.icon",
+                "stylers": [{
+                    "visibility": "off"
+                }]
+            }]
+        }),
+        [],
+    );
+
     const libraries = useMemo(() => ["places"], []);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
@@ -27,12 +41,14 @@ export const Map: React.FC<Props> = ({ coords }) => {
             zoom={14}
             center={mapCenter}
             mapTypeId={google.maps.MapTypeId.ROADMAP}
-            mapContainerStyle={{
-                width: "100%", height: "100%",
-            }}
+            mapContainerClassName="w-100 h-100"
         >
-            {coords.map((coord, i) => (
-                <MarkerF key={`marker-${i}`} position={new google.maps.LatLng(coord["lat"], coord["lon"])} />
+            {isochronePath && <Polygon paths={[isochronePath]} />}
+            {aparmentMarkers.map((coord, i) => (
+                <MarkerF
+                    key={`marker-${i}`}
+                    position={new google.maps.LatLng(coord["lat"], coord["lng"])}
+                />
             ))}
         </GoogleMap>
     );
