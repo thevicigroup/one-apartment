@@ -18,6 +18,7 @@ export default function Home() {
         <div className="grid grid-cols-[1fr_.55fr] h-screen">
             <Map coords={coordinates} />
             <Sidebar />
+            
         </div>
     );
 }
