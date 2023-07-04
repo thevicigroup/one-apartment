@@ -10,7 +10,11 @@ export function addItem(){
     var li = document.createElement("li")
     var br = document.createElement("br")
     li.setAttribute('id', candidate.value);
-    li.append(document.createTextNode(candidate.value));
+    li.appendChild(document.createTextNode(candidate.value));
+    // li.appendChild(document.createTextNode(bedrooms.value));
+    // li.appendChild(document.createTextNode(bathrooms.value));
+    // li.appendChild(document.createTextNode(travel_mode.value));
+    // li.appendChild(document.createTextNode(time.value));
     ul.appendChild(li);
     ul.appendChild(br);
 }

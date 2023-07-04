@@ -3,7 +3,10 @@
 import React from "react";
 import { addItem, removeItem } from '@/components/layout/sidebar/addItem.js'
 import { list_style } from '@/components/layout/sidebar/addlistitems.css'
-import { applyChanges } from '@/components/layout/sidebar/applyChanges'
+import { getApartments } from '@/components/layout/sidebar/getApartments' 
+
+
+
 
 export const Sidebar = () => {
   const num_of_results = 123
@@ -67,7 +70,7 @@ export const Sidebar = () => {
                         <button onClick={removeItem} className="btn btn-remove" type="button">Remove Item</button>
                       </div>
                   </div>
-                  <ul id="dynamic-list">
+                  <ul id="current_parameters">
                     <li>Current Parameters:</li>
                     <br></br>
                   </ul>
@@ -75,15 +78,18 @@ export const Sidebar = () => {
             </div>
 
 
+
+            {/* TODO: HAVE THIS getApartments FUNCTION CUSTOM FORM THE USER PARAMETERS EVERY TIME IT CALLS THE PYTHON SCRIPT USING THE 
+            INFORMATION FROM THE CURRENT PARAMETERS OBJECT */}
             {/* APPLY CHANGES */}
-            <button onClick={applyChanges} style={{
+            <button onClick={getApartments} style={{
               borderRadius: "15px",
               background: "rgb(12, 187, 50)",
               color: "white",
               padding: "20px",
-              width: "200px",
+              width: "250px",
               height: "50px"}} 
-              type="button">Apply Changes</button>
+              type="button">Search for Apartments</button>
 
             
             <br></br>
