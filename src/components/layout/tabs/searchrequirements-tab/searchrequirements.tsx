@@ -1,15 +1,15 @@
 "use client";
 
 import React from "react";
-import { addItem, removeItem } from '@/components/layout/sidebar/addItem.js'
-import { list_style } from '@/components/layout/sidebar/addlistitems.css'
-import { getApartments } from '@/components/layout/sidebar/getApartments' 
+import { addItem, removeItem } from '@/components/layout/tabs/searchrequirements-tab/addItem'
+import { list_style } from '@/components/layout/tabs/searchrequirements-tab/addlistitems.css'
+import { getApartments } from '@/components/layout/tabs/searchrequirements-tab/getApartments' 
 import { MoveLeft } from "lucide-react";
 
 
 
 
-export const Sidebar = () => {
+export const SearchRequirements = () => {
   const num_of_results = 123
   const total_num = 500
     return <aside>
@@ -85,17 +85,16 @@ export const Sidebar = () => {
             </div>
 
 
-
-            {/* TODO: HAVE THIS getApartments FUNCTION CUSTOM FORM THE USER PARAMETERS EVERY TIME IT CALLS THE PYTHON SCRIPT USING THE 
-            INFORMATION FROM THE CURRENT PARAMETERS OBJECT */}
             {/* APPLY CHANGES */}
             <button onClick={getApartments} style={{
+              bottom: '100px',
+              position: "fixed",
               borderRadius: "15px",
               background: "rgb(12, 187, 50)",
               color: "white",
-              padding: "20px",
-              width: "250px",
-              height: "50px"}} 
+              padding: "10px",
+              width: "200px",
+              }} 
               type="button">Search for Apartments</button>
 
             

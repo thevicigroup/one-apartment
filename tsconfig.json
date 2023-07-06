@@ -19,7 +19,7 @@
             "@/*": ["./src/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/layout/sidebar/addItem.js"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/layout/tabs/searchrequirements-tab/addItem.js"],
     "exclude": ["node_modules"]
 }
 

@@ -17,7 +17,6 @@ export const Map: React.FC<Props> = ({ coords }) => {
         }),
         [],
     );
-
     const libraries = useMemo(() => ["places"], []);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
@@ -33,7 +32,7 @@ export const Map: React.FC<Props> = ({ coords }) => {
             mapTypeId={google.maps.MapTypeId.ROADMAP}
             mapContainerStyle={{
                 width: "100%",
-                height: "100%",
+                height: "100%"
             }}
         >
             {coords.map((coord, i) => (

@@ -41,8 +41,8 @@ def find_longitude(latitude):
 
 KM_TO_PIXELS = 35 # this isnt right but its more to the scale
 
-TRAVEL_TIME_ID = '38468e41'
-TRAVEL_TIME_APPLICATION_KEY = 'c9fe8b943de53d8311ad5c0434aad19d'
+TRAVEL_TIME_ID = '6f1ed0f3'
+TRAVEL_TIME_APPLICATION_KEY = 'ceacbffb35b3353e486797d8b0cb3cfc'
 TRAVEL_TIME_BASE_URL = 'https://api.traveltimeapp.com/v4/time-map'
 
 

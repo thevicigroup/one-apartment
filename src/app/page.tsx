@@ -1,7 +1,8 @@
 import React from "react";
 
 import { Map } from "@/components/map/map";
-import { Sidebar } from "@/components/layout/sidebar/sidebar";
+import { Tabs } from "@/components/layout/tabs/tab"
+// import { openSearchTab, openApartmentsTab } from "@/components/layout/tabs/apartments-tab/openTab"
 
 const coordinates = [
     { lat: 42.36, lon: -71.058 },
@@ -17,7 +18,9 @@ export default function Home() {
     return (
         <div className="grid grid-cols-[1fr_.55fr] h-screen">
             <Map coords={coordinates} />
-            <Sidebar />
+            
+            <Tabs />
+            {/* <Sidebar /> */}
             
         </div>
     );

@@ -56,25 +56,25 @@ def find_apartments(user_search_parameters : dict):
     final_apartments = requests.get(url=REALTY_MOLE_URL, headers=headers, params=querystring).json()
     final_apartments = pd.DataFrame(final_apartments)
 
-    if len(final_apartments) != int(user_search_parameters['Limit']):
-        index_counter = user_search_parameters['Limit']
-        while len(final_apartments) == user_search_parameters['Limit']:
-            querystring = {
-                "city" : user_search_parameters['city'],
-                "state" : user_search_parameters['state'],
-                "propertyType" : user_search_parameters['propertyType'] ,
-                "limit" : user_search_parameters['Limit'],
-                "radius" : user_search_parameters['Radius'],
-                "bedrooms" : user_search_parameters['bedrooms'],
-                "bathrooms" : user_search_parameters['bathrooms'],
-                "daysOld" : user_search_parameters['daysOld'],
-                "index" : index_counter
-            }
+    # if len(final_apartments) != int(user_search_parameters['Limit']):
+    #     index_counter = user_search_parameters['Limit']
+    #     while len(final_apartments) == user_search_parameters['Limit']:
+    # querystring = {
+    #     "city" : user_search_parameters['city'],
+    #     "state" : user_search_parameters['state'],
+    #     "propertyType" : user_search_parameters['propertyType'] ,
+    #     "limit" : user_search_parameters['Limit'],
+    #     "radius" : user_search_parameters['Radius'],
+    #     "bedrooms" : user_search_parameters['bedrooms'],
+    #     "bathrooms" : user_search_parameters['bathrooms'],
+    #     "daysOld" : user_search_parameters['daysOld'],
+        # "index" : index_counter
+    # }
             
-            current_apartments = requests.get(url=REALTY_MOLE_URL, headers=headers, params=querystring).json()
-            current_apartments = pd.DataFrame(current_apartments)
-            final_apartments = pd.concat([final_apartments, current_apartments], axis=1)
-            index_counter += user_search_parameters['Limit']
+    # current_apartments = requests.get(url=REALTY_MOLE_URL, headers=headers, params=querystring).json()
+    # current_apartments = pd.DataFrame(current_apartments)
+    # final_apartments = pd.concat([final_apartments, current_apartments], axis=1)
+    # index_counter += user_search_parameters['Limit']
     destination_coordinates = [final_apartments['latitude'], final_apartments['longitude']]
     # apartments.to_excel('C:/Users/Nicholas Mirabile/Desktop/Code/APIDATA.xlsx')
     ic(final_apartments)
