@@ -1,6 +1,6 @@
 import React from "react";
 
-import {tableStyle} from '@/components/layout/tabs/apartments-tab/tablestyle.css'
+import { tableStyle } from '@/components/layout/tabs/apartments-tab/tablestyle.css'
 // import { table } from "console";
 
 
@@ -26,7 +26,11 @@ export const ApartmentTable = () => {
                     <td>2</td>
                     <td>3</td>
                 </tr>
+                {/* EVENTUALLY HAVE EACH TABLE ROW BE AN ITERATION OF THE PARSED APARTMENTS DATAFRAME */}
             </table>
+
+            <p id='response'>testing flask</p>
+
         </div>
     );
 }

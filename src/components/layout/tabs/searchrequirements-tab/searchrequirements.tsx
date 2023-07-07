@@ -84,7 +84,6 @@ export const SearchRequirements = () => {
               </div>
             </div>
 
-
             {/* APPLY CHANGES */}
             <button onClick={getApartments} style={{
               bottom: '100px',
@@ -94,7 +93,7 @@ export const SearchRequirements = () => {
               color: "white",
               padding: "10px",
               width: "200px",
-              }} 
+            }} 
               type="button">Search for Apartments</button>
 
             
@@ -104,6 +103,7 @@ export const SearchRequirements = () => {
             <div style={{position: "fixed", bottom: "25px"}}>Results:</div>
             <div style={{position: "fixed", bottom: "10px"}}>Showing {num_of_results} apartments out of {total_num}</div>
 
+            <p id='response'>testing flask</p>
 
 
         </div>
