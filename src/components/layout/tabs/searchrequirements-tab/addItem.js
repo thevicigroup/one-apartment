@@ -2,26 +2,23 @@ import React from "react";
 
 export function addItem(){
     var ul = document.getElementById("current_parameters");
-    var candidate = document.getElementById("candidate").value;
-    var bedrooms = document.getElementById("bedroom_select").value;
-    var bathrooms = document.getElementById("bathroom_select").value;
-    var travel_mode = document.getElementById("travel_select").value;
-    var time = document.getElementById("time_select").value;
+    var candidate = document.getElementById("candidate");
+    var bedrooms = document.getElementById("bedroom_select");
+    var bathrooms = document.getElementById("bathroom_select");
+    var travel_mode = document.getElementById("travel_select");
+    var time = document.getElementById("time_select");
     var li = document.createElement("li");
     li.setAttribute('id', candidate.value);
-    li.appendChild(document.createTextNode(candidate));
-    li.appendChild(document.createTextNode(bedrooms));
-    li.appendChild(document.createTextNode(bathrooms));
-    li.appendChild(document.createTextNode(travel_mode));
-    li.appendChild(document.createTextNode(time));
+    li.appendChild(document.createTextNode(candidate.value));
+    li.appendChild(document.createTextNode(bedrooms.value));
+    li.appendChild(document.createTextNode(bathrooms.value));
+    li.appendChild(document.createTextNode(travel_mode.value));
+    li.appendChild(document.createTextNode(time.value));
     ul.appendChild(li);
 }
 
 
 
 export function removeItem(){
-    var ul = document.getElementById("current_parameters");
-    var candidate = document.getElementById("candidate")
-    var item = document.getElementById(candidate.value);
-    ul.removeChild(item);
+    document.getElementById("current_parameters").removeChild(document.getElementById('current_parameters').lastChild);
 }

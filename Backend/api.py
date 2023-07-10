@@ -80,6 +80,6 @@ def get_users():
     'index' : '0'
     }
     apartments = from_front_end(user_id, user_search_parameters, user_requirements)
-    return jsonpickle.encode(apartments)
+    return jsonpickle.encode(apartments), apartments.to_html(classes='table table-stripped')
 
 app.run()

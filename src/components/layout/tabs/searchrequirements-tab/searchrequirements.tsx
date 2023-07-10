@@ -3,7 +3,7 @@
 import React from "react";
 import { addItem, removeItem } from '@/components/layout/tabs/searchrequirements-tab/addItem'
 import { list_style } from '@/components/layout/tabs/searchrequirements-tab/addlistitems.css'
-import { getApartments } from '@/components/layout/tabs/searchrequirements-tab/getApartments' 
+import { updateApartments } from '@/components/layout/tabs/searchrequirements-tab/updateApartments' 
 import { MoveLeft } from "lucide-react";
 
 
@@ -24,18 +24,18 @@ export const SearchRequirements = () => {
               {/* BEDROOMS */}
               <form style={{float: 'left'}}>
                   <select name="make" id="bedroom_select">
-                      <option style={{color:"blue"}} data-count="1" value="None">Select Number of Bedrooms</option>
-                      <option style={{color:"blue"}} data-count="2" value="Studio, ">Studio</option>
-                      <option style={{color:"blue"}} data-count="3" value="1 Bedroom, ">1 Bedroom</option>
-                      <option style={{color:"blue"}} data-count="4" value="2 Bedroom, ">2 Bedroom</option>
-                      <option style={{color:"blue"}} data-count="5" value="3 Bedroom, ">3 Bedroom</option>
+                      <option style={{color:"blue"}} data-count="1" value=", None, ">Select Number of Bedrooms</option>
+                      <option style={{color:"blue"}} data-count="2" value=", Studio, ">Studio</option>
+                      <option style={{color:"blue"}} data-count="3" value=", 1 Bedroom, ">1 Bedroom</option>
+                      <option style={{color:"blue"}} data-count="4" value=", 2 Bedroom, ">2 Bedroom</option>
+                      <option style={{color:"blue"}} data-count="5" value=", 3 Bedroom, ">3 Bedroom</option>
                   </select>
               </form>
 
               {/* BATHROOMS */}
               <form style={{float: 'right', marginRight:'150px'}}>
                   <select name="make" id="bathroom_select">
-                      <option style={{color:"blue"}} data-count="1" value="None">Select Number of Bathrooms</option>
+                      <option style={{color:"blue"}} data-count="1" value="None, ">Select Number of Bathrooms</option>
                       <option style={{color:"blue"}} data-count="2" value="1 Bathroom, ">1 Bathroom</option>
                       <option style={{color:"blue"}} data-count="3" value="2 Bathroom, ">2 Bathroom</option>
                       <option style={{color:"blue"}} data-count="4" value="3 Bathroom, ">3 Bathroom</option>
@@ -46,7 +46,7 @@ export const SearchRequirements = () => {
               {/* MODE OF TRAVEL */}
               <form style={{float: 'left'}}>
                   <select name="make" id="travel_select">
-                      <option style={{color:"blue"}} data-count="1" value="None">Select a Mode of Travel</option>
+                      <option style={{color:"blue"}} data-count="1" value="None, ">Select a Mode of Travel</option>
                       <option style={{color:"blue"}} data-count="2" value="Walking, ">Walking</option>
                       <option style={{color:"blue"}} data-count="3" value="Public Transit, ">Public Transit</option>
                       <option style={{color:"blue"}} data-count="4" value="Car, ">Car</option>
@@ -85,7 +85,7 @@ export const SearchRequirements = () => {
             </div>
 
             {/* APPLY CHANGES */}
-            <button onClick={getApartments} style={{
+            <button onClick={updateApartments} style={{
               bottom: '100px',
               position: "fixed",
               borderRadius: "15px",
@@ -94,7 +94,7 @@ export const SearchRequirements = () => {
               padding: "10px",
               width: "200px",
             }} 
-              type="button">Search for Apartments</button>
+              type="button">Update Apartments</button>
 
             
             <br></br>

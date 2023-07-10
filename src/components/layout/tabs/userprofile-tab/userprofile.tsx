@@ -1,48 +1,117 @@
 import React from "react";
-
+import '@/components/layout/tabs/userprofile-tab/userprofile.css'
 
 export const UserProfile = () => {
     return (
-        <div className="container rounded bg-white mt-5 mb-5">
+        <div className="container bootstrap snippets bootdeys">
             <div className="row">
-                <div className="col-md-3 border-right">
-                    <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"></img><span className="font-weight-bold">Edogaru</span><span className="text-black-50">jackbadvalorant@gmail.com</span><span> </span></div>
-                </div>
-                <div className="col-md-5 border-right">
-                    <div className="p-3 py-5">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                            <h4 className="text-right">Profile Settings</h4>
+                <div className="col-xs-12 col-sm-9">
+                    <form className="form-horizontal">
+                        <div className="panel panel-default">
+                            <div className="panel-body text-center">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" className="img-circle profile-avatar" alt="User avatar" />
+                            </div>
                         </div>
-                        <div className="row mt-2">
-                            <div className="col-md-6"><label className="labels">Name</label><input type="text" className="form-control" placeholder="first name" value=""></input></div>
-                            <div className="col-md-6"><label className="labels">Surname</label><input type="text" className="form-control" value="" placeholder="surname"></input></div>
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                <h4 className="panel-title">User info</h4>
+                            </div>
+                            <div className="panel-body">
+                                <div className="form-group">
+                                    <label className="col-sm-2 control-label">Location</label>
+                                    <div className="col-sm-10">
+                                        <select className="form-control">
+                                            <option value="">Select country</option>
+                                            <option>Belgium</option>
+                                            <option>Canada</option>
+                                            <option>Denmark</option>
+                                            <option>Estonia</option>
+                                            <option>France</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label className="col-sm-2 control-label">Company name</label>
+                                    <div className="col-sm-10">
+                                        <input type="text" className="form-control" />
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label className="col-sm-2 control-label">Position</label>
+                                    <div className="col-sm-10">
+                                        <input type="text" className="form-control" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="row mt-3">
-                            <div className="col-md-12"><label className="labels">Mobile Number</label><input type="text" className="form-control" placeholder="enter phone number" value=""></input></div>
-                            <div className="col-md-12"><label className="labels">Address Line 1</label><input type="text" className="form-control" placeholder="enter address line 1" value=""></input></div>
-                            <div className="col-md-12"><label className="labels">Address Line 2</label><input type="text" className="form-control" placeholder="enter address line 2" value=""></input></div>
-                            <div className="col-md-12"><label className="labels">Postcode</label><input type="text" className="form-control" placeholder="enter address line 2" value=""></input></div>
-                            <div className="col-md-12"><label className="labels">State</label><input type="text" className="form-control" placeholder="enter address line 2" value=""></input></div>
-                            <div className="col-md-12"><label className="labels">Area</label><input type="text" className="form-control" placeholder="enter address line 2" value=""></input></div>
-                            <div className="col-md-12"><label className="labels">Email ID</label><input type="text" className="form-control" placeholder="enter email id" value=""></input></div>
-                            <div className="col-md-12"><label className="labels">Education</label><input type="text" className="form-control" placeholder="education" value=""></input></div>
+
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                <h4 className="panel-title">Contact info</h4>
+                            </div>
+                            <div className="panel-body">
+                                <div className="form-group">
+                                    <label className="col-sm-2 control-label">Work number</label>
+                                    <div className="col-sm-10">
+                                        <input type="tel" className="form-control" />
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label className="col-sm-2 control-label">Mobile number</label>
+                                    <div className="col-sm-10">
+                                        <input type="tel" className="form-control" />
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label className="col-sm-2 control-label">E-mail address</label>
+                                    <div className="col-sm-10">
+                                        <input type="email" className="form-control" />
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label className="col-sm-2 control-label">Work address</label>
+                                    <div className="col-sm-10">
+                                        <textarea className="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="row mt-3">
-                            <div className="col-md-6"><label className="labels">Country</label><input type="text" className="form-control" placeholder="country" value=""></input></div>
-                            <div className="col-md-6"><label className="labels">State/Region</label><input type="text" className="form-control" value="" placeholder="state"></input></div>
+
+                        <div className="panel panel-default">
+                            <div className="panel-heading">
+                                <h4 className="panel-title">Security</h4>
+                            </div>
+                            <div className="panel-body">
+                                <div className="form-group">
+                                    <label className="col-sm-2 control-label">Current password</label>
+                                    <div className="col-sm-10">
+                                        <input type="password" className="form-control" />
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <label className="col-sm-2 control-label">New password</label>
+                                    <div className="col-sm-10">
+                                        <input type="password" className="form-control" />
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <div className="col-sm-10 col-sm-offset-2">
+                                        <div className="checkbox">
+                                            <input type="checkbox" id="checkbox_1" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form-group">
+                                    <div className="col-sm-10 col-sm-offset-2">
+                                        <button type="submit" className="btn btn-primary">Submit</button>
+                                        <button type="reset" className="btn btn-default">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div className="mt-5 text-center"><button className="btn btn-primary profile-button" type="button">Save Profile</button></div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="p-3 py-5">
-                        <div className="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span className="border px-3 p-1 add-experience"><i className="fa fa-plus"></i>&nbsp;Experience</span></div><br></br>
-                        <div className="col-md-12"><label className="labels">Experience in Designing</label><input type="text" className="form-control" placeholder="experience" value=""></input></div> <br></br>
-                        <div className="col-md-12"><label className="labels">Additional Details</label><input type="text" className="form-control" placeholder="additional details" value=""></input></div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </div>
-
+            </div>
     );
 }
