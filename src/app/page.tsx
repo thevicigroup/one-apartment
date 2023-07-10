@@ -1,8 +1,8 @@
 import React from "react";
 import { shell } from "@/test-isochrone";
 
-import { Map } from "@/components/map/map";
 import { Sidebar } from "@/components/layout/sidebar";
+import { Map } from "@/components/map/map";
 
 const coordinates = [
     { lat: 42.36, lng: -71.058 },

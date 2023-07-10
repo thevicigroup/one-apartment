@@ -18,13 +18,17 @@ export const Map: React.FC<Props> = ({ isochronePath, aparmentMarkers }) => {
             zoomControl: true,
             zoomControlOptions: { position: 1 },
             controlSize: 25,
-            styles: [{
-                "featureType": "all",
-                "elementType": "labels.icon",
-                "stylers": [{
-                    "visibility": "off"
-                }]
-            }]
+            styles: [
+                {
+                    featureType: "all",
+                    elementType: "labels.icon",
+                    stylers: [
+                        {
+                            visibility: "off",
+                        },
+                    ],
+                },
+            ],
         }),
         [],
     );
