@@ -2,7 +2,9 @@ import React from "react";
 
 import { getCurrentUser } from "@/lib/auth/get-server-session";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ApartmentView } from "@/components/apartment-view";
 import { UserProfileTab } from "@/components/layout/user-profile-tab";
+import { ParametersForm } from "@/components/parameters-form";
 
 export const Sidebar = async () => {
     const user = await getCurrentUser();
@@ -14,8 +16,12 @@ export const Sidebar = async () => {
                 <TabsTrigger value="parameters">Parameters</TabsTrigger>
                 <TabsTrigger value="profile">User Profile</TabsTrigger>
             </TabsList>
-            <TabsContent value="apartments">Apartments</TabsContent>
-            <TabsContent value="parameters">Parameters</TabsContent>
+            <TabsContent value="apartments">
+                <ApartmentView />
+            </TabsContent>
+            <TabsContent value="parameters">
+                <ParametersForm />
+            </TabsContent>
             <TabsContent value="profile">
                 {!user ? (
                     <p>Sign in to set up your user profile</p>

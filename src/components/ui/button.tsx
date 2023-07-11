@@ -22,7 +22,7 @@ const classes = {
         lg: "px-6 py-3 text-lg",
     },
     variant: {
-        brand: "bg-primary text-primary-foreground hover:bg-primary/90",
+        brand: "bg-primary text-primary-foreground hover:bg-red-600",
         ghost: "font-medium hover:bg-accent hover:text-accent-foreground",
         outline: "font-medium border border-input hover:bg-accent hover:text-accent-foreground",
         link: "underline-offset-4 font-light underline text-primary",
