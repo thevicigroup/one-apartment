@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { GoogleMap, MarkerF, Polygon, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, Marker, MarkerF, Polygon, useLoadScript } from "@react-google-maps/api";
 
 interface Props {
     isochronePath?: { lat: number; lng: number }[];
@@ -12,7 +12,7 @@ export const Map: React.FC<Props> = ({ isochronePath, aparmentMarkers }) => {
     const mapCenter = useMemo(() => ({ lat: 42.3601, lng: -71.0589 }), [42.3601, -71.0589]);
     const mapOptions = useMemo<google.maps.MapOptions>(
         () => ({
-            clickableIcons: false,
+            clickableIcons: true,
             disableDefaultUI: true,
             scrollwheel: true,
             zoomControl: true,
@@ -49,9 +49,11 @@ export const Map: React.FC<Props> = ({ isochronePath, aparmentMarkers }) => {
         >
             {isochronePath && <Polygon paths={[isochronePath]} />}
             {aparmentMarkers.map((coord, i) => (
+                
                 <MarkerF
                     key={`marker-${i}`}
                     position={new google.maps.LatLng(coord["lat"], coord["lng"])}
+                    // icon={"src/icon.png"}
                 />
             ))}
         </GoogleMap>

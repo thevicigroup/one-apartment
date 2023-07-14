@@ -13,6 +13,9 @@ export type Apartment = {
     id: string;
     latitude: number;
     longitude: number;
+    bedrooms:number;
+    bathrooms:number;
+    price: number;
 };
 
 interface Config {

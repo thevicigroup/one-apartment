@@ -9,11 +9,42 @@ import { SingleApartment } from "@/components/single-apartment";
 export const ApartmentView = () => {
     const { apartments } = useApartmentContext();
 
-    return (
-        <ScrollArea className="h-[calc(100vh-130px)] w-full rounded-md border space-y-4">
-            {apartments?.map((item, i) => (
-                <SingleApartment key={i} apartmentInfo={item} />
-            ))}
-        </ScrollArea>
-    );
+    if (typeof apartments != undefined) {
+        return (
+            <ScrollArea className="h-[calc(90vh-130px)] w-full rounded-md border space-y-4">
+                <table className="table-fixed w-full bg-white border-collapse">
+                    <tr>
+                        <th className="text-left w-60 px-4">Address</th>
+                        <th>Bedrooms</th>
+                        <th>Bathrooms</th>
+                        <th>Rent</th>
+                        {/* TODO: ADD SORT BY FUNCTIONS */}
+                    </tr>
+                </table>
+    
+                {apartments?.map((item, i) => (
+                    <SingleApartment key={i} apartmentInfo={item} />
+                ))}
+            </ScrollArea>
+        );
+    }
+
+    else {
+        return (
+            <ScrollArea className="h-[calc(90vh-130px)] w-full rounded-md border space-y-4">
+                <table className="table-fixed w-full bg-white border-collapse">
+                    <tr>
+                        <th className="text-left w-60 px-4">Address</th>
+                        <th>Bedrooms</th>
+                        <th>Bathrooms</th>
+                        <th>Rent</th>
+                        {/* TODO: ADD SORT BY FUNCTIONS */}
+                    </tr>
+                </table>
+                
+                <div>No apartments yet, go to the parameters tab to update list!</div>
+                
+            </ScrollArea>
+        )
+    }
 };
