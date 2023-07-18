@@ -9,7 +9,7 @@ import { SingleApartment } from "@/components/single-apartment";
 export const ApartmentView = () => {
     const { apartments } = useApartmentContext();
 
-    if (typeof apartments != undefined) {
+    if (typeof apartments !== undefined) {
         return (
             <ScrollArea className="h-[calc(90vh-130px)] w-full rounded-md border space-y-4">
                 <table className="table-fixed w-full bg-white border-collapse">

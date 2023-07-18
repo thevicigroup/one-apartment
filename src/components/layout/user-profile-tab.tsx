@@ -1,5 +1,5 @@
 "use client"
-import React from "react";
+import React, { useState } from "react";
 import type { User } from "next-auth";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -15,6 +15,20 @@ interface Props {
 
 export const UserProfileTab: React.FC<Props> = ({ user }) => {
 
+    const searchBar = () => {}
+    const searchFriend = () => {}
+    const [searchInput, setSearchInput] = useState("")
+
+    const handleChange = (e: { preventDefault: () => void; target: { value: React.SetStateAction<string>; }; }) => {
+        e.preventDefault();
+        setSearchInput(e.target.value);
+      ;
+      
+      if (searchInput.length > 0) {
+          
+      };
+      }
+
     const addParameter = () => {
         const parameters_table = document.getElementById("user_parameters_table");
         var row = 
@@ -24,6 +38,7 @@ export const UserProfileTab: React.FC<Props> = ({ user }) => {
         '</td><td>' + (document.getElementById("traveltime") as HTMLInputElement | null)?.value +
          '</td></tr>'
         parameters_table!.innerHTML += row
+        console.log(parameters_table?.innerHTML)
         }
     
     
@@ -86,12 +101,24 @@ export const UserProfileTab: React.FC<Props> = ({ user }) => {
             </div>
             </TabsContent>
 
-
+            {/* ! USE BUDDY PRESS? */}
+            https://buddypress.org/
 
             <TabsContent value="friends">
+            <br></br>
+            <input onChange={handleChange} value={searchInput} type="text" id="friend" className="w-full border rounded-md p-2" placeholder="Search for friends"></input>
+            <br></br>
+            <br></br>
+            <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                    onClick={searchFriend}>Search, maybe change to just the search bar and display friend name suggestions?
+                    value={searchInput}</button>
+            <br></br>
+
+            <br></br>
             <h1 className="text-xl mb-2">Your Friends</h1>
-            <ScrollArea className="h-[calc(90vh-320px)] w-full rounded-md border space-y-4">
-            <table id="user_parameters_table" className="w-full">
+            <ScrollArea className="h-[calc(90vh-380px)] w-full rounded-md border space-y-4">
+            <table id="user_friends_table" className="w-full">
                     <thead className="bg-gray-50 border-b-2 border-gray-200">
                         <tr>
                             <th className="p-3 text-sm font-bold tracking-wide text-left">User Picture (small)</th>
@@ -100,17 +127,20 @@ export const UserProfileTab: React.FC<Props> = ({ user }) => {
                     </thead>
                 </table>
             </ScrollArea>
+
             <div>
                 <br></br>
-                <div className="flex space-x-5 w-full">
+                
+                {/* <div className="flex space-x-5 w-full">
                     <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/2"
                     onClick={addParameter}>CHANGE TO SEARCH PEOPLE</button>
                     <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-1/2"
                     onClick={removeParameter}>CHANGE TO REMOVE FRIEND</button>
-                </div>
+                </div> */}
             </div>
+
             </TabsContent>
 
 
@@ -118,7 +148,7 @@ export const UserProfileTab: React.FC<Props> = ({ user }) => {
             <TabsContent value="groups">
             <h1 className="text-xl mb-2">Your Groups</h1>
             <ScrollArea className="h-[calc(90vh-320px)] w-full rounded-md border space-y-4">
-            <table id="user_parameters_table" className="w-full">
+            <table id="user_groups_table" className="w-full">
                     <thead className="bg-gray-50 border-b-2 border-gray-200">
                         <tr>
                             <th className="p-3 text-sm font-bold tracking-wide text-left">Name</th>
