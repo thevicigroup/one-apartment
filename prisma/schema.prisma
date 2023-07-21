@@ -23,6 +23,7 @@ model Account {
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+
   @@unique([provider, providerAccountId])
   @@index([userId])
   @@map(name: "accounts")
@@ -48,6 +49,14 @@ model VerificationToken {
   @@map(name: "verification_tokens")
 }
 
+
+model Friends {
+  id          String
+  name        User   @relation(fields: [id], references: [id], onDelete: Cascade)
+  @@unique([id])
+}
+
+
 model User {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now()) @map(name: "created_at")
@@ -61,6 +70,10 @@ model User {
 
   accounts Account[]
   sessions Session[]
+
+  visible                Boolean //This will be if the user wishes to show up in compatable roommate finder
+  pendingFriendRequests  String? //This will be a list of all users that want to friend someone
+  friends                Friends[] //This is the friends table of the specific user
 
   @@index([email])
   @@index([id])

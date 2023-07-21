@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { List } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import numberFriendRequests from "@/components/layout/friendFunctions";
 
 interface Props {
     user: User;
@@ -14,6 +15,9 @@ interface Props {
 
 
 export const UserProfileTab: React.FC<Props> = ({ user }) => {
+
+    // var number_of_pending_friend_requests = numberFriendRequests(user_id, req, res)
+    var number_of_pending_friend_requests = 1
 
     const searchBar = () => {}
     const searchFriend = () => {}
@@ -71,7 +75,19 @@ export const UserProfileTab: React.FC<Props> = ({ user }) => {
             <Tabs defaultValue="your requirements" className="w-full px-2">
             <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="your requirements">Your Requirements</TabsTrigger>
-                <TabsTrigger value="friends">Friends</TabsTrigger>
+                {/* INSERT VARIABLE HERE IF PENDING FRIEND REQUESTS SHOW "friends(n)" */}
+
+                {/* <TabsTrigger value="friends">
+                    if number_of_pending_friend_requests == 0:
+                        {"Friends"}
+                    else:
+                    {"Friends (" + number_of_pending_friend_requests + ")"}
+                    </TabsTrigger>  */}
+                
+                <TabsTrigger value="friends">
+                    {"Friends (" + number_of_pending_friend_requests + ")"}
+                    </TabsTrigger> 
+
                 <TabsTrigger value="groups">Groups</TabsTrigger>
             </TabsList>
             <TabsContent value="your requirements">
@@ -101,9 +117,6 @@ export const UserProfileTab: React.FC<Props> = ({ user }) => {
             </div>
             </TabsContent>
 
-            {/* ! USE BUDDY PRESS? */}
-            https://buddypress.org/
-
             <TabsContent value="friends">
             <br></br>
             <input onChange={handleChange} value={searchInput} type="text" id="friend" className="w-full border rounded-md p-2" placeholder="Search for friends"></input>
@@ -124,6 +137,12 @@ export const UserProfileTab: React.FC<Props> = ({ user }) => {
                             <th className="p-3 text-sm font-bold tracking-wide text-left">User Picture (small)</th>
                             <th className="p-3 text-sm font-bold tracking-wide text-left">Name</th>
                         </tr>
+
+                        {/* NEED TO MAP THE PRISMA USER.FRIENDS TABLE INTO THE USER_FRIENDS_TABLE AND DISPLAY */}
+                        {/* {friends?.map((name, i) => (
+                            <SingleApartment key={i} apartmentInfo={item} />
+                        ))} */}
+
                     </thead>
                 </table>
             </ScrollArea>

@@ -5,15 +5,19 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 // ! WE ONLY EVER NEED TO CALL THE API AND ISOCHRONE WITH THE MAX NUMBER OF PARAMETERS, WE CAN TOGGLE ON/OFF IN OUR WEBSITE
 
 // ! NEED TO IMPLEMENT AN OMITT BUTTON EMBEDDED IN THE TABLE FOR EACH PARAMETER THAT TOGGLES THAT IN THE PARSING FUNCTION
-
+ 
 export const ParametersList = () => {
     
-    const addParameter = () => {
+    const addParameter = () => { 
         const parameters_table = document.getElementById("parameters_table");
+
+        const current_travel_mode = (document.getElementById("travelmode") as HTMLSelectElement)
+        const current_travel_time = (document.getElementById("traveltime") as HTMLSelectElement)
+        console.log((current_travel_mode))
+        
         var row = 
-         '<tr><td>'  +  (document.getElementById("nickname") as HTMLInputElement | null)?.value +
-         '</td><td>' + (document.getElementById("travelmode") as HTMLInputElement | null)?.value + 
-         '</td><td>' + (document.getElementById("traveltime") as HTMLInputElement | null)?.value +
+         '<tr><td>'  +  (document.getElementById("nickname") as HTMLInputElement).value +
+         '</td><td>' + current_travel_mode + '</td><td>' + current_travel_time +
           '</td></tr>'
         parameters_table!.innerHTML += row
         }

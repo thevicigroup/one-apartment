@@ -1,3 +1,4 @@
+
 import React from "react";
 
 import { getCurrentUser } from "@/lib/auth/get-server-session";
@@ -12,6 +13,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/
 
 export const Sidebar = async () => {
     const user = await getCurrentUser();
+    const createAccount = () => {
+    }
+    const signIn = () => {
+    }
 
     return (
         <Tabs defaultValue="parameters" className="w-full px-2">
@@ -44,7 +49,15 @@ export const Sidebar = async () => {
             </TabsContent>
             <TabsContent value="profile">
                 {!user ? (
-                    <p>Sign in to set up your user profile</p>
+                    <>
+                        <p>Sign in or create an account to view your profile</p>
+                        <br></br>
+                        <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">Sign In</Button>
+                        <br></br>
+                        <br></br>
+                        <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">Create Account</Button>
+                    </>
+
                 ) : (
                     <UserProfileTab user={user} />
                 )}

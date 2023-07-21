@@ -31,6 +31,8 @@ export const UserButton = async () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-64" align="end" sideOffset={10}>
                 <DropdownMenuItem className="flex flex-col items-start gap-y-2">
+                    
+                    {/* User Image */}
                     <div className="flex items-center gap-2">
                         <Avatar className="w-9 h-9">
                             <AvatarImage src={user.image ?? undefined} />
@@ -43,6 +45,18 @@ export const UserButton = async () => {
                             <h2 className="text-foreground">@{user.name}</h2>
                         </div>
                     </div>
+                    
+                    {/* Friend Requests */}
+                    <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-2">
+                            <Settings className="w-4 h-4" />
+                            <span>Friend Requests</span>
+                        </div>
+                        <span className="text-xs"></span>
+                    </div>
+
+
+                    {/* Settings */}
                     <div className="flex items-center justify-between w-full">
                         <div className="flex items-center gap-2">
                             <Settings className="w-4 h-4" />

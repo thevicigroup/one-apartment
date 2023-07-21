@@ -233,7 +233,7 @@ export const ParametersForm = () => {
                         Update Apartments
                 </Button>
                 
-                <FormField
+                {/* <FormField
                     control={form.control}
                     name="beds"
                     render={({ field }) => (
@@ -278,7 +278,7 @@ export const ParametersForm = () => {
                                 </Select>
                             </FormItem>
                         )}
-                    />
+                    /> */}
                 <FormField
                     control={form.control}
                     name="traveltime"
@@ -300,12 +300,13 @@ export const ParametersForm = () => {
                         </FormItem>
                     )}
                 />
+                
                 <FormField
                     control={form.control}
                     name="travelmode"
                     render={({ field }) => (
-                        <FormItem>
-                            <FormLabel id="travelmode">Travel Mode</FormLabel>
+                        <FormItem  id="travelmode">
+                            <FormLabel>Travel Mode</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                     <SelectTrigger>
