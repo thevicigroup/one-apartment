@@ -1,21 +1,31 @@
-
 import React from "react";
+import { SearchParameter } from "@prisma/client";
+import { User } from "next-auth";
 
 import { getCurrentUser } from "@/lib/auth/get-server-session";
+import { db } from "@/lib/database";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ApartmentView } from "@/components/apartment-view";
 import { UserProfileTab } from "@/components/layout/user-profile-tab";
+// search parameters tab
 import { ParametersForm } from "@/components/parameters-form";
-import { ParametersList} from "@/components/layout/parameters-list";
-import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
-// import { handleSubmit } from "@/components/parameters-form";
+import { ParametersList } from "@/components/parameters-list";
+import { UpdateApartmentsButton } from "@/components/update-apartments-button";
+
+async function loadSavedSearchParams(user: User) {
+    return await db.searchParameter.findMany({
+        where: {
+            userId: user.id,
+        },
+    });
+}
 
 export const Sidebar = async () => {
     const user = await getCurrentUser();
-    const createAccount = () => {
-    }
-    const signIn = () => {
+    let parameters: SearchParameter[] = [];
+    if (user) {
+        parameters = await loadSavedSearchParams(user);
     }
 
     return (
@@ -29,37 +39,22 @@ export const Sidebar = async () => {
                 <ApartmentView />
             </TabsContent>
             <TabsContent value="parameters">
-                <ParametersForm />
-                <ParametersList />
-                <br></br>
-                
-                {/* <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="grid grid-cols-2 gap-4"> */}
-                {/* TODO: ASK JACK WHY WIDTH IS BEING FUNKY */}
-                <div className="fixed bottom-8 w-4/12">
-                    <Button className="text-white col-span-2 w-full bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" type="submit">
-                        Update Apartments
-                    </Button>
+                <div className="flex flex-col justify-between h-[calc(100vh-110px)]">
+                    <div>
+                        <ParametersForm />
+                        <ParametersList />
+                    </div>
+                    <UpdateApartmentsButton />
                 </div>
-                {/* </form>
-                </Form> */}
-
-
-                <div className="fixed bottom-2">Results: showing x out of y</div>
             </TabsContent>
             <TabsContent value="profile">
                 {!user ? (
-                    <>
+                    <div className="flex flex-col space-y-2">
                         <p>Sign in or create an account to view your profile</p>
-                        <br></br>
-                        <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">Sign In</Button>
-                        <br></br>
-                        <br></br>
-                        <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">Create Account</Button>
-                    </>
-
+                        <Button variant="secondary">Login with Github</Button>
+                    </div>
                 ) : (
-                    <UserProfileTab user={user} />
+                    <UserProfileTab user={user} parameters={parameters} />
                 )}
             </TabsContent>
         </Tabs>

@@ -49,7 +49,6 @@ export const Map: React.FC<Props> = ({ isochronePath, aparmentMarkers }) => {
         >
             {isochronePath && <Polygon paths={[isochronePath]} />}
             {aparmentMarkers.map((coord, i) => (
-                
                 <MarkerF
                     key={`marker-${i}`}
                     position={new google.maps.LatLng(coord["lat"], coord["lng"])}

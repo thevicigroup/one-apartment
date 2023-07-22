@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { ButtonOrLink, Props } from "@/components/ui/button-or-link";
 
 type BUTTON_SIZE = "sm" | "md" | "lg";
-type BUTTON_VARIANT = "brand" | "ghost" | "outline" | "link";
+type BUTTON_VARIANT = "brand" | "secondary" | "ghost" | "outline" | "link" | "danger" | "success";
 
 export type ButtonThemeProps = {
     size?: BUTTON_SIZE;
@@ -23,9 +23,13 @@ const classes = {
     },
     variant: {
         brand: "bg-primary text-primary-foreground hover:bg-red-600",
+        secondary:
+            "bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full",
         ghost: "font-medium hover:bg-accent hover:text-accent-foreground",
         outline: "font-medium border border-input hover:bg-accent hover:text-accent-foreground",
         link: "underline-offset-4 font-light underline text-primary",
+        danger: "bg-destructive text-white hover:bg-destructive/90",
+        success: "bg-green-500 text-white hover:bg-green-600",
     },
 };
 

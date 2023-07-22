@@ -20,7 +20,10 @@ export default function RootLayout({ children }: Props) {
     return (
         <html lang="en">
             <head />
-            <body className={cn("min-h-screen bg-background text-foreground", inter.className)}>
+            <body
+                className={cn("min-h-screen bg-background text-foreground", inter.className)}
+                suppressHydrationWarning={true}
+            >
                 <NextAuthSessionProvider>
                     <div className="flex min-h-screen flex-col">
                         <MainNav />

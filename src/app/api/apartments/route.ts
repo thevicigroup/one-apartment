@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
+import { testApartments } from "@/test-apartments";
 import axios from "axios";
 
-import { testApartments } from "@/test-apartments";
 import { userParametersSchema } from "@/lib/validators/search-parameters";
 
 export async function GET(req: Request) {
@@ -14,7 +14,6 @@ export async function GET(req: Request) {
         queryKeys[key] = val;
     });
     const body = userParametersSchema.parse(queryKeys);
-    console.log(body);
 
     // call reality mole api
     // const response = await axios.request({

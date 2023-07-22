@@ -19,5 +19,5 @@ export const SingleApartment: React.FC<Props> = ({ apartmentInfo }) => {
                 <td className="text-center py-2 px-4">{apartmentInfo.price}</td>
             </tr>
         </table>
-    )
+    );
 };

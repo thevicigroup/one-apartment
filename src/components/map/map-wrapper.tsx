@@ -11,7 +11,6 @@ export const MapWrapper = () => {
     function parseApartments(apartments: Apartment[]): { lat: number; lng: number }[] {
         let list: { lat: number; lng: number }[] = [];
         apartments.map((item) => list.push({ lat: item.latitude, lng: item.longitude }));
-        console.log(list);
         return list;
     }
 
