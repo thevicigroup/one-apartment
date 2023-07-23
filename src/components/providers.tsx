@@ -40,7 +40,8 @@ interface Config {
     saveParameter: (param: Parameter) => void;
     unsaveParameter: (id: string) => void;
     isochrones: Coords[][];
-    saveIsochrones: (isochrones: TimeMapResponse) => void;
+    saveIsochrones: (isochrones: Coords[][]) => void;
+    getIsochrones: () => Coords[][];
 }
 
 const ApartmentContext = React.createContext<Config>({} as Config);
@@ -51,18 +52,12 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
     const [parameters, setParameters] = useState<Parameter[]>([]);
     const [isochrones, setIsochrones] = useState<Coords[][]>([]);
 
-    const saveIsochrones = (isochrones: TimeMapResponse) => {
-        setIsochrones([]);
-        let shapes: Coords[][] = [];
-        isochrones.results.map((isochrone, i) => {
-            if (isochrone.search_id === "inter") {
-                isochrone.shapes.map((shape, j) => {
-                    let shell = shape.shell;
-                    shapes.push(shell);
-                });
-            }
-        });
-        setIsochrones(shapes);
+    const getIsochrones = () => {
+        return isochrones;
+    }
+
+    const saveIsochrones = (iso: Coords[][]) => {
+        setIsochrones(iso);
     }
 
     const addParameter = (parameter: Parameter) => {
@@ -134,6 +129,7 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         unsaveParameter,
         isochrones,
         saveIsochrones,
+        getIsochrones,
     };
     return <ApartmentContext.Provider value={init}>{children}</ApartmentContext.Provider>;
 };

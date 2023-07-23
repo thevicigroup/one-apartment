@@ -21,16 +21,15 @@ export async function GET(req: Request) {
     //     url: "https://realty-mole-property-api.p.rapidapi.com/rentalListings",
     //     params: {
     //         propertyType: "Apartment",
-    //         zipCode: "02109",
-    //         bathrooms: body.bath,
-    //         bedrooms:  body.beds,
+    //         limit: 500,
+    //         city: "Boston",
+    //         state: "MA",
     //     },
     //     headers: {
     //         "X-RapidAPI-Key": process.env.X_RAPID_API_KEY,
     //         "X-RapidAPI-Host": process.env.X_RAPID_API_HOST,
     //     },
     // });
-    // console.log(response.data);
     // return NextResponse.json(response.data);
     return NextResponse.json(testApartments);
 }

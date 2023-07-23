@@ -31,6 +31,7 @@ export async function POST(req: Request) {
                 travel_time: parseInt(p.traveltime) * 60, // convert to seconds
                 departure_time: new Date().toISOString(),
                 transportation: { type: p.travelmode as TransportationType },
+                // single_shape: true,
             });
         }
         const inter: TimeMapRequestUnionOrIntersection = {
