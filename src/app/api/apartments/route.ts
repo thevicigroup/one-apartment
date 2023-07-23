@@ -5,15 +5,15 @@ import axios from "axios";
 import { userParametersSchema } from "@/lib/validators/search-parameters";
 
 export async function GET(req: Request) {
-    const url = req.url;
-    const queryParams = url.split("?")[1];
-    let queryKeys: any = {};
-    queryParams.split("&").map((k) => {
-        const key: string = k.split("=")[0];
-        const val: string = k.split("=")[1];
-        queryKeys[key] = val;
-    });
-    const body = userParametersSchema.parse(queryKeys);
+    // const url = req.url;
+    // const queryParams = url.split("?")[1];
+    // let queryKeys: any = {};
+    // queryParams.split("&").map((k) => {
+    //     const key: string = k.split("=")[0];
+    //     const val: string = k.split("=")[1];
+    //     queryKeys[key] = val;
+    // });
+    // const body = userParametersSchema.parse(queryKeys);
 
     // call reality mole api
     // const response = await axios.request({

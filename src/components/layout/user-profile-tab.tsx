@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SearchParameterOperations } from "./search-parameter-operations";
 
 async function loadSavedSearchParams(user: User) {
-    return await db.searchParameter.findMany({
+    return await db.SearchParameter.findMany({
         where: {
             userId: user.id,
         },

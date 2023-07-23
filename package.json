@@ -26,6 +26,8 @@
         "@radix-ui/react-slot": "^1.0.2",
         "@radix-ui/react-tabs": "^1.0.4",
         "@react-google-maps/api": "^2.18.1",
+        "@turf/tin": "^6.5.0",
+        "@turf/turf": "^6.5.0",
         "axios": "^1.4.0",
         "class-variance-authority": "^0.6.0",
         "clsx": "^1.2.1",

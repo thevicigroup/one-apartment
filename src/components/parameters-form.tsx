@@ -45,6 +45,25 @@ export const ParametersForm = () => {
         form.reset();
         router.refresh();
     }
+             
+    
+    // const center = { lat: 50.064192, lng: -130.605469 };
+    // const defaultBounds = {
+    // north: center.lat + 0.1,
+    // south: center.lat - 0.1,
+    // east: center.lng + 0.1,
+    // west: center.lng - 0.1,
+    // };
+    // const input = document.getElementById("pac-input") as HTMLInputElement;
+    // const options = {
+    // bounds: defaultBounds,
+    // componentRestrictions: { country: "us" },
+    // fields: ["address_components", "geometry", "icon", "name"],
+    // strictBounds: false,
+    // types: ["establishment"],
+    // };
+
+    // const autocomplete = new google.maps.places.Autocomplete(input, options);
 
     return (
         <Form {...form}>
@@ -56,10 +75,16 @@ export const ParametersForm = () => {
                         <FormItem className="py-3">
                             <FormLabel>Address</FormLabel>
                             <Input placeholder="Enter a place" type="text" {...field} />
+                            {/* <input id="autocomplete" placeholder="Enter a place" type="text"/> */}
                             <FormMessage />
                         </FormItem>
                     )}
                 />
+
+
+
+
+
                 <FormField
                     control={form.control}
                     name="nickname"
