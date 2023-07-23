@@ -16,7 +16,7 @@ export const UpdateApartmentsButton = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ hello: "world" }),
+                body: JSON.stringify({ parameters: parameters }),
             }
         );
         // const response = await fetch(

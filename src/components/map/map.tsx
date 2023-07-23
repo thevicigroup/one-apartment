@@ -10,7 +10,8 @@ interface Props {
 }
 
 export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
-    const mapCenter = useMemo(() => ({ lat: 51.507609, lng: -0.128315 }), [51.507609, -0.128315]);
+    // const mapCenter = useMemo(() => ({ lat: 51.507609, lng: -0.128315 }), [51.507609, -0.128315]);
+    const mapCenter = useMemo(() => ({ lat: 42.3601, lng: -71.0589 }), [42.3601, -71.0589]);
     const mapOptions = useMemo<google.maps.MapOptions>(
         () => ({
             clickableIcons: true,

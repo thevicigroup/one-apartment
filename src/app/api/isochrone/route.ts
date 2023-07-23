@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import * as z from "zod";
 
-import { TimeMapRequestDepartureSearch, TimeMapRequestUnionOrIntersection, TravelTimeClient } from "traveltime-api";
+import { Coords, TimeMapRequestDepartureSearch, TimeMapRequestUnionOrIntersection, TransportationType, TravelTimeClient } from "traveltime-api";
+
+import { buildIsochronesFromParameters } from "@/lib/validators/search-parameters";
 
 const client = new TravelTimeClient({
     applicationId: process.env.TRAVELTIME_ID!,
@@ -9,40 +11,41 @@ const client = new TravelTimeClient({
 });
 
 export async function POST(req: Request) {
-    const departure_search1: TimeMapRequestDepartureSearch = {
-        id: 'public transport from Trafalgar Square',
-        coords: { lat: 51.507609, lng: -0.128315 },
-        departure_time: new Date().toISOString(),
-        travel_time: 900,
-        transportation: { type: 'public_transport' },
-        properties: ['is_only_walking'],
-    };
-    
-    const departure_search2: TimeMapRequestDepartureSearch = {
-        id: 'driving from Trafalgar Square',
-        coords: { lat: 51.507609, lng: -0.128315 },
-        departure_time: new Date().toISOString(),
-        travel_time: 900,
-        transportation: { type: 'driving' }
-    };
+    try {
+        const json = await req.json();
+        const body = buildIsochronesFromParameters.parse(json);
+        
+        if (body.parameters.length > 3) {
+            return new Response("You can only have up to 3 parameters for now.", { status: 500 });
+        }
 
-    const union: TimeMapRequestUnionOrIntersection = {
-        id: 'union of driving and public transport',
-        search_ids: ['public transport from Trafalgar Square', 'driving from Trafalgar Square'],
-    };
-    const intersection: TimeMapRequestUnionOrIntersection = {
-        id: 'intersection of driving and public transport',
-        search_ids: ['public transport from Trafalgar Square', 'driving from Trafalgar Square'],
-    };
-
-    const data = await client.timeMap({
-        departure_searches: [departure_search1, departure_search2],
-        unions: [union],
-        intersections: [intersection],
-    });
-    if (data) {
-        console.log(data);
+        let userParameters: TimeMapRequestDepartureSearch[] = [];
+        for (const p of body.parameters) {
+            const response = await fetch(
+                `https://maps.googleapis.com/maps/api/geocode/json?address=${p.address}&key=${process.env.GOOGLE_API_KEY}`, { method: "GET" });
+            const data: any = await response.json();
+            const coords: Coords = data.results[0].geometry.location;
+            userParameters.push({
+                id: p.id,
+                coords: coords,
+                travel_time: parseInt(p.traveltime) * 60, // convert to seconds
+                departure_time: new Date().toISOString(),
+                transportation: { type: p.travelmode as TransportationType },
+            });
+        }
+        const inter: TimeMapRequestUnionOrIntersection = {
+            id: 'inter',
+            search_ids: userParameters.map((param) => param.id),
+        }
+        const data = await client.timeMap({
+            departure_searches: userParameters,
+            intersections: [inter],
+        });
         return NextResponse.json(data);
+    } catch(error) {
+        if (error instanceof z.ZodError) {
+            return new Response(JSON.stringify(error.issues), { status: 422 });
+        }
+        return new Response(null, { status: 500 });
     }
-    return new Response(null, { status: 500 });
 }

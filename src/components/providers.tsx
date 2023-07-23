@@ -52,15 +52,17 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
     const [isochrones, setIsochrones] = useState<Coords[][]>([]);
 
     const saveIsochrones = (isochrones: TimeMapResponse) => {
+        setIsochrones([]);
         let shapes: Coords[][] = [];
         isochrones.results.map((isochrone, i) => {
-            isochrone.shapes.map((shape, j) => {
-                let shell = shape.shell;
-                shapes.push(shell);
-            });
+            if (isochrone.search_id === "inter") {
+                isochrone.shapes.map((shape, j) => {
+                    let shell = shape.shell;
+                    shapes.push(shell);
+                });
+            }
         });
         setIsochrones(shapes);
-        console.log(isochrones);
     }
 
     const addParameter = (parameter: Parameter) => {

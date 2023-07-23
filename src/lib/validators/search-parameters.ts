@@ -9,3 +9,14 @@ export const userParametersSchema = z.object({
     travelmode: z.string(),
     isSaved: z.boolean().default(false),
 });
+
+export const buildIsochronesFromParameters = z.object({
+    parameters: z.object({
+        id:         z.string().uuid(),
+        address:    z.string().min(1, { message: "You must enter an address" }),
+        nickname:   z.string().min(1, { message: "You must add a nickname" }),
+        traveltime: z.string(),
+        travelmode: z.string(),
+        isSaved: z.boolean().default(false), 
+    }).array(),
+});
