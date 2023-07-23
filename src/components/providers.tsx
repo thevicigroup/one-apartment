@@ -3,6 +3,7 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SearchParameter } from "@prisma/client";
+import { TimeMapResponse, Coords } from "traveltime-api";
 
 export type Apartment = {
     county: string;
@@ -38,6 +39,8 @@ interface Config {
     delParameter: (id: string) => void;
     saveParameter: (param: Parameter) => void;
     unsaveParameter: (id: string) => void;
+    isochrones: Coords[][];
+    saveIsochrones: (isochrones: TimeMapResponse) => void;
 }
 
 const ApartmentContext = React.createContext<Config>({} as Config);
@@ -46,6 +49,19 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     const [apartments, setApartments] = useState<Apartment[]>([]);
     const [parameters, setParameters] = useState<Parameter[]>([]);
+    const [isochrones, setIsochrones] = useState<Coords[][]>([]);
+
+    const saveIsochrones = (isochrones: TimeMapResponse) => {
+        let shapes: Coords[][] = [];
+        isochrones.results.map((isochrone, i) => {
+            isochrone.shapes.map((shape, j) => {
+                let shell = shape.shell;
+                shapes.push(shell);
+            });
+        });
+        setIsochrones(shapes);
+        console.log(isochrones);
+    }
 
     const addParameter = (parameter: Parameter) => {
         setParameters((parameters) => [...parameters, parameter]);
@@ -107,13 +123,15 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     const init = {
-        apartments: apartments,
-        updateApartments: updateApartments,
-        parameters: parameters,
-        addParameter: addParameter,
-        delParameter: delParameter,
-        saveParameter: saveParameter,
-        unsaveParameter: unsaveParameter,
+        apartments,
+        updateApartments,
+        parameters,
+        addParameter,
+        delParameter,
+        saveParameter,
+        unsaveParameter,
+        isochrones,
+        saveIsochrones,
     };
     return <ApartmentContext.Provider value={init}>{children}</ApartmentContext.Provider>;
 };

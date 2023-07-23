@@ -2,14 +2,15 @@
 
 import React, { useMemo } from "react";
 import { GoogleMap, Marker, MarkerF, Polygon, useLoadScript } from "@react-google-maps/api";
+import { Coords } from "traveltime-api";
 
 interface Props {
-    isochronePath?: { lat: number; lng: number }[];
+    isochrones?: Coords[][];
     aparmentMarkers: { lat: number; lng: number }[];
 }
 
-export const Map: React.FC<Props> = ({ isochronePath, aparmentMarkers }) => {
-    const mapCenter = useMemo(() => ({ lat: 42.3601, lng: -71.0589 }), [42.3601, -71.0589]);
+export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
+    const mapCenter = useMemo(() => ({ lat: 51.507609, lng: -0.128315 }), [51.507609, -0.128315]);
     const mapOptions = useMemo<google.maps.MapOptions>(
         () => ({
             clickableIcons: true,
@@ -47,7 +48,19 @@ export const Map: React.FC<Props> = ({ isochronePath, aparmentMarkers }) => {
             mapTypeId={google.maps.MapTypeId.ROADMAP}
             mapContainerClassName="w-100 h-100"
         >
-            {isochronePath && <Polygon paths={[isochronePath]} />}
+            {isochrones && isochrones.map((iso, i) => (
+                <Polygon 
+                    key={i} 
+                    path={iso}
+                    options={{
+                        fillColor: "#60a5fa",
+                        fillOpacity: 0.25,
+                        strokeColor: "#3b82f6",
+                        strokeOpacity: 0.80,
+                        strokeWeight: 1.5,
+                    }}
+                />
+            ))}
             {aparmentMarkers.map((coord, i) => (
                 <MarkerF
                     key={`marker-${i}`}

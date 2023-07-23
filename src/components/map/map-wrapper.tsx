@@ -6,7 +6,7 @@ import { Map } from "@/components/map/map";
 import { useApartmentContext, type Apartment } from "@/components/providers";
 
 export const MapWrapper = () => {
-    const { apartments } = useApartmentContext();
+    const { apartments, isochrones } = useApartmentContext();
 
     function parseApartments(apartments: Apartment[]): { lat: number; lng: number }[] {
         let list: { lat: number; lng: number }[] = [];
@@ -14,5 +14,5 @@ export const MapWrapper = () => {
         return list;
     }
 
-    return <Map aparmentMarkers={parseApartments(apartments ?? [])} />;
+    return <Map aparmentMarkers={parseApartments(apartments ?? [])} isochrones={isochrones} />;
 };
