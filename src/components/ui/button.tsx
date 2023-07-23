@@ -29,7 +29,7 @@ const classes = {
         outline: "font-medium border border-input hover:bg-accent hover:text-accent-foreground",
         link: "underline-offset-4 font-light underline text-primary",
         danger: "bg-destructive text-white hover:bg-destructive/90",
-        success: "bg-green-500 text-white hover:bg-green-600",
+        success: "bg-emerald-500 text-white hover:bg-emerald-500/90",
     },
 };
 

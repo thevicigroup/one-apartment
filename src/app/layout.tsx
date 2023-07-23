@@ -11,7 +11,7 @@ import { NextAuthSessionProvider } from "@/components/session-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 
-export const metadata = { title: "Vici Apartments" };
+export const metadata = { title: "One Apartment" };
 interface Props {
     children: React.ReactNode;
 }

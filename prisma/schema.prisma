@@ -59,6 +59,12 @@ model User {
   image          String?
   hashedPassword String?
 
+  public           Boolean  @default(true)
+  friends          Friend[] @relation("user")
+  // This second "side" of the friends relation exists solely 
+  // to satisfy prisma's requirements; we won't access it directly?
+  symmetricFriends Friend[] @relation("friend")
+
   accounts Account[]
   sessions Session[]
 
@@ -67,6 +73,29 @@ model User {
   @@index([email])
   @@index([id])
   @@map(name: "users")
+}
+
+enum FriendStatus {
+  PENDING
+  ACTIVE
+}
+
+model Friend {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  user     User   @relation(name: "user", fields: [userId], references: [id])
+  userId   String
+  friend   User   @relation(name: "friend", fields: [friendId], references: [id])
+  friendId String
+
+  status FriendStatus @default(PENDING)
+
+  @@index([id])
+  @@index([userId])
+  @@index([friendId])
+  @@map(name: "friends")
 }
 
 model SearchParameter {

@@ -44,7 +44,6 @@ interface Props {
     param: Parameter;
 }
 
-// TODO(jack): Breakout parameter "operations" into seperate component so this can be server component. Make client components closer to leaves of component tree.
 export const SingleParameter: React.FC<Props> = ({ param }) => {
     const router = useRouter();
     const { delParameter, saveParameter } = useApartmentContext();
@@ -62,10 +61,7 @@ export const SingleParameter: React.FC<Props> = ({ param }) => {
                         <Button
                             variant="success"
                             size="sm"
-                            onClick={() => {
-                                saveParameter(param);
-                                router.refresh();
-                            }}
+                            onClick={() => saveParameter(param)}
                         >
                             Save
                         </Button>

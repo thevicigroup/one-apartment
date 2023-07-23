@@ -13,20 +13,9 @@ import { ParametersForm } from "@/components/parameters-form";
 import { ParametersList } from "@/components/parameters-list";
 import { UpdateApartmentsButton } from "@/components/update-apartments-button";
 
-async function loadSavedSearchParams(user: User) {
-    return await db.searchParameter.findMany({
-        where: {
-            userId: user.id,
-        },
-    });
-}
 
 export const Sidebar = async () => {
     const user = await getCurrentUser();
-    let parameters: SearchParameter[] = [];
-    if (user) {
-        parameters = await loadSavedSearchParams(user);
-    }
 
     return (
         <Tabs defaultValue="parameters" className="w-full px-2">
@@ -54,7 +43,7 @@ export const Sidebar = async () => {
                         <Button variant="secondary">Login with Github</Button>
                     </div>
                 ) : (
-                    <UserProfileTab user={user} parameters={parameters} />
+                    <UserProfileTab user={user} />
                 )}
             </TabsContent>
         </Tabs>

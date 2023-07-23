@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useContext, useState } from "react";
+import { useRouter } from "next/navigation";
 import { SearchParameter } from "@prisma/client";
 
 export type Apartment = {
@@ -42,6 +43,7 @@ interface Config {
 const ApartmentContext = React.createContext<Config>({} as Config);
 
 const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
+    const router = useRouter();
     const [apartments, setApartments] = useState<Apartment[]>([]);
     const [parameters, setParameters] = useState<Parameter[]>([]);
 
@@ -77,6 +79,7 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
                 }
                 return newParams;
             });
+            router.refresh();
         }
     };
 
@@ -95,6 +98,7 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
                 }
                 return newParams;
             });
+            router.refresh();
         }
     };
 
