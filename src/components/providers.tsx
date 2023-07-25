@@ -20,7 +20,7 @@ export type Apartment = {
     longitude: number;
     bedrooms: number;
     bathrooms: number;
-    sqft: number;
+    squareFootage: string;
     price: number;
 };
 

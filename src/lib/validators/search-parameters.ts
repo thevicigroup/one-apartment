@@ -8,6 +8,7 @@ export const userParametersSchema = z.object({
     traveltime: z.string(),
     travelmode: z.string(),
     isSaved: z.boolean().default(false),
+    index: z.number().default(0),
 });
 
 export const buildIsochronesFromParameters = z.object({

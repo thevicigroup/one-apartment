@@ -20,7 +20,7 @@ export const ParametersList = () => {
             {parameters && parameters.length > 0 ? (
                 <div className="space-y-2">
                     {parameters.map((param, i) => (
-                        <SingleParameter key={`${param.nickname}-${i}`} param={param} />
+                        <SingleParameter key={`${param.nickname}-${i}`} param={param} index={i}/>
                     ))}
                 </div>
             ) : (
@@ -42,14 +42,18 @@ export const ParametersList = () => {
 
 interface Props {
     param: Parameter;
+    index: number;
 }
 
-export const SingleParameter: React.FC<Props> = ({ param }) => {
+export const SingleParameter: React.FC<Props> = ({ param, index }) => {
     const router = useRouter();
     const { delParameter, saveParameter } = useApartmentContext();
+    const colors = ['bg-red-100', 'bg-blue-100', 'bg-green-100', 'bg-orange-100', 'bg-yellow-100']
+    let cardColor = "flex items-center justify-between px-4 py-2 " + colors[index]
+    console.log(param)
     return (
         <Card>
-            <div className="flex items-center justify-between px-4 py-2">
+            <div className={cardColor}>
                 <CardTitle>{param.nickname}</CardTitle>
                 <div className="flex items-center space-x-2">
                     {param.isSaved ? (

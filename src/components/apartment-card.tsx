@@ -39,12 +39,13 @@ interface Props {
 }
 
 import { useApartmentContext } from "@/components/providers";
-import { saveApartment, unSaveApartment } from "@/components/providers";
+// import { saveApartment, unSaveApartment } from "@/components/providers";
 
 export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
+    const { saveApartment, unsaveApartment } = useApartmentContext()
     const beds = apartmentInfo.bedrooms + ' Bed'
     const baths = apartmentInfo.bathrooms + ' Bath'
-    const sqft = apartmentInfo.sqft + ' sqft'
+    const sqft = apartmentInfo.squareFootage + ' sqft'
     const price = '$ ' + apartmentInfo.price
     const img = 1
     const apartmentId = apartmentInfo.id
@@ -54,8 +55,12 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
     
     const handleButtonClick = () => {
         setIsSaved((prevIsSaved) => !prevIsSaved);
-        saveApartment(apartmentId)
-        unSaveApartment(apartmentId)
+        if (isSaved) {
+            unsaveApartment(apartmentId)
+        } 
+        else {
+            saveApartment(apartmentInfo)
+        }
     };
     const buttonLabel = isSaved ? 'Unsave' : 'Save';
     const buttonIcon = isSaved ? <StarFilledIcon className="mr-2 h-4 w-4 visible"/> : <StarIcon className="mr-2 h-4 w-4 visible"/>;
@@ -68,7 +73,7 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
             <Card>
                 <CardHeader className="grid grid-cols-[1fr_110px] items-start gap-4 space-y-0">
                     <div className="space-y-1">
-                        <CardTitle>Apartment Address</CardTitle>
+                        <CardTitle>{apartmentInfo.formattedAddress}</CardTitle>
                             <CardDescription>
                                 {beds} | {baths} | {sqft} | {price}
                             </CardDescription>

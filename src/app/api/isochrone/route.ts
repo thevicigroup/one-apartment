@@ -31,13 +31,19 @@ export async function POST(req: Request) {
                 travel_time: parseInt(p.traveltime) * 60, // convert to seconds
                 departure_time: new Date().toISOString(),
                 transportation: { type: p.travelmode as TransportationType },
-                // single_shape: true,
             });
         }
+
+        // ! VERIFY THIS IS HOW TO DO IT
+        // need parameters to be a list of all the returns from the response
+        const parameters = userParameters.map((param) => param.id);
+        
+
         const inter: TimeMapRequestUnionOrIntersection = {
             id: 'inter',
             search_ids: userParameters.map((param) => param.id),
         }
+
         const data = await client.timeMap({
             departure_searches: userParameters,
             intersections: [inter],
