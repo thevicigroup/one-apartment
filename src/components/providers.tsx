@@ -6,6 +6,7 @@ import { SearchParameter } from "@prisma/client";
 import { TimeMapResponse, Coords } from "traveltime-api";
 
 export type Apartment = {
+    beds: string;
     county: string;
     propertyType: string;
     addressLine1: string;
@@ -18,6 +19,7 @@ export type Apartment = {
     longitude: number;
     bedrooms: number;
     bathrooms: number;
+    sqft: number;
     price: number;
 };
 
@@ -31,6 +33,7 @@ export type Parameter = {
     isSaved: boolean;
 };
 
+
 interface Config {
     apartments?: Apartment[];
     updateApartments: (apartments: Apartment[]) => void;
@@ -39,6 +42,8 @@ interface Config {
     delParameter: (id: string) => void;
     saveParameter: (param: Parameter) => void;
     unsaveParameter: (id: string) => void;
+    saveApartment: (apartmentID: Parameter) => void;
+    unsaveApartment: (apartmentID: string) => void;
     isochrones: Coords[][];
     saveIsochrones: (isochrones: Coords[][]) => void;
     getIsochrones: () => Coords[][];
@@ -115,6 +120,100 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    const saveApartment = async (param: Parameter) => {
+        // add the parameter to the database for the signed in user
+        const response = await fetch("http://localhost:3000/api/user/parameter", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+            },
+            body: JSON.stringify(param),
+        });
+        if (response?.ok) {
+            const savedParameter: SearchParameter = await response.json();
+            setParameters((parameters) => {
+                let newParams: Parameter[] = [];
+                for (const p of parameters) {
+                    if (p.id === param.id) {
+                        p.id = savedParameter.id;
+                        p.isSaved = true;
+                    }
+                    newParams.push(p);
+                }
+                return newParams;
+            });
+            router.refresh();
+        }
+    };
+
+    const unsaveApartment = async (id: string) => {
+        const response = await fetch(`api/user/parameter/${id}`, {
+            method: "DELETE",
+        });
+        if (response?.ok) {
+            setParameters((parameters) => {
+                let newParams: Parameter[] = [];
+                for (const p of parameters) {
+                    if (p.id === id) {
+                        p.isSaved = false;
+                    }
+                    newParams.push(p);
+                }
+                return newParams;
+            });
+            router.refresh();
+        }
+    };
+    
+    // const saveApartment = async (apartmentID: string) => {
+    //     // add the parameter to the database for the signed in user
+    //     const response = await fetch("http://localhost:3000/api/user/apartment", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-type": "application/json",
+    //         },
+    //         body: JSON.stringify(apartmentID),
+    //     });
+    //     if (response?.ok) {
+    //         const savedApartment: SearchApartment = await response.json();
+    //         setApartments((apartments) => {
+    //             let newApartments: Apartment[] = [];
+    //             for (const a of apartments) {
+    //                 if (a.id === apartmentID) {
+    //                     a.id = savedApartment.id;
+    //                     a.isSaved = true;
+    //                 }
+    //                 newApartments.push(a);
+    //             }
+    //             return newApartments;
+    //         });
+    //         router.refresh();
+    //     }
+    // };
+
+    // const unSaveApartment = async (apartmentId: string) => {
+    //     // Step 1: Check to see if apartment already in user's saved apartments on prisma
+
+    //     // Step 2: Add if not there, remove if there
+    //     const response = await fetch(`api/user/apartment/${apartmentId}`, {
+    //         method: "DELETE",
+    //     });
+    //     if (response?.ok) {
+    //         setApartments((apartmentId) => {
+    //             let newApartments: savedApartment[] = [];
+    //             for (const a of apartments) {
+    //                 if (a.id === apartmentId) {
+    //                     a.isSaved = false;
+    //                 }
+    //                 newApartments.push(a);
+    //             }
+    //             return newApartments;
+    //         });
+    //         router.refresh();
+    //     }
+    // };
+
+
     const updateApartments = (apartments: Apartment[]) => {
         setApartments(apartments);
     };
@@ -127,6 +226,8 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         delParameter,
         saveParameter,
         unsaveParameter,
+        saveApartment,
+        unsaveApartment,
         isochrones,
         saveIsochrones,
         getIsochrones,

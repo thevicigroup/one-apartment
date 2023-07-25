@@ -22,6 +22,7 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  savedApartments   String
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -69,6 +70,8 @@ model User {
   sessions Session[]
 
   searchParameters SearchParameter[]
+  searchApartments SearchApartment[]
+
 
   @@index([email])
   @@index([id])
@@ -115,4 +118,23 @@ model SearchParameter {
   @@index([id])
   @@index([userId])
   @@map(name: "search_parameters")
+}
+
+model SearchApartment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  nickname String
+  address  String
+
+  traveltime String
+  travelmode String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@index([id])
+  @@index([userId])
+  @@map(name: "search_apartments")
 }

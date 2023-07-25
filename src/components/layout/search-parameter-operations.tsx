@@ -26,3 +26,18 @@ export const SearchParameterOperations: React.FC<Props> = ({ id }) => {
         </div>
     );
 };
+
+export const SearchApartmentOperations: React.FC<Props> = ({ id }) => {
+    const { unsaveApartment } = useApartmentContext();
+    return (
+        <div className="flex items-center space-x-2">
+            <Button
+                variant="danger"
+                size="sm"
+                onClick={() => unsaveApartment(id)}
+            >
+                Remove
+            </Button>
+        </div>
+    );
+};

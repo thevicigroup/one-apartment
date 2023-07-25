@@ -8,10 +8,18 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { SearchParameterOperations } from "./search-parameter-operations";
+import { SearchParameterOperations, SearchApartmentOperations } from "./search-parameter-operations";
 
 async function loadSavedSearchParams(user: User) {
-    return await db.SearchParameter.findMany({
+    return await db.searchParameter.findMany({
+        where: {
+            userId: user.id,
+        },
+    });
+}
+
+async function loadSavedSearchApartment(user: User) {
+    return await db.searchApartment.findMany({
         where: {
             userId: user.id,
         },
@@ -24,6 +32,8 @@ interface Props {
 
 export const UserProfileTab: React.FC<Props> = async ({ user }) => {
     const parameters: SearchParameter[] = await loadSavedSearchParams(user);
+    const apartments = SearchApartments[] = await loadSavedSearchApartment(user);
+    
     return (
         <div>
             <div className="flex gap-2 p-4">
@@ -38,13 +48,42 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                     <h2 className="text-lg text-muted-foreground">{user.email}</h2>
                 </div>
             </div>
-            <Tabs defaultValue="parameters" className="w-full px-2">
-                <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="parameters">Saved Parameters</TabsTrigger>
+            <Tabs defaultValue="savedApartments" className="w-full px-2">
+                <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="savedApartments">Saved Apartments</TabsTrigger>
+                    <TabsTrigger value="savedParameters">Saved Parameters</TabsTrigger>
                     <TabsTrigger value="friends">Friends (1)</TabsTrigger>
                     <TabsTrigger value="groups">Groups</TabsTrigger>
                 </TabsList>
-                <TabsContent value="parameters">
+
+
+                <TabsContent value="savedApartments">
+                <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl py-2">
+                        Your Saved Search Apartments
+                    </h1>
+                    <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
+                        {apartments.length > 0 ? (
+                            apartments.map((param: any, i: any) => (
+                                <Card key={`${apartments.nickname}-${i}`}>
+                                    <div className="flex items-center justify-between px-4 py-2">
+                                        <CardTitle>{apartments.nickname}</CardTitle>
+                                        <SearchParameterOperations id={apartments.id} />
+                                    </div>
+                                    <Separator />
+                                    <CardContent>
+                                        {apartments.address}
+                                    </CardContent>
+                                </Card>
+                            ))
+                        ) : (
+                            <p className="text-center">You have no saved search parameters.</p>
+                        )}
+                    </ScrollArea>
+                </TabsContent>
+
+
+
+                <TabsContent value="savedParameters">
                     <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl py-2">
                         Your Saved Search Parameters
                     </h1>
@@ -68,9 +107,16 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                         )}
                     </ScrollArea>
                 </TabsContent>
+
+
+
                 <TabsContent value="friends">
                     <h1 className="text-xl mb-2">Your Friends</h1>
                 </TabsContent>
+
+
+
+
                 <TabsContent value="groups">
                     <h1 className="text-xl mb-2">Your Groups</h1>
                 </TabsContent>
