@@ -2,7 +2,7 @@
 
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import { SearchParameter, searchApartment } from "@prisma/client";
+import { SearchApartment, SearchParameter } from "@prisma/client";
 import { TimeMapResponse, Coords } from "traveltime-api";
 
 export type Apartment = {
@@ -134,7 +134,7 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
             const savedApartment: SearchApartment = await response.json();
             setApartments((apartments) => {
                 let newApartments: Apartment[] = [];
-                for (const a of parameters) {
+                for (const a of apartments) {
                     if (a.id === apartment.id) {
                         a.id = savedApartment.id;
                         a.isSaved = true;

@@ -1,5 +1,5 @@
 import React from "react";
-import type { SearchParameter } from "@prisma/client";
+import type { SearchParameter, SearchApartment } from "@prisma/client";
 import type { User } from "next-auth";
 
 import { db } from "@/lib/database";
@@ -32,7 +32,7 @@ interface Props {
 
 export const UserProfileTab: React.FC<Props> = async ({ user }) => {
     const parameters: SearchParameter[] = await loadSavedSearchParams(user);
-    const apartments = SearchApartments[] = await loadSavedSearchApartment(user);
+    const apartments: SearchApartment[] = await loadSavedSearchApartment(user);
     
     return (
         <div>
@@ -63,15 +63,15 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                     </h1>
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
                         {apartments.length > 0 ? (
-                            apartments.map((param: any, i: any) => (
-                                <Card key={`${apartments.nickname}-${i}`}>
+                            apartments.map((apartment, i) => (
+                                <Card key={`${apartment.nickname}-${i}`}>
                                     <div className="flex items-center justify-between px-4 py-2">
-                                        <CardTitle>{apartments.nickname}</CardTitle>
-                                        <SearchParameterOperations id={apartments.id} />
+                                        <CardTitle>{apartment.nickname}</CardTitle>
+                                        <SearchParameterOperations id={apartment.id} />
                                     </div>
                                     <Separator />
                                     <CardContent>
-                                        {apartments.address}
+                                        {apartment.address}
                                     </CardContent>
                                 </Card>
                             ))

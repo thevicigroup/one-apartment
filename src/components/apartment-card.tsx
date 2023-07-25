@@ -38,6 +38,7 @@ interface Props {
     apartmentInfo: Apartment;
 }
 
+import { useApartmentContext } from "@/components/providers";
 import { saveApartment, unSaveApartment } from "@/components/providers";
 
 export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
@@ -50,6 +51,7 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
 
     // Save/Unsave Function
     const [isSaved, setIsSaved] = useState(false);
+    
     const handleButtonClick = () => {
         setIsSaved((prevIsSaved) => !prevIsSaved);
         saveApartment(apartmentId)
