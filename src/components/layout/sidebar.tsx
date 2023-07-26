@@ -16,6 +16,8 @@ import { UpdateApartmentsButton } from "@/components/update-apartments-button";
 
 export const Sidebar = async () => {
     const user = await getCurrentUser();
+    const current = 1
+    const total = 2
 
     return (
         <Tabs defaultValue="parameters" className="w-full px-2">
@@ -24,28 +26,30 @@ export const Sidebar = async () => {
                 <TabsTrigger value="parameters">Parameters</TabsTrigger>
                 <TabsTrigger value="profile">User Profile</TabsTrigger>
             </TabsList>
-            <TabsContent value="apartments">
-                <ApartmentView />
-            </TabsContent>
-            <TabsContent value="parameters">
-                <div className="flex flex-col justify-between h-[calc(100vh-110px)]">
-                    <div>
-                        <ParametersForm />
-                        <ParametersList />
+                <TabsContent value="apartments">
+                    <ApartmentView />
+                    <div>Showing: {current} apartments out of {total} results</div>
+                    <div>MAKE THESE CONSTANTLY UPDATE FROM APARTMENTS</div>
+                </TabsContent>
+                <TabsContent value="parameters">
+                    <div className="flex flex-col justify-between h-[calc(100vh-110px)]">
+                        <div>
+                            <ParametersForm />
+                            <ParametersList />
+                        </div>
+                        <UpdateApartmentsButton />
                     </div>
-                    <UpdateApartmentsButton />
-                </div>
-            </TabsContent>
-            <TabsContent value="profile">
-                {!user ? (
-                    <div className="flex flex-col space-y-2">
-                        <p>Sign in or create an account to view your profile</p>
-                        <Button variant="secondary">Login with Github</Button>
-                    </div>
-                ) : (
-                    <UserProfileTab user={user} />
-                )}
-            </TabsContent>
+                </TabsContent>
+                <TabsContent value="profile">
+                    {!user ? (
+                        <div className="flex flex-col space-y-2">
+                            <p>Sign in or create an account to view your profile</p>
+                            <Button variant="secondary">Login with Github</Button>
+                        </div>
+                    ) : (
+                        <UserProfileTab user={user} />
+                    )}
+                </TabsContent>
         </Tabs>
     );
 };

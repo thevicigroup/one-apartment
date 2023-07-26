@@ -14,7 +14,8 @@ export const ApartmentView = () => {
                 {apartments?.map((item, i) => (
                     <ApartmentCard key={i} apartmentInfo={item} />
                 ))}
-                </ScrollArea>
+
+            </ScrollArea>
         );
     } else {
         return (
