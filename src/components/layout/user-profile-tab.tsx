@@ -18,13 +18,13 @@ async function loadSavedSearchParams(user: User) {
     });
 }
 
-async function loadSavedSearchApartment(user: User) {
-    return await db.searchApartment.findMany({
-        where: {
-            userId: user.id,
-        },
-    });
-}
+// async function loadSavedSearchApartment(user: User) {
+//     return await db.searchApartment.findMany({
+//         where: {
+//             userId: user.id,
+//         },
+//     });
+// }
 
 interface Props {
     user: User;
@@ -32,7 +32,7 @@ interface Props {
 
 export const UserProfileTab: React.FC<Props> = async ({ user }) => {
     const parameters: SearchParameter[] = await loadSavedSearchParams(user);
-    const apartments: SearchApartment[] = await loadSavedSearchApartment(user);
+    // const apartments: SearchParameter[] = await loadSavedSearchApartment(user);
     
     return (
         <div>
@@ -62,7 +62,7 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                         Your Saved Search Apartments
                     </h1>
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
-                        {apartments.length > 0 ? (
+                        {/* {apartments.length > 0 ? (
                             apartments.map((apartment, i) => (
                                 <Card key={`${apartment.nickname}-${i}`}>
                                     <div className="flex items-center justify-between px-4 py-2">
@@ -77,7 +77,7 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                             ))
                         ) : (
                             <p className="text-center">You have no saved search parameters.</p>
-                        )}
+                        )} */}
                     </ScrollArea>
                 </TabsContent>
 

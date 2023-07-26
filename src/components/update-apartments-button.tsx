@@ -36,17 +36,16 @@ export const UpdateApartmentsButton = () => {
             const apartments: Apartment[] = await apartmentsResponse.json();
             // updateApartments(apartments);
             const data: TimeMapResponse = await response.json();
-            const isochrones = buildIsochrones(data);
-            saveIsochrones(isochrones);
-
-            // TODO: Figure out why returning undefined only on the first call
+            const [intersection, isochrones] = buildIsochrones(data);
+            saveIsochrones(intersection);
+            
             let filteredApartments: Apartment[] = [];
-            if (isochrones.length > 0) {
+            if (intersection.length > 0) {
                 const apartmentPoints = turf.points(apartments.map(apartment => {
                     return [apartment.latitude, apartment.longitude];
                 }));
                 // isochrone = {lat: 123, lng: 456}
-                isochrones.map((iso) => {
+                intersection.map((iso) => {
                     const polygon = turf.polygon([CoordToPosition(iso)]);
                     const pointsInside = apartmentPoints.features.map((p) => {
                         if (turf.booleanPointInPolygon(p.geometry, polygon)) {
@@ -70,6 +69,8 @@ export const UpdateApartmentsButton = () => {
                 });
                 updateApartments(filteredApartments);
             }
+            
+            saveIsochrones(isochrones);
         }
     }
 

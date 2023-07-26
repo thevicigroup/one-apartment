@@ -4,6 +4,8 @@ import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SearchApartment, SearchParameter } from "@prisma/client";
 import { TimeMapResponse, Coords } from "traveltime-api";
+import { stdin as input, stdout as output } from 'process';
+import * as readline from "readline";
 
 export type Apartment = {
     isSaved: boolean;
@@ -48,6 +50,7 @@ interface Config {
     isochrones: Coords[][];
     saveIsochrones: (isochrones: Coords[][]) => void;
     getIsochrones: () => Coords[][];
+    importParameters: () => void;
 }
 
 const ApartmentContext = React.createContext<Config>({} as Config);
@@ -166,11 +169,23 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-
+    
     const updateApartments = (apartments: Apartment[]) => {
         setApartments(apartments);
     };
+    
 
+    const importParameters = async () => {
+        const r1 = readline.createInterface({ input, output })
+        const userID = r1.prompt()
+        const response = await fetch("http://localhost:3000/api/" + userID + "/parameters");
+        if (response?.ok) {
+            const parameters: Parameter[] = await response.json();
+            setParameters(parameters);
+        }
+    }
+
+    
     const init = {
         apartments,
         updateApartments,
@@ -184,6 +199,7 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         isochrones,
         saveIsochrones,
         getIsochrones,
+        importParameters,
     };
     return <ApartmentContext.Provider value={init}>{children}</ApartmentContext.Provider>;
 };

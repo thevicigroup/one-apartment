@@ -7,7 +7,6 @@ import { ApartmentCard } from "./apartment-card";
 
 export const ApartmentView = () => {
     const { apartments } = useApartmentContext();
-    const apartmentColors = ['#ef4444', '#ef4444', '#ef4444', '#ef4444', '#ef4444', '#ef4444', '#ef4444']
 
     if (typeof apartments !== undefined) {
         return (

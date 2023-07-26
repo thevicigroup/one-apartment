@@ -34,9 +34,7 @@ export async function POST(req: Request) {
             });
         }
 
-        // ! VERIFY THIS IS HOW TO DO IT
-        // need parameters to be a list of all the returns from the response
-        const parameters = userParameters.map((param) => param.id);
+
         
 
         const inter: TimeMapRequestUnionOrIntersection = {
