@@ -2,7 +2,7 @@ import React from "react";
 import type { SearchApartment, SearchParameter } from "@prisma/client";
 import type { User } from "next-auth";
 import * as HoverCardPrimitive from "@radix-ui/react-hover-card"
- 
+
 import { cn } from "@/lib/utils"
 import { db } from "@/lib/database";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -131,6 +131,7 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
 
                 <TabsContent value="friends">
                     <h1 className="text-xl mb-2">Your Friends</h1>
+                    <Separator />
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
                     <div className="grid gap-4 grid-cols-3">
                     {friends?.map((item, i) => (

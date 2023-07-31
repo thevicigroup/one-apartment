@@ -6,16 +6,40 @@ import { Button } from "@mui/material";
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
+
+
+
 interface Props {
     friendsInfo: Friend;
 }
+const removeFriend = () => {
+    console.log('remove friend')
+}
 
 export const FriendsCard: React.FC<Props> = ({ friendsInfo }) => {
+    const message = "Are you sure you want to do this?";
+    const buttons = [
+    {
+        label: "Cancel",
+        click: () => {
+        // do nothing
+        },
+    },
+    {
+        label: "Yes",
+        click: () => {
+        // do something
+        },
+    },
+    ];
     const sharedGroups = [1, 2, 3, 'this is dynamic']
+    const name = 'Nicholas Mirabile'
+    const occupation = 'Aerospace Research Egnineer'
+
     return (
         <Card>
-                <HoverCard>
-                    <HoverCardTrigger>
+            <HoverCard>
+                <HoverCardTrigger>
                     <Card>
                         <CardHeader>
                             <div className="flex-row">
@@ -24,26 +48,25 @@ export const FriendsCard: React.FC<Props> = ({ friendsInfo }) => {
                                     <AvatarFallback>CN</AvatarFallback>
                                 </Avatar>
                                 <div>
-                                <CardTitle>Nick Mirabile</CardTitle>
-                                <CardDescription>Aerospace Research Engineer</CardDescription>
+                                <CardTitle>{name}</CardTitle>
+                                <CardDescription>{occupation}</CardDescription>
                                 </div>
                             </div>
                         </CardHeader>
                         <CardFooter>
-                            <Button>Remove Friend</Button>
+                            <Button onClick={removeFriend}>Remove Friend</Button>
                         </CardFooter>
                     </Card>
-
-                    </HoverCardTrigger>
-                    <HoverCardContent>
-                    <p>Your Shared Groups:</p>
-                        <ScrollArea className="w-full rounded-md">
-                            {sharedGroups?.map((item, i) => (
-                                <div>Group {item}</div>
-                            ))}
-                            </ScrollArea>
-                    </HoverCardContent>
-                </HoverCard>
+                </HoverCardTrigger>
+                <HoverCardContent>
+                <p className="text-lg font-bold ">Your Shared Groups:</p>
+                    <ScrollArea className="w-full rounded-md">
+                        {sharedGroups?.map((item, i) => (
+                            <div>Group {item}</div>
+                        ))}
+                        </ScrollArea>
+                </HoverCardContent>
+            </HoverCard>
         </Card>
     )
 }
