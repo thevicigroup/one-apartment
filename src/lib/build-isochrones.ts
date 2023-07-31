@@ -9,12 +9,11 @@ export function buildIsochrones(iso: TimeMapResponse) {
                 let shell = shape.shell;
                 shapes.push(shell);
             });
-        }
-        else {
+        } else {
             isochrone.shapes.map((shape, j) => {
                 let shell = shape.shell;
                 isochrones.push(shell);
-            })
+            });
         }
     });
     return [shapes, isochrones];

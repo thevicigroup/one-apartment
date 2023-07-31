@@ -3,9 +3,28 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { SearchApartment, SearchParameter } from "@prisma/client";
-import { TimeMapResponse, Coords } from "traveltime-api";
+import { Coords, TimeMapResponse } from "traveltime-api";
+
 // import { stdin as input, stdout as output } from 'process';
 // import * as readline from "readline";
+
+
+export type Friend = {
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    isSaved: boolean;
+    isFriend: boolean;
+    isRequested: boolean;
+    isPending: boolean;
+    isBlocked: boolean;
+    isOnline: boolean;
+    lastSeen: string;
+    lastMessage: string;
+    lastMessageDate: string;
+    lastMessageTime: string;
+}
 
 export type Apartment = {
     isSaved: boolean;
@@ -36,7 +55,6 @@ export type Parameter = {
     isSaved: boolean;
 };
 
-
 interface Config {
     apartments?: Apartment[];
     updateApartments: (apartments: Apartment[]) => void;
@@ -63,11 +81,11 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
 
     const getIsochrones = () => {
         return isochrones;
-    }
+    };
 
     const saveIsochrones = (iso: Coords[][]) => {
         setIsochrones(iso);
-    }
+    };
 
     const addParameter = (parameter: Parameter) => {
         setParameters((parameters) => [...parameters, parameter]);
@@ -169,11 +187,9 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    
     const updateApartments = (apartments: Apartment[]) => {
         setApartments(apartments);
     };
-    
 
     const importParameters = async () => {
         // const r1 = readline.createInterface({ input, output })
@@ -183,9 +199,8 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         //     const parameters: Parameter[] = await response.json();
         //     setParameters(parameters);
         // }
-    }
+    };
 
-    
     const init = {
         apartments,
         updateApartments,

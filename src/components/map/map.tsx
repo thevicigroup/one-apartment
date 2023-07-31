@@ -42,33 +42,44 @@ export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
     });
 
     // Make the first value the color of the intersection we want to show!
-    const isochroneColors = [['#ff6f00','#ff6f00'], ['#ffcdd2','#ffcdd2'], ['#bbdefb','#bbdefb'], ['#c8e6c9','#c8e6c9'],
-    ['#ffe0b2','#ffe0b2'], ['#fff9c4','#fff9c4'], ['#e1bee7','#e1bee7'],
-    ['#d7ccc8','#d7ccc8'], ['#f5f5f5','#f5f5f5'], ['#cfd8dc','#cfd8dc'],
-    ['#ffccbc','#ffccbc']]
+    const isochroneColors = [
+        ["#ff6f00", "#ff6f00"],
+        ["#ffcdd2", "#ffcdd2"],
+        ["#bbdefb", "#bbdefb"],
+        ["#c8e6c9", "#c8e6c9"],
+        ["#ffe0b2", "#ffe0b2"],
+        ["#fff9c4", "#fff9c4"],
+        ["#e1bee7", "#e1bee7"],
+        ["#d7ccc8", "#d7ccc8"],
+        ["#f5f5f5", "#f5f5f5"],
+        ["#cfd8dc", "#cfd8dc"],
+        ["#ffccbc", "#ffccbc"],
+    ];
     if (!isLoaded) return <div className="w-full h-full"></div>;
     return (
         <GoogleMap
-        options={mapOptions}
-        zoom={14}
-        center={mapCenter}
-        mapTypeId={google.maps.MapTypeId.ROADMAP}
-        mapContainerClassName="w-100 h-100"
+            options={mapOptions}
+            zoom={14}
+            center={mapCenter}
+            mapTypeId={google.maps.MapTypeId.ROADMAP}
+            mapContainerClassName="w-100 h-100"
         >
-            {isochrones && isochrones.map((iso, i) => (
-                <Polygon 
-                key={i} 
-                path={iso}
-                options={{
-                    fillColor: isochroneColors[i][0],
-                    fillOpacity: 0.25,
-                    strokeColor: isochroneColors[i][1],
-                    strokeOpacity: 0.80,
-                    strokeWeight: 1.5,
-                }}
-                />
+            {/* TODO: Figure out why this is not working, it is plotting every shell as a different color instead of every isochrone??? */}
+            {isochrones &&
+                isochrones.map((iso, i) => (
+                    <Polygon
+                        key={i}
+                        path={iso}
+                        options={{
+                            fillColor: isochroneColors[i][0],
+                            fillOpacity: 0.25,
+                            strokeColor: isochroneColors[i][1],
+                            strokeOpacity: 0.8,
+                            strokeWeight: 1.5,
+                        }}
+                    />
                 ))}
-            
+
             {aparmentMarkers.map((coord, i) => (
                 <MarkerF
                     key={`marker-${i}`}

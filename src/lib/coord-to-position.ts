@@ -1,5 +1,5 @@
-import type { Coords } from "traveltime-api";
 import type { Position } from "@turf/turf";
+import type { Coords } from "traveltime-api";
 
 export function CoordToPosition(coords: Coords[]) {
     let position_array: Position[] = [];

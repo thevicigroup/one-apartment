@@ -45,8 +45,7 @@ export const ParametersForm = () => {
         form.reset();
         router.refresh();
     }
-             
-    
+
     // const center = { lat: 50.064192, lng: -130.605469 };
     // const defaultBounds = {
     // north: center.lat + 0.1,
@@ -81,10 +80,6 @@ export const ParametersForm = () => {
                     )}
                 />
 
-
-
-
-
                 <FormField
                     control={form.control}
                     name="nickname"
@@ -109,9 +104,13 @@ export const ParametersForm = () => {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
+                                    <SelectItem value="5">5 Minutes</SelectItem>
+                                    <SelectItem value="10">10 Minutes</SelectItem>
                                     <SelectItem value="15">15 Minutes</SelectItem>
+                                    <SelectItem value="20">20 Minutes</SelectItem>
                                     <SelectItem value="30">30 Minutes</SelectItem>
                                     <SelectItem value="45">45 Minutes</SelectItem>
+                                    <SelectItem value="60">1 Hour</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormMessage />
