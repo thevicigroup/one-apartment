@@ -1,6 +1,5 @@
 "use client";
 
-import Grid from "@mui/material/Grid";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useApartmentContext } from "@/components/providers";
@@ -23,14 +22,10 @@ export const ApartmentView = () => {
 
     if (typeof apartments !== undefined) {
         return (
-            <ScrollArea className="h-[calc(90vh-130px)] w-full rounded-md border space-y-4">
-                {/* <Grid container>
-                    <Grid item xs={2}> */}
+            <ScrollArea className="h-[calc(90vh-50px)] w-full rounded-md border">
                 {apartments?.map((item, i) => (
                     <ApartmentCard key={i} apartmentInfo={item} />
                 ))}
-                {/* </Grid>
-                </Grid> */}
             </ScrollArea>
         );
     } else {

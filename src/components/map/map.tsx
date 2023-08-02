@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { GoogleMap, Marker, MarkerF, Polygon, useLoadScript } from "@react-google-maps/api";
 import { Coords } from "traveltime-api";
+import { UpdateIcon } from "@radix-ui/react-icons";
 
 interface Props {
     isochrones?: Coords[][];
@@ -10,7 +11,36 @@ interface Props {
 }
 
 export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
-    // const mapCenter = useMemo(() => ({ lat: 51.507609, lng: -0.128315 }), [51.507609, -0.128315]);
+
+    // TODO: Ask Jack how best to approach this, do we make our own icons one without the price and one with?
+    const initialIcon = 'no prices'
+    const [icon, setIcon] = useState(initialIcon)
+
+
+    const showApartmentInfo = (coord: { lat: number; lng: number; }, i: number) => {
+
+        console.log('showing apartment info')
+        console.log(coord)
+        console.log(i)
+    }
+
+    const zoomCheck = (zoom: number) => {
+        console.log(zoom)
+        // 18 chosen as arbitrary value for when to change icons to show price
+        if (zoom >= 18) {
+                    if (icon === 'no prices') {
+                        setIcon('with prices')
+                        console.log('setting icon to with prices')
+                    }
+                }
+        else if (icon === 'with prices') {
+                        setIcon('no prices')
+                        console.log('setting icon to no prices')
+                    }
+    }
+
+    
+
     const mapCenter = useMemo(() => ({ lat: 42.3601, lng: -71.0589 }), [42.3601, -71.0589]);
     const mapOptions = useMemo<google.maps.MapOptions>(
         () => ({
@@ -63,6 +93,7 @@ export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
             center={mapCenter}
             mapTypeId={google.maps.MapTypeId.ROADMAP}
             mapContainerClassName="w-100 h-100"
+            onZoomChanged={zoomCheck(mapOptions.zoom!)}
         >
             {/* TODO: Figure out why this is not working, it is plotting every shell as a different color instead of every isochrone??? */}
             {isochrones &&
@@ -71,20 +102,24 @@ export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
                         key={i}
                         path={iso}
                         options={{
-                            fillColor: isochroneColors[i][0],
+                            // ! THIS IS HARD CODED TO ONE COLOR, CHANGE THE FIRST VALUE TO i IF WISH TO VARY
+                            fillColor: isochroneColors[1][0],
                             fillOpacity: 0.25,
-                            strokeColor: isochroneColors[i][1],
+                            strokeColor: isochroneColors[1][1],
                             strokeOpacity: 0.8,
                             strokeWeight: 1.5,
                         }}
                     />
                 ))}
 
+            {/* TODO: Add in check for zoom in to show prices */}
             {aparmentMarkers.map((coord, i) => (
                 <MarkerF
                     key={`marker-${i}`}
                     position={new google.maps.LatLng(coord["lat"], coord["lng"])}
-                    // icon={"src/icon.png"}
+                    icon={icon}
+                    onMouseOver={showApartmentInfo(coord, i)}
+                    onClick={showApartmentInfo(coord, i)}
                 />
             ))}
         </GoogleMap>

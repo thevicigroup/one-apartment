@@ -1,5 +1,10 @@
 "use client";
 
+import dynamic from "next/dynamic";
+const twElements = typeof window !== "undefined" && dynamic(import("tw-elements"));
+
+
+
 import React, { useMemo, useState } from "react";
 import {
     ChevronDownIcon,
@@ -9,8 +14,7 @@ import {
     StarIcon,
 } from "@radix-ui/react-icons";
 import { Table } from "lucide-react";
-import initTE from "tw-elements";
-import Carousel from "tw-elements";
+import { initTE, Carousel } from "tw-elements";
 import type { Apartment } from "@/components/providers";
 import { useApartmentContext } from "@/components/providers";
 
@@ -34,6 +38,11 @@ interface Props {
 // import { saveApartment, unSaveApartment } from "@/components/providers";
 
 export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
+    const init = async () => {
+        const { initTE, Carousel } = await import("tw-elements");
+        initTE({ initTE, Carousel });
+      };
+    
     const { saveApartment, unsaveApartment } = useApartmentContext();
     const beds = apartmentInfo.bedrooms + " Bed";
     const baths = apartmentInfo.bathrooms + " Bath";
@@ -71,7 +80,7 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
 
     // convert to typescript function
 
-    initTE(Carousel);
+    
 
     return (
         <Card>
@@ -142,7 +151,7 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
                         type="button"
                         data-te-target="#carouselExampleControls"
                         data-te-slide="prev"
-                    >
+                        >
                         <span className="inline-block h-8 w-8">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

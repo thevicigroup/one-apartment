@@ -14,8 +14,8 @@ import { UpdateApartmentsButton } from "@/components/update-apartments-button";
 
 export const Sidebar = async () => {
     const user = await getCurrentUser();
-    const current = apartmentlength;
-    const total = totalApartments;
+    const current = 1;
+    const total = 2;
 
     return (
         <Tabs defaultValue="parameters" className="w-full px-2">
@@ -26,9 +26,9 @@ export const Sidebar = async () => {
             </TabsList>
             <TabsContent value="apartments">
                 <ApartmentView />
-                {/* <div>
+                <div>
                     Showing: {current} apartments out of {total} results
-                </div> */}
+                </div>
             </TabsContent>
             <TabsContent value="parameters">
                 <div className="flex flex-col justify-between h-[calc(100vh-110px)]">
