@@ -14,7 +14,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-// import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -30,6 +29,7 @@ import {
     HoverCardTrigger,
   } from "@/components/ui/hover-card"
 import { FriendsCard } from "../friend-card";
+import { GroupCard } from "../group-card";
   
 
 async function loadSavedSearchParams(user: User) {
@@ -40,13 +40,13 @@ async function loadSavedSearchParams(user: User) {
     });
 }
 
-// async function loadSavedSearchApartment(user: User) {
-//     return await db.searchApartment.findMany({
-//         where: {
-//             userId: user.id,
-//         },
-//     });
-// }
+async function loadSavedApartments(user: User) {
+    return await db.searchApartment.findMany({
+        where: {
+            userId: user.id,
+        },
+    });
+}
 
 interface Props {
     user: User;
@@ -56,7 +56,7 @@ const friends = ['brian', 'kyle', 'notjack', 'fuckyoujack', 'whydontyouevercodej
 
 export const UserProfileTab: React.FC<Props> = async ({ user }) => {
     const parameters: SearchParameter[] = await loadSavedSearchParams(user);
-    // const apartments: SearchParameter[] = await loadSavedSearchApartment(user);
+    const apartments: SearchApartment[] = await loadSavedApartments(user);
     return (
         <div>
             <div className="flex gap-2 p-4">
@@ -84,7 +84,7 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                         Your Saved Search Apartments
                     </h1>
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
-                        {/* {apartments.length > 0 ? (
+                        {apartments.length > 0 ? (
                             apartments.map((apartment, i) => (
                                 <Card key={`${apartment.nickname}-${i}`}>
                                     <div className="flex items-center justify-between px-4 py-2">
@@ -99,7 +99,7 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                             ))
                         ) : (
                             <p className="text-center">You have no saved search parameters.</p>
-                        )} */}
+                        )}
                     </ScrollArea>
                 </TabsContent>
 
@@ -142,7 +142,15 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                 </TabsContent>
 
                 <TabsContent value="groups">
-                    <h1 className="text-xl mb-2">Your Groups</h1>
+                <h1 className="text-xl mb-2">Your Friends</h1>
+                    <Separator />
+                    <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
+                    <div className="grid gap-4 grid-cols-3">
+                    {friends?.map((item, i) => (
+                        <GroupCard groupInfo={undefined} />
+                    ))}
+                    </div>
+                    </ScrollArea>
                 </TabsContent>
             </Tabs>
         </div>

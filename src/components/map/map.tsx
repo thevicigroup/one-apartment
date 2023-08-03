@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import { GoogleMap, Marker, MarkerF, Polygon, useLoadScript } from "@react-google-maps/api";
 import { Coords } from "traveltime-api";
 import { UpdateIcon } from "@radix-ui/react-icons";
+import { stringify } from "querystring";
 
 interface Props {
     isochrones?: Coords[][];
@@ -13,15 +14,15 @@ interface Props {
 export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
 
     // TODO: Ask Jack how best to approach this, do we make our own icons one without the price and one with?
+    // The markers are classified by coordinates!
     const initialIcon = 'no prices'
     const [icon, setIcon] = useState(initialIcon)
 
 
-    const showApartmentInfo = (coord: { lat: number; lng: number; }, i: number) => {
+    const showApartmentInfo = (coord: { lat: number; lng: number; }) => {
 
         console.log('showing apartment info')
         console.log(coord)
-        console.log(i)
     }
 
     const zoomCheck = (zoom: number) => {
@@ -83,7 +84,7 @@ export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
         ["#d7ccc8", "#d7ccc8"],
         ["#f5f5f5", "#f5f5f5"],
         ["#cfd8dc", "#cfd8dc"],
-        ["#ffccbc", "#ffccbc"],
+        ["#ffccbc", "#ffccbc"]
     ];
     if (!isLoaded) return <div className="w-full h-full"></div>;
     return (
@@ -103,9 +104,9 @@ export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
                         path={iso}
                         options={{
                             // ! THIS IS HARD CODED TO ONE COLOR, CHANGE THE FIRST VALUE TO i IF WISH TO VARY
-                            fillColor: isochroneColors[1][0],
+                            fillColor: isochroneColors[i][0],
                             fillOpacity: 0.25,
-                            strokeColor: isochroneColors[1][1],
+                            strokeColor: isochroneColors[i][1],
                             strokeOpacity: 0.8,
                             strokeWeight: 1.5,
                         }}
@@ -116,12 +117,16 @@ export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
             {aparmentMarkers.map((coord, i) => (
                 <MarkerF
                     key={`marker-${i}`}
+                    title={stringify(coord['lat'], coord['lng'])}
                     position={new google.maps.LatLng(coord["lat"], coord["lng"])}
                     icon={icon}
-                    onMouseOver={showApartmentInfo(coord, i)}
-                    onClick={showApartmentInfo(coord, i)}
+                    onMouseOver={showApartmentInfo(coord)}
+                    onClick={showApartmentInfo(coord)}
                 />
             ))}
         </GoogleMap>
     );
 };
+
+// ! WE SHOULD CHECK FOR AN INTERSECTION ISOCHRONE AND IF IT EXISTS THEN TAKE CALCULATE THE FURTHEST COORDINATE
+// ! FROM THE CENTER AND USE THAT AS THE RADIUS FOR OUR APARTMENT SEARCH

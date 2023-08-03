@@ -32,6 +32,8 @@ export const FriendsCard: React.FC<Props> = ({ friendsInfo }) => {
         },
     },
     ];
+
+    // TODO: Change all the default values to friendsInfo.name, .id...etc
     const sharedGroups = [1, 2, 3, 'this is dynamic']
     const name = 'Nicholas Mirabile'
     const occupation = 'Aerospace Research Egnineer'
@@ -54,7 +56,7 @@ export const FriendsCard: React.FC<Props> = ({ friendsInfo }) => {
                             </div>
                         </CardHeader>
                         <CardFooter>
-                            <Button onClick={removeFriend}>Remove Friend</Button>
+                            <Button className="mr-2" variant="contained" onClick={removeFriend}>Remove Friend</Button>
                         </CardFooter>
                     </Card>
                 </HoverCardTrigger>
