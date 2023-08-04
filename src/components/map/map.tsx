@@ -8,10 +8,22 @@ import { stringify } from "querystring";
 
 interface Props {
     isochrones?: Coords[][];
+    parameters?: { address: string }[];
     aparmentMarkers: { lat: number; lng: number }[];
 }
 
-export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
+export const Map: React.FC<Props> = ({ aparmentMarkers, isochrones }) => {
+    
+    // const geocoder = new google.maps.Geocoder();
+    // geocoder.geocode({  parameters }, (results, status) => {
+    //   if (status === google.maps.GeocoderStatus.OK) {
+    //     const lat = results![0].geometry.location.lat();
+    //     const lng = results![0].geometry.location.lng();
+    //     console.log(`The latitude is ${lat} and the longitude is ${lng}`);
+    //   } else {
+    //     console.log(`Geocoding failed with status code ${status}`);
+    //   }
+    // });
 
     // TODO: Ask Jack how best to approach this, do we make our own icons one without the price and one with?
     // The markers are classified by coordinates!
@@ -114,6 +126,12 @@ export const Map: React.FC<Props> = ({ isochrones, aparmentMarkers }) => {
                 ))}
 
             {/* TODO: Add in check for zoom in to show prices */}
+            {/* {parameters!.map((coord, i) => (
+                <MarkerF
+                    key={`marker-${i}`}
+                    position={new google.maps.LatLng(coord["lat"], coord["lng"])}
+                />
+            ))} */}
             {aparmentMarkers.map((coord, i) => (
                 <MarkerF
                     key={`marker-${i}`}

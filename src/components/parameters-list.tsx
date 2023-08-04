@@ -11,6 +11,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Parameter, useApartmentContext } from "@/components/providers";
 
+// export const { parameters } = useApartmentContext();
+
+
 // TODO: add in length check for 10 parameters max
 export const ParametersList = () => {
     const { parameters, importParameters } = useApartmentContext();

@@ -4,13 +4,35 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@mui/material";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
-
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog"
 
 
 interface Props {
     groupInfo: Friend;
 }
+
 const leaveGroup = () => {
+    <AlertDialog>
+        <AlertDialogTrigger>Open</AlertDialogTrigger>
+        <AlertDialogContent>
+            <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>No</AlertDialogCancel>
+                    <AlertDialogAction>Yes</AlertDialogAction>
+                </AlertDialogFooter>
+        </AlertDialogContent>
+    </AlertDialog>
     console.log('Leave Group')
 }
 

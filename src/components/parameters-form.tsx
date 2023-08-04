@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import { useApartmentContext } from "@/components/providers";
 
+
 export const ParametersForm = () => {
     const router = useRouter();
     const { addParameter } = useApartmentContext();
@@ -45,6 +46,20 @@ export const ParametersForm = () => {
         form.reset();
         router.refresh();
     }
+
+    const updateParameterIcons = () => {
+        console.log('update parameters on map here')
+    }
+
+
+    const importUserParameters = () => {
+        console.log('import parameters here')
+    }
+
+    const importGroupParameters = () => {
+        console.log('import group parameters here')
+    }
+
 
     // const center = { lat: 50.064192, lng: -130.605469 };
     // const defaultBounds = {
@@ -104,17 +119,18 @@ export const ParametersForm = () => {
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="5">5 Minutes</SelectItem>
-                                    <SelectItem value="10">10 Minutes</SelectItem>
                                     <SelectItem value="15">15 Minutes</SelectItem>
-                                    <SelectItem value="20">20 Minutes</SelectItem>
                                     <SelectItem value="30">30 Minutes</SelectItem>
                                     <SelectItem value="45">45 Minutes</SelectItem>
                                     <SelectItem value="60">1 Hour</SelectItem>
                                 </SelectContent>
                             </Select>
+                            <FormLabel>Or Enter a Time Below</FormLabel>
+                            <Input placeholder="Or enter a time" type="text" {...field} />
+
                             <FormMessage />
                         </FormItem>
+                        
                     )}
                 />
                 <FormField
@@ -138,7 +154,11 @@ export const ParametersForm = () => {
                         </FormItem>
                     )}
                 />
-                <Button className="col-span-2" variant="secondary" type="submit">
+
+                <Button className="text-white" onClick={importUserParameters}>Import User Parameters</Button>
+                <Button className="text-white" onClick={importGroupParameters}>Import Group Parameters</Button>
+
+                <Button onClick={updateParameterIcons} className="col-span-2" variant="secondary" type="submit">
                     Add Parameter
                 </Button>
             </form>
