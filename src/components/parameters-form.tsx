@@ -6,6 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu"
 
 import { userParametersSchema } from "@/lib/validators/search-parameters";
 import { Button } from "@/components/ui/button";
@@ -26,11 +34,14 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useApartmentContext } from "@/components/providers";
+import { group } from "console";
 
 
 export const ParametersForm = () => {
     const router = useRouter();
     const { addParameter } = useApartmentContext();
+    const userName = 'EXAMPLE USER NAME'
+    const userGroupNames = ['EXAMPLE GROUP NAME', 'EXAMPLE GROUP NAME 2']
 
     // prettier-ignore
     const form = useForm<z.infer<typeof userParametersSchema>>({
@@ -52,12 +63,46 @@ export const ParametersForm = () => {
     }
 
 
-    const importUserParameters = () => {
+
+
+
+    const importUserParameters = (userName: string) => {
         console.log('import parameters here')
     }
 
-    const importGroupParameters = () => {
+    const openUserMenu = () => {
+        console.log('import parameters here')
+        return (
+            <DropdownMenu>
+            <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <Button onClick={importUserParameters(userName)}>User Name Here</Button>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        )
+    }
+
+
+    const importGroupParameters = (groupName: string) => {
         console.log('import group parameters here')
+    }
+
+    const openGroupMenu = () => {
+        console.log('import group parameters here')
+        return (
+            <DropdownMenu>
+            <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    {userGroupNames.length > 0 ? (
+                    userGroupNames.map((groupName) => (
+                        <Button onClick={importGroupParameters(groupName)}>{groupName}</Button>
+                        )
+                    )): (
+                        <p className="text-center">You are in no groups.</p>
+                    )}
+                </DropdownMenuContent>
+            </DropdownMenu>
+        )
     }
 
 
@@ -133,6 +178,8 @@ export const ParametersForm = () => {
                         
                     )}
                 />
+                <div>
+
                 <FormField
                     control={form.control}
                     name="travelmode"
@@ -153,15 +200,20 @@ export const ParametersForm = () => {
                             <FormMessage />
                         </FormItem>
                     )}
-                />
+                    />
+                    
 
-                <Button className="text-white" onClick={importUserParameters}>Import User Parameters</Button>
-                <Button className="text-white" onClick={importGroupParameters}>Import Group Parameters</Button>
+                </div>
 
                 <Button onClick={updateParameterIcons} className="col-span-2" variant="secondary" type="submit">
                     Add Parameter
                 </Button>
             </form>
+            <div className="pt-2">
+                Or import from <Button onClick={openUserMenu} className="text-white bg-green-500 hover:bg-sky-700 h-6">Your Saved Parameters</Button> or <Button onClick={openGroupMenu} className="text-white bg-green-500 hover:bg-sky-700 h-6">Your Groups</Button>
+            {/* <Button className="text-white bg-green-500 hover:bg-sky-700 h-8 w-full" onClick={importUserParameters}>Import User Parameters</Button>
+            <Button className="text-white bg-green-500 hover:bg-sky-700 h-8 w-full" onClick={importGroupParameters}>Import Group Parameters</Button> */}
+            </div>
         </Form>
     );
 };

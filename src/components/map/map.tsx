@@ -116,9 +116,9 @@ export const Map: React.FC<Props> = ({ aparmentMarkers, isochrones }) => {
                         path={iso}
                         options={{
                             // ! THIS IS HARD CODED TO ONE COLOR, CHANGE THE FIRST VALUE TO i IF WISH TO VARY
-                            fillColor: isochroneColors[i][0],
+                            fillColor: isochroneColors[0][0],
                             fillOpacity: 0.25,
-                            strokeColor: isochroneColors[i][1],
+                            strokeColor: isochroneColors[0][1],
                             strokeOpacity: 0.8,
                             strokeWeight: 1.5,
                         }}

@@ -208,7 +208,7 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
             <CardFooter>
                 <div
                     id="carouselExampleControls"
-                    className="relative"
+                    className="relative content-center"
                     data-te-carousel-init
                     data-te-carousel-slide
                 >
