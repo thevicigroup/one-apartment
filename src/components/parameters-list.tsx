@@ -15,7 +15,7 @@ import { Parameter, useApartmentContext } from "@/components/providers";
 
 // TODO: add in length check for 10 parameters max
 export const ParametersList = () => {
-    const { parameters, importParameters } = useApartmentContext();
+    const { parameters } = useApartmentContext();
 
     return (
         <div>
@@ -43,7 +43,6 @@ export const ParametersList = () => {
                         <p className="text-sm">
                             Add a new parameter above or{" "}
                             <span
-                                onClick={importParameters}
                                 className="underline-offset-4 underline"
                             >
                                 import

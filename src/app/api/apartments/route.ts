@@ -15,21 +15,20 @@ export async function GET(req: Request) {
     // });
     // const body = userParametersSchema.parse(queryKeys);
 
-    // call reality mole api
-    // const response = await axios.request({
-    //     method: "GET",
-    //     url: "https://realty-mole-property-api.p.rapidapi.com/rentalListings",
-    //     params: {
-    //         propertyType: "Apartment",
-    //         limit: 500,
-    //         city: "Boston",
-    //         state: "MA",
-    //     },
-    //     headers: {
-    //         "X-RapidAPI-Key": process.env.X_RAPID_API_KEY,
-    //         "X-RapidAPI-Host": process.env.X_RAPID_API_HOST,
-    //     },
-    // });
-    // return NextResponse.json(response.data);
-    return NextResponse.json(testApartments);
+    const response = await axios.request({
+        method: "GET",
+        url: "https://realty-mole-property-api.p.rapidapi.com/rentalListings",
+        params: {
+            propertyType: "Apartment",
+            limit: "500",
+            city: "Cambridge",
+            state: "MA",
+        },
+        headers: {
+            "X-RapidAPI-Key": process.env.X_RAPID_API_KEY,
+            "X-RapidAPI-Host": process.env.X_RAPID_API_HOST,
+        },
+    });
+    return NextResponse.json(response.data);
+    // return NextResponse.json(testApartments);
 }

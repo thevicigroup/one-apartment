@@ -1,11 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-
-import {
-    StarFilledIcon,
-    StarIcon,
-} from "@radix-ui/react-icons";
+import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
 
 import { Button } from "@/components/ui/button";
 
@@ -39,4 +35,4 @@ export const SaveApartmentButton: React.FC<Props> = () => {
             {buttonLabel}
         </Button>
     );
-}
+};

@@ -30,8 +30,11 @@ export const ApartmentDetailsCard: React.FC<Props> = ({ apartment }) => {
                     <div className="p-2">
                         <h1 className="font-bold text-2xl">
                             <div className="flex items-center justify-between">
-                                <p>${apartment.price}<span className="text-sm font-medium"> /mo</span></p>
-                                <SaveApartmentButton apartmentId={apartment.id} />
+                                <p>
+                                    ${apartment.price}
+                                    <span className="text-sm font-medium"> /mo</span>
+                                </p>
+                                {/* <SaveApartmentButton apartmentId={apartment.id} /> */}
                             </div>
                         </h1>
                         <h2 className="font-medium">

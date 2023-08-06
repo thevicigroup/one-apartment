@@ -7,13 +7,14 @@ import { TimeMapResponse } from "traveltime-api";
 import { buildIsochrones, buildShapes } from "@/lib/build-isochrones";
 import { CoordToPosition } from "@/lib/coord-to-position";
 import { Button } from "@/components/ui/button";
-import { useApartmentContext, type Apartment } from "@/components/providers";
+import { useApartmentContext } from "@/components/providers";
+import type { Apartment } from "@/types/apartment";
 
 export const UpdateApartmentsButton = () => {
     const { updateApartments, parameters, saveIsochrones, saveShapes } = useApartmentContext();
 
     async function updateApartmentsOnMap() {
-        const response = await fetch("http://localhost:3000/api/isochrone", {
+        const response = await fetch("/api/isochrone", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -21,7 +22,7 @@ export const UpdateApartmentsButton = () => {
             body: JSON.stringify({ parameters: parameters }),
         });
         const apartmentsResponse = await fetch(
-            "http://localhost:3000/api/apartments?" +
+            "/api/apartments?" +
                 new URLSearchParams({ address: parameters![0].address }),
             {
                 method: "GET",
