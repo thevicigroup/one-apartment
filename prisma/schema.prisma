@@ -69,9 +69,8 @@ model User {
   accounts Account[]
   sessions Session[]
 
+  savedApartments  SavedApartment[]
   searchParameters SearchParameter[]
-  searchApartments SearchApartment[]
-
 
   @@index([email])
   @@index([id])
@@ -120,15 +119,53 @@ model SearchParameter {
   @@map(name: "search_parameters")
 }
 
-model SearchApartment {
+model SavedApartment {
   id        String   @id @default(uuid())
-
-  address String
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
 
+  apartment   Apartment @relation(fields: [apartmentId], references: [id])
+  apartmentId String
+
   @@index([id])
   @@index([userId])
-  @@map(name: "search_apartments")
+  @@index([apartmentId])
+  @@map(name: "saved_apartments")
+}
+
+model Apartment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  apartmentId      String?  @unique
+  bathrooms        Int?
+  bedrooms         Int?
+  price            Int?
+  squareFootage    Int?
+  county           String?
+  propertyType     String?
+  addressLine1     String?
+  addressLine2     String?
+  city             String?
+  state            String?
+  zipCode          String?
+  formattedAddress String?
+  lastSeen         String?
+  listedDate       String?
+  status           String?
+  removedDate      String?
+  daysOnMarket     Int?
+  latitude         Decimal?
+  longitude        Decimal?
+  lotSize          Int?
+  yearBuilt        Int?
+
+  savedApartments SavedApartment[]
+
+  @@index([id])
+  @@map(name: "apartments")
 }
