@@ -22,6 +22,7 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  savedApartments   String?
 
   @@unique([provider, providerAccountId])
   @@index([userId])
@@ -59,10 +60,112 @@ model User {
   image          String?
   hashedPassword String?
 
+  public           Boolean  @default(true)
+  friends          Friend[] @relation("user")
+  // This second "side" of the friends relation exists solely 
+  // to satisfy prisma's requirements; we won't access it directly?
+  symmetricFriends Friend[] @relation("friend")
+
   accounts Account[]
   sessions Session[]
+
+  savedApartments  SavedApartment[]
+  searchParameters SearchParameter[]
 
   @@index([email])
   @@index([id])
   @@map(name: "users")
+}
+
+enum FriendStatus {
+  PENDING
+  ACTIVE
+}
+
+model Friend {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  user     User   @relation(name: "user", fields: [userId], references: [id])
+  userId   String
+  friend   User   @relation(name: "friend", fields: [friendId], references: [id])
+  friendId String
+
+  status FriendStatus @default(PENDING)
+
+  @@index([id])
+  @@index([userId])
+  @@index([friendId])
+  @@map(name: "friends")
+}
+
+model SearchParameter {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  nickname String
+  address  String
+
+  traveltime String
+  travelmode String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@index([id])
+  @@index([userId])
+  @@map(name: "search_parameters")
+}
+
+model SavedApartment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  apartment   Apartment @relation(fields: [apartmentId], references: [id])
+  apartmentId String
+
+  @@index([id])
+  @@index([userId])
+  @@index([apartmentId])
+  @@map(name: "saved_apartments")
+}
+
+model Apartment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @default(now()) @map(name: "updated_at")
+
+  apartmentId      String?  @unique
+  bathrooms        Int?
+  bedrooms         Int?
+  price            Int?
+  squareFootage    Int?
+  county           String?
+  propertyType     String?
+  addressLine1     String?
+  addressLine2     String?
+  city             String?
+  state            String?
+  zipCode          String?
+  formattedAddress String?
+  lastSeen         String?
+  listedDate       String?
+  status           String?
+  removedDate      String?
+  daysOnMarket     Int?
+  latitude         Decimal?
+  longitude        Decimal?
+  lotSize          Int?
+  yearBuilt        Int?
+
+  savedApartments SavedApartment[]
+
+  @@index([id])
+  @@map(name: "apartments")
 }

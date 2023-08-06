@@ -31,6 +31,7 @@ export const UserButton = async () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-64" align="end" sideOffset={10}>
                 <DropdownMenuItem className="flex flex-col items-start gap-y-2">
+                    {/* User Image */}
                     <div className="flex items-center gap-2">
                         <Avatar className="w-9 h-9">
                             <AvatarImage src={user.image ?? undefined} />

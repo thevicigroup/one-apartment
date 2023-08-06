@@ -1,0 +1,25 @@
+export type Apartment = {
+    bathrooms: number;
+    bedrooms: number;
+    price: number;
+    squareFootage?: number;
+    county: string;
+    propertyType: string;
+    addressLine1?: string;
+    addressLine2?: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    formattedAddress: string;
+    lastSeen: string;
+    listedDate: string;
+    status: string;
+    removedDate: string | null;
+    daysOnMarket: number;
+    createdDate: string;
+    id: string;
+    latitude: number;
+    longitude: number;
+    lotSize?: number;
+    yearBuilt?: number;
+};

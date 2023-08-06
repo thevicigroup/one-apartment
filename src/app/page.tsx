@@ -5,7 +5,7 @@ import { MapWrapper } from "@/components/map/map-wrapper";
 
 export default function Home() {
     return (
-        <div className="grid grid-cols-[1fr_.55fr] h-screen">
+        <div className="grid grid-cols-[1fr_.75fr] h-screen">
             <MapWrapper />
             <Sidebar />
         </div>

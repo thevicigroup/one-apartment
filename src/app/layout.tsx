@@ -11,7 +11,7 @@ import { NextAuthSessionProvider } from "@/components/session-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--inter" });
 
-export const metadata = { title: "Vici Apartments" };
+export const metadata = { title: "One Apartment" };
 interface Props {
     children: React.ReactNode;
 }
@@ -20,7 +20,10 @@ export default function RootLayout({ children }: Props) {
     return (
         <html lang="en">
             <head />
-            <body className={cn("min-h-screen bg-background text-foreground", inter.className)}>
+            <body
+                className={cn("min-h-screen bg-background text-foreground", inter.className)}
+                suppressHydrationWarning={true}
+            >
                 <NextAuthSessionProvider>
                     <div className="flex min-h-screen flex-col">
                         <MainNav />
