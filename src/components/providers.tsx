@@ -2,11 +2,10 @@
 
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import { SearchApartment, SearchParameter } from "@prisma/client";
+import { SearchParameter } from "@prisma/client";
 import { Coords, TimeMapResponse } from "traveltime-api";
 
-// import { stdin as input, stdout as output } from 'process';
-// import * as readline from "readline";
+import type { Apartment } from "@/types/apartment";
 
 export type Friend = {
     id: string;
@@ -23,25 +22,6 @@ export type Friend = {
     lastMessage: string;
     lastMessageDate: string;
     lastMessageTime: string;
-};
-
-export type Apartment = {
-    isSaved: boolean;
-    beds: string;
-    county: string;
-    propertyType: string;
-    addressLine1: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    formattedAddress: string;
-    id: string;
-    latitude: number;
-    longitude: number;
-    bedrooms: number;
-    bathrooms: number;
-    squareFootage: string;
-    price: number;
 };
 
 // @see /src/lib/validators/search-parameters.ts
@@ -62,15 +42,12 @@ interface Config {
     delParameter: (id: string) => void;
     saveParameter: (param: Parameter) => void;
     unsaveParameter: (id: string) => void;
-    saveApartment: (apartmentID: Apartment) => void;
-    unsaveApartment: (apartmentID: string) => void;
     shapes: Coords[][];
     saveShapes: (s: Coords[][]) => void;
     getShapes: () => Coords[][];
     isochrones: Coords[][];
     saveIsochrones: (isochrones: Coords[][]) => void;
     getIsochrones: () => Coords[][];
-    importParameters: () => void;
 }
 
 const ApartmentContext = React.createContext<Config>({} as Config);
@@ -111,7 +88,7 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
 
     const saveParameter = async (param: Parameter) => {
         // add the parameter to the database for the signed in user
-        const response = await fetch("http://localhost:3000/api/user/parameter", {
+        const response = await fetch("/api/user/parameter", {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
@@ -154,63 +131,8 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    const saveApartment = async (apartment: Apartment) => {
-        // add the parameter to the database for the signed in user
-        const response = await fetch("http://localhost:3000/api/user/apartment", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json",
-            },
-            body: JSON.stringify(apartment),
-        });
-        if (response?.ok) {
-            const savedApartment: SearchApartment = await response.json();
-            setApartments((apartments) => {
-                let newApartments: Apartment[] = [];
-                for (const a of apartments) {
-                    if (a.id === apartment.id) {
-                        a.id = savedApartment.id;
-                        a.isSaved = true;
-                    }
-                    newApartments.push(a);
-                }
-                return newApartments;
-            });
-            router.refresh();
-        }
-    };
-
-    const unsaveApartment = async (id: string) => {
-        const response = await fetch(`api/user/apartment/${id}`, {
-            method: "DELETE",
-        });
-        if (response?.ok) {
-            setApartments((apartments) => {
-                let newApartments: Apartment[] = [];
-                for (const a of apartments) {
-                    if (a.id === id) {
-                        a.isSaved = false;
-                    }
-                    newApartments.push(a);
-                }
-                return newApartments;
-            });
-            router.refresh();
-        }
-    };
-
     const updateApartments = (apartments: Apartment[]) => {
         setApartments(apartments);
-    };
-
-    const importParameters = async () => {
-        // const r1 = readline.createInterface({ input, output })
-        // const userID = r1.prompt()
-        // const response = await fetch("http://localhost:3000/api/" + userID + "/parameters");
-        // if (response?.ok) {
-        //     const parameters: Parameter[] = await response.json();
-        //     setParameters(parameters);
-        // }
     };
 
     const init = {
@@ -221,12 +143,9 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         delParameter,
         saveParameter,
         unsaveParameter,
-        saveApartment,
-        unsaveApartment,
         isochrones,
         saveIsochrones,
         getIsochrones,
-        importParameters,
         saveShapes,
         getShapes,
         shapes,

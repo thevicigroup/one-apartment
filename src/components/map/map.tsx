@@ -1,15 +1,11 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import { GoogleMap, MarkerF, Polygon, useLoadScript, InfoBoxF } from "@react-google-maps/api";
+import { GoogleMap, InfoBoxF, MarkerF, Polygon, useLoadScript } from "@react-google-maps/api";
 import { Coords } from "traveltime-api";
 
 import type { Apartment } from "@/types/apartment";
-import { 
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 interface Props {
     shapes?: Coords[][];
@@ -21,7 +17,7 @@ interface Props {
 export const Map: React.FC<Props> = ({ aparmentMarkers, isochrones, shapes, apartments }) => {
     const [activeMarker, setActiveMarker] = useState<string>("");
 
-    const mapCenter  = useMemo(() => ({ lat: 42.3601, lng: -71.0589 }), [42.3601, -71.0589]);
+    const mapCenter = useMemo(() => ({ lat: 42.3601, lng: -71.0589 }), [42.3601, -71.0589]);
     const mapOptions = useMemo<google.maps.MapOptions>(
         () => ({
             clickableIcons: true,
@@ -105,30 +101,31 @@ export const Map: React.FC<Props> = ({ aparmentMarkers, isochrones, shapes, apar
                     />
                 ))}
 
-            {apartments && apartments.map((apt, i) => (
-                <MarkerF
-                    key={`marker-${i}`}
-                    position={new google.maps.LatLng(apt["latitude"], apt["longitude"])}
-                    onMouseOver={() => setActiveMarker(apt.id)}
-                    onMouseOut={() => setActiveMarker("")}
-                    icon={{url: require("../../../public/icon.png")}}
-                >
-                    {activeMarker === apt.id ? (
-                        <InfoBoxF 
-                            options={{ 
-                                closeBoxURL: "", 
-                                alignBottom: true,
-                                infoBoxClearance: new window.google.maps.Size(24, 24),
-                                pixelOffset: new window.google.maps.Size(-150, -60), 
-                            }}
-                        >
-                            <div className="bg-white rounded-md p-4">
-                                {apt.formattedAddress}
-                            </div>
-                        </InfoBoxF>
-                    ) : null}
-                </MarkerF>
-            ))}
+            {apartments &&
+                apartments.map((apt, i) => (
+                    <MarkerF
+                        key={`marker-${i}`}
+                        position={new google.maps.LatLng(apt["latitude"], apt["longitude"])}
+                        onMouseOver={() => setActiveMarker(apt.id)}
+                        onMouseOut={() => setActiveMarker("")}
+                        icon={{ url: require("../../../public/icon.png") }}
+                    >
+                        {activeMarker === apt.id ? (
+                            <InfoBoxF
+                                options={{
+                                    closeBoxURL: "",
+                                    alignBottom: true,
+                                    infoBoxClearance: new window.google.maps.Size(24, 24),
+                                    pixelOffset: new window.google.maps.Size(-150, -60),
+                                }}
+                            >
+                                <div className="bg-white rounded-md p-4">
+                                    {apt.formattedAddress}
+                                </div>
+                            </InfoBoxF>
+                        ) : null}
+                    </MarkerF>
+                ))}
             {/* {aparmentMarkers.map((coord, i) => (
                 <MarkerF
                     key={`marker-${i}`}

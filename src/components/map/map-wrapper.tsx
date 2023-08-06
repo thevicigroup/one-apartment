@@ -2,9 +2,9 @@
 
 import React from "react";
 
-import { testApartments } from "@/test-apartments";
+import type { Apartment } from "@/types/apartment";
 import { Map } from "@/components/map/map";
-import { useApartmentContext, type Apartment } from "@/components/providers";
+import { useApartmentContext } from "@/components/providers";
 
 export const MapWrapper = () => {
     const { apartments, isochrones, shapes } = useApartmentContext();
@@ -16,7 +16,7 @@ export const MapWrapper = () => {
 
     return (
         <Map
-            apartments={testApartments}
+            apartments={apartments}
             aparmentMarkers={parseApartments(apartments ?? [])}
             shapes={shapes}
             isochrones={isochrones}

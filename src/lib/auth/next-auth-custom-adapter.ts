@@ -1,9 +1,8 @@
-// @see https://github.com/calcom/cal.com/blob/2317473545f207a2ff628858610f0a02e6ada240/packages/features/auth/lib/next-auth-custom-adapter.ts
 import { Prisma, PrismaClient, VerificationToken } from "@prisma/client";
-import { AdapterAccount } from "next-auth/adapters";
+import { AdapterAccount, AdapterSession } from "next-auth/adapters";
 
 /** @return { import('next-auth/adapters').Adapter } */
-export default function CustomAdapter(p: PrismaClient): import("next-auth/adapters").Adapter {
+export default function WorkspaceAdapter(p: PrismaClient): import("next-auth/adapters").Adapter {
     return {
         createUser: (data: Prisma.UserCreateInput) => p.user.create({ data }),
         getUser: (id: string) => p.user.findUnique({ where: { id } }),
@@ -64,11 +63,12 @@ export default function CustomAdapter(p: PrismaClient): import("next-auth/adapte
             });
             if (!userAndSession) return null;
 
+            console.log(userAndSession);
             const { user, ...session } = userAndSession;
             return { user, session };
         },
         createSession: (data) => p.session.create({ data }),
-        updateSession: (data: Prisma.SessionWhereUniqueInput) =>
+        updateSession: (data: Partial<AdapterSession> & Pick<AdapterSession, "sessionToken">) =>
             p.session.update({
                 where: { sessionToken: data.sessionToken },
                 data,
