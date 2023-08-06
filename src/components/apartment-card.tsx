@@ -1,11 +1,7 @@
 "use client";
 
-import dynamic from "next/dynamic";
-const twElements = typeof window !== "undefined" && dynamic(import("tw-elements"));
-
-
-
 import React, { useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import {
     ChevronDownIcon,
     CircleIcon,
@@ -14,7 +10,8 @@ import {
     StarIcon,
 } from "@radix-ui/react-icons";
 import { Table } from "lucide-react";
-import { initTE, Carousel } from "tw-elements";
+import { Carousel, initTE } from "tw-elements";
+
 import type { Apartment } from "@/components/providers";
 import { useApartmentContext } from "@/components/providers";
 
@@ -31,6 +28,8 @@ import {
 } from "./ui/dropdown-menu";
 import { Separator } from "./ui/separator";
 
+const twElements = typeof window !== "undefined" && dynamic(import("tw-elements"));
+
 interface Props {
     apartmentInfo: Apartment;
 }
@@ -41,8 +40,8 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
     const init = async () => {
         const { initTE, Carousel } = await import("tw-elements");
         initTE({ initTE, Carousel });
-      };
-    
+    };
+
     const { saveApartment, unsaveApartment } = useApartmentContext();
     const beds = apartmentInfo.bedrooms + " Bed";
     const baths = apartmentInfo.bathrooms + " Bath";
@@ -79,8 +78,6 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
     ];
 
     // convert to typescript function
-
-    
 
     return (
         <Card>
@@ -151,7 +148,7 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
                         type="button"
                         data-te-target="#carouselExampleControls"
                         data-te-slide="prev"
-                        >
+                    >
                         <span className="inline-block h-8 w-8">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -201,8 +198,6 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
                 </div>
             </CardContent>
 
-
-
             {/* TODO: MAKE THIS A CAROUSEL WITH MULTIPLE SHOWING */}
             <CardDescription>Roommates that would live here too:</CardDescription>
             <CardFooter>
@@ -251,7 +246,7 @@ export const ApartmentCard: React.FC<Props> = ({ apartmentInfo }) => {
                         type="button"
                         data-te-target="#carouselExampleControls"
                         data-te-slide="prev"
-                        >
+                    >
                         <span className="inline-block h-8 w-8">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

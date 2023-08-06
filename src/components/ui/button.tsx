@@ -13,7 +13,7 @@ export type ButtonThemeProps = {
     variant?: BUTTON_VARIANT;
 };
 
-const classes = {
+export const classes = {
     base: "inline-flex items-center justify-center rounded-md text-sm transition-colors disabled:pointer-events-none outline-none \
     disabled:cursor-not-allowed disabled:opacity-70 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
     size: {

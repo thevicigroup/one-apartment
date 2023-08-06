@@ -1,7 +1,7 @@
 "use client";
-import { Friend } from "@prisma/client";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
+
 import { Button } from "@mui/material";
+import { Friend } from "@prisma/client";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 import {
@@ -13,11 +13,12 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-  } from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card";
 
 interface Props {
-    groupInfo: Friend;
+    groupInfo?: Friend;
 }
 
 const leaveGroup = () => {
@@ -27,57 +28,58 @@ const leaveGroup = () => {
             <AlertDialogHeader>
                 <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>No</AlertDialogCancel>
-                    <AlertDialogAction>Yes</AlertDialogAction>
-                </AlertDialogFooter>
+            <AlertDialogFooter>
+                <AlertDialogCancel>No</AlertDialogCancel>
+                <AlertDialogAction>Yes</AlertDialogAction>
+            </AlertDialogFooter>
         </AlertDialogContent>
-    </AlertDialog>
-    console.log('Leave Group')
-}
+    </AlertDialog>;
+};
 
 export const GroupCard: React.FC<Props> = ({ groupInfo }) => {
     const message = "Are you sure you want to do this?";
     const buttons = [
-    {
-        label: "Cancel",
-        click: () => {
-        // do nothing
+        {
+            label: "Cancel",
+            click: () => {
+                // do nothing
+            },
         },
-    },
-    {
-        label: "Yes",
-        click: () => {
-        // do something
+        {
+            label: "Yes",
+            click: () => {
+                // do something
+            },
         },
-    },
     ];
 
-    const name = 'Group Name'
-    const members = ['Nick', 'Jack', 'Brian', 'Justin', 'Kyle', 'Zach']
+    const name = "Group Name";
+    const members = ["Nick", "Jack", "Brian", "Justin", "Kyle", "Zach"];
 
     return (
         <Card>
             <CardHeader>
                 <div className="flex-row">
                     <div>
-                    <CardTitle>{name}</CardTitle>
+                        <CardTitle>{name}</CardTitle>
                     </div>
                 </div>
             </CardHeader>
-            
+
             <CardContent>
                 <p className="text-lg font-bold ">Group Members:</p>
-                    <ScrollArea className="w-full rounded-md grid grid-cols-2">
-                        {members?.map((item, i) => (
-                            <div>{members[i]}</div>
-                        ))}
-                    </ScrollArea>
+                <ScrollArea className="w-full rounded-md grid grid-cols-2">
+                    {members?.map((item, i) => (
+                        <div>{members[i]}</div>
+                    ))}
+                </ScrollArea>
             </CardContent>
-            
+
             <CardFooter>
-                <Button className="mr-2" variant="contained" onClick={leaveGroup}>Leave Group</Button>
+                <Button className="mr-2" variant="contained" onClick={leaveGroup}>
+                    Leave Group
+                </Button>
             </CardFooter>
         </Card>
-    )
-}
+    );
+};

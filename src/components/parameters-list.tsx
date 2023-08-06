@@ -13,7 +13,6 @@ import { Parameter, useApartmentContext } from "@/components/providers";
 
 // export const { parameters } = useApartmentContext();
 
-
 // TODO: add in length check for 10 parameters max
 export const ParametersList = () => {
     const { parameters, importParameters } = useApartmentContext();
@@ -79,7 +78,6 @@ export const SingleParameter: React.FC<Props> = ({ param, index }) => {
         "bg-deep-orange-100",
     ];
     let cardColor = "flex items-center justify-between px-4 py-2 " + colors[index];
-    console.log(param);
     return (
         <Card>
             <div className={cardColor}>

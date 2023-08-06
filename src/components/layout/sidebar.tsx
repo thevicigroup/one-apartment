@@ -6,7 +6,7 @@ import { getCurrentUser } from "@/lib/auth/get-server-session";
 import { db } from "@/lib/database";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { apartmentlength, ApartmentView, totalApartments } from "@/components/apartment-view";
+import { ApartmentView } from "@/components/apartment-view";
 import { UserProfileTab } from "@/components/layout/user-profile-tab";
 import { ParametersForm } from "@/components/parameters-form";
 import { ParametersList } from "@/components/parameters-list";
@@ -18,7 +18,7 @@ export const Sidebar = async () => {
     const total = 2;
 
     return (
-        <Tabs defaultValue="parameters" className="w-full px-2">
+        <Tabs defaultValue="apartments" className="w-full px-2">
             <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="apartments">Apartments</TabsTrigger>
                 <TabsTrigger value="parameters">Parameters</TabsTrigger>

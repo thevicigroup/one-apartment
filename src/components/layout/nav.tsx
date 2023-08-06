@@ -1,8 +1,8 @@
 import React from "react";
 
+import { BellIcon } from "@/components/layout/bell-icon";
 import { Logo } from "@/components/layout/logo";
 import { UserButton } from "@/components/layout/user-button";
-import { BellIcon } from "@/components/layout/bell-icon";
 
 export const MainNav = () => {
     return (

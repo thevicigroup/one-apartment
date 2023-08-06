@@ -1,28 +1,23 @@
-'use client'
-import React, { useState, useEffect } from "react";
-import { Bell, BellRing, BellPlus } from 'lucide-react'
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { BellPlus, BellRing } from "lucide-react";
 import { Button } from "react-bootstrap";
+
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const checkNotification = () => {
     // Implement your logic to check for pending requests
     // For the sake of this example, let's simulate it with a state
     return Math.random() < 0.5; // Simulating random pending requests
-}
-
+};
 
 export const BellIcon = () => {
     const [hasPendingRequest, setHasPendingRequest] = useState(false);
@@ -32,11 +27,12 @@ export const BellIcon = () => {
         setHasPendingRequest(checkNotification());
     }, []);
 
-    const bellClick = () => {
-        console.log('bell clicked');
-        return (
-            <DropdownMenu>
-            <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+    return (
+        <DropdownMenu>
+            <DropdownMenuTrigger>
+                {/* Render the appropriate bell icon based on pending requests */}
+                {hasPendingRequest ? <BellRing /> : <BellPlus />}
+            </DropdownMenuTrigger>
             <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -45,21 +41,6 @@ export const BellIcon = () => {
                 <DropdownMenuItem>Friends</DropdownMenuItem>
                 <DropdownMenuItem>Groups</DropdownMenuItem>
             </DropdownMenuContent>
-            </DropdownMenu>
-        )
-    }
-
-    return (
-        <div>
-            <Button>
-                {/* Render the appropriate bell icon based on pending requests */}
-                {hasPendingRequest ? (
-                    <BellRing onClick={bellClick} />
-                ) : (
-                    <BellPlus onClick={bellClick} />
-                )}
-            </Button>
-        </div>
+        </DropdownMenu>
     );
-}
-
+};

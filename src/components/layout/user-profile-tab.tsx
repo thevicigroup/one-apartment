@@ -1,36 +1,17 @@
 import React from "react";
-import type { SearchApartment, SearchParameter } from "@prisma/client";
+import type { SearchParameter } from "@prisma/client";
 import type { User } from "next-auth";
-import * as HoverCardPrimitive from "@radix-ui/react-hover-card"
 
-import { cn } from "@/lib/utils"
 import { db } from "@/lib/database";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import {
-    SearchApartmentOperations,
-    SearchParameterOperations,
-} from "./search-parameter-operations";
-import { Button } from "@mui/material";
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
-  } from "@/components/ui/hover-card"
 import { FriendsCard } from "../friend-card";
 import { GroupCard } from "../group-card";
-  
+import { SearchParameterOperations } from "./search-parameter-operations";
 
 async function loadSavedSearchParams(user: User) {
     return await db.searchParameter.findMany({
@@ -40,23 +21,23 @@ async function loadSavedSearchParams(user: User) {
     });
 }
 
-// async function loadSavedApartments(user: User) {
-//     return await db.searchApartment.findMany({
-//         where: {
-//             userId: user.id,
-//         },
-//     });
-// }
-
 interface Props {
     user: User;
 }
 
-const friends = ['brian', 'kyle', 'notjack', 'fuckyoujack', 'whydontyouevercodejack', 'ben', 'zach', 'jason']
+const friends = [
+    "brian",
+    "kyle",
+    "notjack",
+    "fuckyoujack",
+    "whydontyouevercodejack",
+    "ben",
+    "zach",
+    "jason",
+];
 
 export const UserProfileTab: React.FC<Props> = async ({ user }) => {
     const parameters: SearchParameter[] = await loadSavedSearchParams(user);
-    // const apartments: SearchApartment[] = await loadSavedApartments(user);
     return (
         <div>
             <div className="flex gap-2 p-4">
@@ -83,24 +64,6 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                     <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl py-2">
                         Your Saved Search Apartments
                     </h1>
-                    {/* <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
-                        {apartments.length > 0 ? (
-                            apartments.map((apartment, i) => (
-                                <Card key={`${apartment['userId']}-${i}`}>
-                                    <div className="flex items-center justify-between px-4 py-2">
-                                        <CardTitle>{apartment['userId']}</CardTitle>
-                                        <SearchParameterOperations id={apartment.id} />
-                                    </div>
-                                    <Separator />
-                                    <CardContent>
-                                        {apartment.address}
-                                    </CardContent>
-                                </Card>
-                            ))
-                        ) : (
-                            <p className="text-center">You have no saved search parameters.</p>
-                        )}
-                    </ScrollArea> */}
                 </TabsContent>
 
                 <TabsContent value="savedParameters">
@@ -128,28 +91,27 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                     </ScrollArea>
                 </TabsContent>
 
-
                 <TabsContent value="friends">
                     <h1 className="text-xl mb-2">Your Friends</h1>
                     <Separator />
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
-                    <div className="grid gap-4 grid-cols-3">
-                    {friends?.map((item, i) => (
-                        <FriendsCard friendsInfo={undefined} />
-                    ))}
-                    </div>
+                        <div className="grid gap-4 grid-cols-3">
+                            {friends?.map((item, i) => (
+                                <FriendsCard friendsInfo={undefined} />
+                            ))}
+                        </div>
                     </ScrollArea>
                 </TabsContent>
 
                 <TabsContent value="groups">
-                <h1 className="text-xl mb-2">Your Friends</h1>
+                    <h1 className="text-xl mb-2">Your Friends</h1>
                     <Separator />
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
-                    <div className="grid gap-4 grid-cols-3">
-                    {friends?.map((item, i) => (
-                        <GroupCard groupInfo={undefined} />
-                    ))}
-                    </div>
+                        <div className="grid gap-4 grid-cols-3">
+                            {friends?.map((item, i) => (
+                                <GroupCard groupInfo={undefined} />
+                            ))}
+                        </div>
                     </ScrollArea>
                 </TabsContent>
             </Tabs>

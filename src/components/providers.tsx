@@ -8,7 +8,6 @@ import { Coords, TimeMapResponse } from "traveltime-api";
 // import { stdin as input, stdout as output } from 'process';
 // import * as readline from "readline";
 
-
 export type Friend = {
     id: string;
     name: string;
@@ -24,7 +23,7 @@ export type Friend = {
     lastMessage: string;
     lastMessageDate: string;
     lastMessageTime: string;
-}
+};
 
 export type Apartment = {
     isSaved: boolean;
@@ -65,6 +64,9 @@ interface Config {
     unsaveParameter: (id: string) => void;
     saveApartment: (apartmentID: Apartment) => void;
     unsaveApartment: (apartmentID: string) => void;
+    shapes: Coords[][];
+    saveShapes: (s: Coords[][]) => void;
+    getShapes: () => Coords[][];
     isochrones: Coords[][];
     saveIsochrones: (isochrones: Coords[][]) => void;
     getIsochrones: () => Coords[][];
@@ -78,9 +80,19 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
     const [apartments, setApartments] = useState<Apartment[]>([]);
     const [parameters, setParameters] = useState<Parameter[]>([]);
     const [isochrones, setIsochrones] = useState<Coords[][]>([]);
+    const [shapes, setShapes] = useState<Coords[][]>([]);
 
+    // TODO: clean up this is horrible.
     const getIsochrones = () => {
         return isochrones;
+    };
+
+    const getShapes = () => {
+        return shapes;
+    };
+
+    const saveShapes = (s: Coords[][]) => {
+        setShapes(s);
     };
 
     const saveIsochrones = (iso: Coords[][]) => {
@@ -215,6 +227,9 @@ const ApartmentProvider = ({ children }: { children: React.ReactNode }) => {
         saveIsochrones,
         getIsochrones,
         importParameters,
+        saveShapes,
+        getShapes,
+        shapes,
     };
     return <ApartmentContext.Provider value={init}>{children}</ApartmentContext.Provider>;
 };

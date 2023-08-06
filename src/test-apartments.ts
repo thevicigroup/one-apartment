@@ -1,4 +1,6 @@
-export const testApartments = [
+import { Apartment } from "./types/apartment";
+
+export const testApartments: Apartment[] = [
     {
         bathrooms: 1,
         bedrooms: 1,
