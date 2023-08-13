@@ -47,7 +47,30 @@ export const ApartmentDetailsCard: React.FC<Props> = ({ apartment }) => {
                 </Card>
             </DialogTrigger>
             <DialogContent>
-                <pre>{JSON.stringify(apartment, null, 2)}</pre>
+                {/* TODO: Make this all pretty and nice */}
+
+                <div>Address:</div>
+                <div>{apartment.formattedAddress}</div>
+                <br></br>
+                <div>Price:</div>
+                <div>${apartment.price}</div>
+                <br></br>
+                <div>Bedrooms:</div>
+                <div>{apartment.bedrooms}</div>
+                <br></br>
+                <div>Bathrooms:</div>
+                <div>{apartment.bathrooms}</div>
+                <br></br>
+                <div>Square Footage:</div>
+                <div>{apartment.squareFootage}</div>
+
+                <div>Possible Roommates:</div>
+                {/* Insert Carousel Here */}
+                <image>Roommate Image</image>
+                <div>Roommate Name</div>
+                <div>Roommate Job Title</div>
+
+                {/* <pre>{JSON.stringify(apartment, null, 2)}</pre> */}
             </DialogContent>
         </Dialog>
     );

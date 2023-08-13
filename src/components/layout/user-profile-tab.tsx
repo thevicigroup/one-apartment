@@ -1,17 +1,26 @@
 import React from "react";
-import type { SearchParameter } from "@prisma/client";
+import type { Friend, SearchParameter, UserGroup } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import type { User } from "next-auth";
 
 import { db } from "@/lib/database";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MaxPrice } from "@/components/parameters-form";
 
+import { FindFriends } from "../find-friends";
 import { FriendsCard } from "../friend-card";
 import { GroupCard } from "../group-card";
 import { SearchParameterOperations } from "./search-parameter-operations";
+import { Prisma } from "@prisma/client";
+import { Group } from "next/dist/shared/lib/router/utils/route-regex";
+import { Button } from "../ui/button";
+import { NextApiRequest, NextApiResponse } from "next";
+
 
 async function loadSavedSearchParams(user: User) {
     return await db.searchParameter.findMany({
@@ -20,6 +29,43 @@ async function loadSavedSearchParams(user: User) {
         },
     });
 }
+
+async function loadUserGroups(user: User) {
+    return await db.userGroup.findMany({
+        where: {
+            userId: user.id,
+        },
+    });
+}
+
+
+async function loadFriends(user: User) {
+    return await db.friend.findMany({
+        where: {
+            userId: user.id,
+        },
+    });
+}
+
+
+// add friend function in prisma here
+// TODO: INTEGRATE ADD FRIEND FUNCTION INTO CODE
+// TODO: MAYBE A POPUP FORM FOR SELECTING WHICH FRIEND YOU WANT
+// TODO: TO ADD BASED ON MATCHING USER IDS FROM WHAT THE USER ENTERED INTO THE FIND FRIEND TEXT BOX?
+// const addFriend = async (e: any) => {
+//     e.preventDefault();
+//     const friend = {
+//         id: uuid(),
+//         name: "Nicholas Mirabile",
+//         occupation: "Software Engineer",
+//     }
+    
+//     db.friend.create({
+//         data: friend})
+//     }
+
+
+
 
 interface Props {
     user: User;
@@ -38,6 +84,9 @@ const friends = [
 
 export const UserProfileTab: React.FC<Props> = async ({ user }) => {
     const parameters: SearchParameter[] = await loadSavedSearchParams(user);
+    const userGroups: UserGroup[] = await loadUserGroups(user);
+    const friends: Friend[] = await loadFriends(user);
+
     return (
         <div>
             <div className="flex gap-2 p-4">
@@ -67,6 +116,16 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                 </TabsContent>
 
                 <TabsContent value="savedParameters">
+                    <div className="grid grid-cols-2">
+                        <div>
+                            <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl py-0">
+                                Input a max budget
+                            </h1>
+                            <div>(This will only be seen be seen by you)</div>
+                        </div>
+                        <MaxPrice />
+                    </div>
+
                     <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl py-2">
                         Your Saved Search Parameters
                     </h1>
@@ -92,8 +151,11 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                 </TabsContent>
 
                 <TabsContent value="friends">
-                    <h1 className="text-xl mb-2">Your Friends</h1>
+                    <h1>Find Friends</h1>
                     <Separator />
+                    <FindFriends />
+                    <Separator />
+                    <h1 className="text-xl mb-2">Your Friends</h1>
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
                         <div className="grid gap-4 grid-cols-3">
                             {friends?.map((item, i) => (
@@ -104,11 +166,11 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                 </TabsContent>
 
                 <TabsContent value="groups">
-                    <h1 className="text-xl mb-2">Your Friends</h1>
+                    <h1 className="text-xl mb-2">Your Groups</h1>
                     <Separator />
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
-                        <div className="grid gap-4 grid-cols-3">
-                            {friends?.map((item, i) => (
+                        <div className="grid gap-4 grid-cols-2">
+                            {userGroups?.map((item, i) => (
                                 <GroupCard groupInfo={undefined} />
                             ))}
                         </div>
@@ -118,3 +180,7 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
         </div>
     );
 };
+function uuid() {
+    throw new Error("Function not implemented.");
+}
+

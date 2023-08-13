@@ -108,7 +108,7 @@ export const Map: React.FC<Props> = ({ aparmentMarkers, isochrones, shapes, apar
                         position={new google.maps.LatLng(apt["latitude"], apt["longitude"])}
                         onMouseOver={() => setActiveMarker(apt.id)}
                         onMouseOut={() => setActiveMarker("")}
-                        icon={{ url: require("../../../public/icon.png") }}
+                        icon={{ url: "/icon.png" }}
                     >
                         {activeMarker === apt.id ? (
                             <InfoBoxF
@@ -126,12 +126,7 @@ export const Map: React.FC<Props> = ({ aparmentMarkers, isochrones, shapes, apar
                         ) : null}
                     </MarkerF>
                 ))}
-            {/* {aparmentMarkers.map((coord, i) => (
-                <MarkerF
-                    key={`marker-${i}`}
-                    position={new google.maps.LatLng(coord["lat"], coord["lng"])}
-                />
-            ))} */}
+
         </GoogleMap>
     );
 };

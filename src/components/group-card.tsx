@@ -21,44 +21,22 @@ interface Props {
     groupInfo?: Friend;
 }
 
-const leaveGroup = () => {
-    <AlertDialog>
-        <AlertDialogTrigger>Open</AlertDialogTrigger>
-        <AlertDialogContent>
-            <AlertDialogHeader>
-                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-                <AlertDialogCancel>No</AlertDialogCancel>
-                <AlertDialogAction>Yes</AlertDialogAction>
-            </AlertDialogFooter>
-        </AlertDialogContent>
-    </AlertDialog>;
-};
-
 export const GroupCard: React.FC<Props> = ({ groupInfo }) => {
-    const message = "Are you sure you want to do this?";
-    const buttons = [
-        {
-            label: "Cancel",
-            click: () => {
-                // do nothing
-            },
-        },
-        {
-            label: "Yes",
-            click: () => {
-                // do something
-            },
-        },
-    ];
-
+    // const groupName = groupInfo.name
+    // const groupMembers = groupInfo.members
     const name = "Group Name";
-    const members = ["Nick", "Jack", "Brian", "Justin", "Kyle", "Zach"];
+    const members = [
+        "Nick Mirabile",
+        "Jack Quinlan",
+        "Brian Giusti",
+        "Justin Blanchard",
+        "Kyle Heavey",
+        "Zach Rogers",
+    ];
 
     return (
         <Card>
-            <CardHeader>
+            <CardHeader className="h-20 mx-auto pb-0">
                 <div className="flex-row">
                     <div>
                         <CardTitle>{name}</CardTitle>
@@ -66,9 +44,9 @@ export const GroupCard: React.FC<Props> = ({ groupInfo }) => {
                 </div>
             </CardHeader>
 
-            <CardContent>
-                <p className="text-lg font-bold ">Group Members:</p>
-                <ScrollArea className="w-full rounded-md grid grid-cols-2">
+            <CardContent className="pt-0">
+                <p className="text-lg font-bold">Group Members:</p>
+                <ScrollArea className="rounded-md grid grid-cols-2 gap-x-6">
                     {members?.map((item, i) => (
                         <div>{members[i]}</div>
                     ))}
@@ -76,9 +54,25 @@ export const GroupCard: React.FC<Props> = ({ groupInfo }) => {
             </CardContent>
 
             <CardFooter>
-                <Button className="mr-2" variant="contained" onClick={leaveGroup}>
-                    Leave Group
-                </Button>
+                <AlertDialog>
+                    <AlertDialogTrigger>
+                        <Button className="mr-2" variant="contained">
+                            Leave Group
+                        </Button>
+                    </AlertDialogTrigger>
+
+                    <AlertDialogContent className="bg-white">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>
+                                Are you sure you want to leave this group?
+                            </AlertDialogTitle>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>No</AlertDialogCancel>
+                            <AlertDialogAction>Yes</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </CardFooter>
         </Card>
     );

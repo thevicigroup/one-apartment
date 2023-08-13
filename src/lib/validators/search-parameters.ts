@@ -9,6 +9,7 @@ export const userParametersSchema = z.object({
     travelmode: z.string(),
     isSaved: z.boolean().default(false),
     index: z.number().default(0),
+    maxPrice: z.number().default(0),
 });
 
 export const buildIsochronesFromParameters = z.object({

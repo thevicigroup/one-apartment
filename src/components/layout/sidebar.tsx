@@ -16,7 +16,7 @@ export const Sidebar = async () => {
     const user = await getCurrentUser();
 
     return (
-        <Tabs defaultValue="apartments" className="w-full px-2">
+        <Tabs defaultValue="parameters" className="w-full px-2">
             <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="apartments">Apartments</TabsTrigger>
                 <TabsTrigger value="parameters">Parameters</TabsTrigger>

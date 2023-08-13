@@ -27,6 +27,45 @@ import {
 } from "@/components/ui/select";
 import { useApartmentContext } from "@/components/providers";
 
+export const MaxPrice = () => {
+    const router = useRouter();
+    const { addParameter } = useApartmentContext();
+
+    // prettier-ignore
+    const form = useForm<z.infer<typeof userParametersSchema>>({
+        resolver: zodResolver(userParametersSchema),
+        defaultValues: {
+            id: uuid(), address: "", nickname: "", traveltime: "30", travelmode: "walking", maxPrice: 0,
+        },
+    });
+
+    async function handleSubmit(values: z.infer<typeof userParametersSchema>) {
+        values.id = uuid();
+        addParameter(values);
+        form.reset();
+        router.refresh();
+    }
+    return (
+        <Form {...form}>
+            <div className="grid grid-cols-2 py-2">
+                <FormField
+                    control={form.control}
+                    name="maxPrice"
+                    render={({ field }) => (
+                        <FormItem className="pr-2">
+                            <Input placeholder="Enter a Maximum Price" type="text" {...field} />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Button variant="secondary" type="submit">
+                    Add Max Price
+                </Button>
+            </div>
+        </Form>
+    );
+};
+
 export const ParametersForm = () => {
     const router = useRouter();
     const { addParameter } = useApartmentContext();
@@ -35,7 +74,7 @@ export const ParametersForm = () => {
     const form = useForm<z.infer<typeof userParametersSchema>>({
         resolver: zodResolver(userParametersSchema),
         defaultValues: {
-            id: uuid(), address: "", nickname: "", traveltime: "30", travelmode: "walking",
+            id: uuid(), address: "", nickname: "", traveltime: "30", travelmode: "walking", maxPrice: 0,
         },
     });
 
@@ -91,6 +130,7 @@ export const ParametersForm = () => {
                         </FormItem>
                     )}
                 />
+
                 <FormField
                     control={form.control}
                     name="traveltime"
@@ -110,10 +150,16 @@ export const ParametersForm = () => {
                                     <SelectItem value="60">1 Hour</SelectItem>
                                 </SelectContent>
                             </Select>
-                            <FormMessage />
+                            <FormLabel>Or Enter a Time in Minutes</FormLabel>
+                            <Input
+                                placeholder="Or Enter a Time in Minutes"
+                                type="text"
+                                {...field}
+                            />
                         </FormItem>
                     )}
                 />
+
                 <div>
                     <FormField
                         control={form.control}

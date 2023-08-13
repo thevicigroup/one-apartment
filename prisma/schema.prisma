@@ -1,11 +1,11 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
   relationMode = "prisma"
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model Account {
@@ -21,12 +21,12 @@ model Account {
   scope             String?
   id_token          String? @db.Text
   session_state     String?
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   savedApartments   String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@index([userId])
-  @@map(name: "accounts")
+  @@map("accounts")
 }
 
 model Session {
@@ -37,7 +37,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@map(name: "sessions")
+  @@map("sessions")
 }
 
 model VerificationToken {
@@ -46,102 +46,94 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-  @@map(name: "verification_tokens")
+  @@map("verification_tokens")
 }
 
 model User {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-
-  email          String    @unique
-  emailVerified  DateTime?
-  name           String?
-  image          String?
-  hashedPassword String?
-
-  public           Boolean  @default(true)
-  friends          Friend[] @relation("user")
-  // This second "side" of the friends relation exists solely 
-  // to satisfy prisma's requirements; we won't access it directly?
-  symmetricFriends Friend[] @relation("friend")
-
-  accounts Account[]
-  sessions Session[]
-
+  id               String            @id @default(cuid())
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @default(now()) @map("updated_at")
+  email            String            @unique
+  emailVerified    DateTime?
+  name             String?
+  image            String?
+  hashedPassword   String?
+  public           Boolean           @default(true)
+  friends          Friend[]          @relation("user")
+  symmetricFriends Friend[]          @relation("friend")
+  accounts         Account[]
+  sessions         Session[]
   savedApartments  SavedApartment[]
   searchParameters SearchParameter[]
+  userGroups       UserGroup[]       @relation("user")
 
   @@index([email])
   @@index([id])
-  @@map(name: "users")
+  @@map("users")
 }
 
-enum FriendStatus {
-  PENDING
-  ACTIVE
+model UserGroup {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  groupId   String
+  user      User     @relation("user", fields: [userId], references: [id])
+
+  @@unique([userId, groupId])
+  @@map("user_groups")
 }
 
 model Friend {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-
-  user     User   @relation(name: "user", fields: [userId], references: [id])
-  userId   String
-  friend   User   @relation(name: "friend", fields: [friendId], references: [id])
-  friendId String
-
-  status FriendStatus @default(PENDING)
+  id        String       @id @default(uuid())
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @default(now()) @map("updated_at")
+  userId    String
+  friendId  String
+  status    FriendStatus @default(PENDING)
+  user      User         @relation("user", fields: [userId], references: [id])
+  friend    User         @relation("friend", fields: [friendId], references: [id])
 
   @@index([id])
   @@index([userId])
   @@index([friendId])
-  @@map(name: "friends")
+  @@map("friends")
 }
 
 model SearchParameter {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-
-  nickname String
-  address  String
-
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @default(now()) @map("updated_at")
+  nickname   String
+  address    String
   traveltime String
   travelmode String
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
 
   @@index([id])
   @@index([userId])
-  @@map(name: "search_parameters")
+  @@map("search_parameters")
 }
 
 model SavedApartment {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
-
-  apartment   Apartment @relation(fields: [apartmentId], references: [id])
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @default(now()) @map("updated_at")
+  userId      String
   apartmentId String
+  user        User      @relation(fields: [userId], references: [id])
+  apartment   Apartment @relation(fields: [apartmentId], references: [id])
 
   @@index([id])
   @@index([userId])
   @@index([apartmentId])
-  @@map(name: "saved_apartments")
+  @@map("saved_apartments")
 }
 
 model Apartment {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @default(now()) @map(name: "updated_at")
-
-  apartmentId      String?  @unique
+  id               String           @id @default(uuid())
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @default(now()) @map("updated_at")
+  apartmentId      String?          @unique
   bathrooms        Int?
   bedrooms         Int?
   price            Int?
@@ -163,9 +155,13 @@ model Apartment {
   longitude        Decimal?
   lotSize          Int?
   yearBuilt        Int?
-
-  savedApartments SavedApartment[]
+  savedApartments  SavedApartment[]
 
   @@index([id])
-  @@map(name: "apartments")
+  @@map("apartments")
+}
+
+enum FriendStatus {
+  PENDING
+  ACTIVE
 }
