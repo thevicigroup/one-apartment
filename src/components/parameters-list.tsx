@@ -274,7 +274,7 @@ export const ParametersList = ({ user }: { user: User }) => {
                                                         </button>
                                                     </AlertDialogTrigger>
 
-                                                    <AlertDialogContent className="bg-white">
+                                                    <AlertDialogContent className="bg-white w-content">
                                                         <AlertDialogHeader className="font-bold">
                                                             Your Saved Parameters:
                                                         </AlertDialogHeader>
