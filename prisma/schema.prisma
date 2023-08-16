@@ -76,6 +76,7 @@ model UserGroup {
   id        Int      @id @default(autoincrement())
   userId    String
   groupId   String
+  groupName String
   user      User     @relation("user", fields: [userId], references: [id])
 
   @@unique([userId, groupId])

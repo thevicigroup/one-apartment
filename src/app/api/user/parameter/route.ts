@@ -4,6 +4,23 @@ import * as z from "zod";
 import { getCurrentUser } from "@/lib/auth/get-server-session";
 import { db } from "@/lib/database";
 import { userParametersSchema } from "@/lib/validators/search-parameters";
+import { NextApiRequest, NextApiResponse } from "next";
+import { loadSavedSearchParams } from "@/components/layout/user-profile-tab";
+import { User } from "@prisma/client";
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method === "POST") {
+    const user: User = req.body;
+    const parameters = await loadSavedSearchParams(user);
+    res.status(200).json(parameters);
+  } else {
+    // 404
+    res.status(404).json({ message: "Not found" });
+  }
+}
 
 export async function POST(req: Request) {
     const user = await getCurrentUser();

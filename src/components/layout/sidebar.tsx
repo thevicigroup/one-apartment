@@ -38,7 +38,6 @@ export const Sidebar = async () => {
                 {!user ? (
                     <div className="flex flex-col space-y-2">
                         <p>Sign in or create an account to view your profile</p>
-                        <Button variant="secondary">Login with Github</Button>
                     </div>
                 ) : (
                     <UserProfileTab user={user} />

@@ -22,20 +22,22 @@ import { Button } from "../ui/button";
 import { NextApiRequest, NextApiResponse } from "next";
 
 
-async function loadSavedSearchParams(user: User) {
-    return await db.searchParameter.findMany({
+export async function loadSavedSearchParams(user: User) {
+    const parameters =  await db.searchParameter.findMany({
         where: {
             userId: user.id,
         },
     });
+    return parameters;
 }
 
 async function loadUserGroups(user: User) {
-    return await db.userGroup.findMany({
+    const groups = await db.userGroup.findMany({
         where: {
             userId: user.id,
         },
     });
+    return groups;
 }
 
 
@@ -116,16 +118,17 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                 </TabsContent>
 
                 <TabsContent value="savedParameters">
-                    <div className="grid grid-cols-2">
+                <Separator />
+                    <div className="grid grid-cols-2 space-y-4">
                         <div>
-                            <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl py-0">
+                            <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl">
                                 Input a max budget
                             </h1>
                             <div>(This will only be seen be seen by you)</div>
                         </div>
                         <MaxPrice />
                     </div>
-
+                    <Separator />
                     <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl py-2">
                         Your Saved Search Parameters
                     </h1>
@@ -151,11 +154,10 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                 </TabsContent>
 
                 <TabsContent value="friends">
-                    <h1>Find Friends</h1>
                     <Separator />
+                    <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl">Find Friends</h1>
                     <FindFriends />
                     <Separator />
-                    <h1 className="text-xl mb-2">Your Friends</h1>
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
                         <div className="grid gap-4 grid-cols-3">
                             {friends?.map((item, i) => (

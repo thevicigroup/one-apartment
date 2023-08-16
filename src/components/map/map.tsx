@@ -14,9 +14,17 @@ interface Props {
     apartments?: Apartment[];
 }
 
+
+
+
+
 export const Map: React.FC<Props> = ({ aparmentMarkers, isochrones, shapes, apartments }) => {
     const [activeMarker, setActiveMarker] = useState<string>("");
-
+    function clearMarkers(): void {
+        isochrones = [];
+        markers = [];
+      }
+      
     const mapCenter = useMemo(() => ({ lat: 42.3601, lng: -71.0589 }), [42.3601, -71.0589]);
     const mapOptions = useMemo<google.maps.MapOptions>(
         () => ({

@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Title } from "@radix-ui/react-dialog";
@@ -48,6 +49,9 @@ import { Parameter, useApartmentContext } from "@/components/providers";
 import { db } from "@/lib/database";
 import axios from "axios";
 
+import { User } from "@prisma/client";
+
+
 export async function getServerSideProps(context: any) {
     const response = await axios.get('/api/user/parameter');
     return {
@@ -55,14 +59,54 @@ export async function getServerSideProps(context: any) {
         data: response.data,
       },
     };
-  }
+}
+
+
+async function getUserParams(user: User) {
+    const response = await fetch(`/api/searchParams`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    const userparams = await response.json();
+    console.log(userparams)
+    return userparams;
+}
+
+
+async function getUserGroups(user: User) {
+    const response = await fetch(`/api/searchGroups`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    const usergroups = await response.json();
+    console.log(usergroups)
+    return usergroups;
+}
+
 
 // TODO: add in length check for 10 parameters max
-export const ParametersList = () => {
+export const ParametersList = ({ user }: { user: User }) => {
 
-
-    const userParameters = ['','','']
-    const groupParameters = ['','','']
+    const userparams = getUserParams(user)
+    const usergroups = getUserGroups(user)
+    // const userParameters = ['','','']
+    // const groupParameters = ['','','']
     // const userParameters = savedUserParameters
     // const groupParameters = userGroups
     const router = useRouter();
@@ -86,47 +130,103 @@ export const ParametersList = () => {
         router.refresh();
     }
 
-
     const UserParametersRows: React.FC<Props> = () => {
-        return(
-            userParameters.map((userParam, i) => (
-            <TableRow>
-                <TableCell>
-                    userParam.nickname
-                    {/* {userParam.nickname} */}
-                </TableCell>
-                <TableCell>
-                    userParam.address
-                    {/* {userParam.address} */}
-                </TableCell>
-                <TableCell className="content-center">
-                    <Checkbox />
-                </TableCell>
-            </TableRow>
-            ))
-        )
+        const [userParams, setUserParams] = useState<any[]>([]); // Assuming userparams is an array
+        const [error, setError] = useState<string | null>(null);
+    
+        useEffect(() => {
+            getUserParams(user)
+                .then(params => {
+                    setUserParams(params);
+                })
+                .catch(err => {
+                    setError(err.message);
+                });
+        }, [user]);
+    
+        if (error) {
+            return <div>Error: {error}</div>;
+        }
+    
+        return (
+            <>
+                {userParams.map((userParam, i) => (
+                    <TableRow key={i}>
+                        <TableCell>
+                            {userParam['nickname']}
+                        </TableCell>
+                        <TableCell>
+                            {userParam['address']}
+                        </TableCell>
+                        <TableCell>
+                            {userParam['traveltime']}
+                        </TableCell>
+                        <TableCell className="content-center">
+                            <Checkbox />
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </>
+        );
     }
 
+    // const UserParametersRows: React.FC<Props> = () => {
+    //     return(
+    //         userparams.map((userParam, i) => (
+    //         <TableRow>
+    //             <TableCell>
+    //                 {userparams['nickname']}
+    //             </TableCell>
+    //             <TableCell>
+    //                 {userparams['traveltime']}
+    //             </TableCell>
+    //             <TableCell className="content-center">
+    //                 <Checkbox />
+    //             </TableCell>
+    //         </TableRow>
+    //         ))
+    //     )
+    // }
 
 
-    const GroupParametersRows: React.FC<Props> = () => {
-        return(
-            groupParameters.map((i) => (
-                <TableRow>
-                    <TableCell>
-                        testGroupParameters.name
-                        {/* {testGroupParameters.name} */}
-                    </TableCell>
-                    <TableCell>
-                        testGroupParameters.address
-                        {/* {testGroupParameters.address} */}
-                    </TableCell>
-                    <TableCell className="content-center">
-                        <Checkbox />
-                    </TableCell>
-                </TableRow>
-                ))
-        )
+    const UserGroupsRows: React.FC<Props> = () => {
+        const [userGroups, setUserGroups] = useState<any[]>([]); // Assuming userparams is an array
+        const [error, setError] = useState<string | null>(null);
+    
+        useEffect(() => {
+            getUserParams(user)
+                .then(params => {
+                    setUserGroups(params);
+                })
+                .catch(err => {
+                    setError(err.message);
+                });
+        }, [user]);
+    
+        if (error) {
+            return <div>Error: {error}</div>;
+        }
+    
+        return (
+            <>
+                {userGroups.map((userGroup, i) => (
+                    <TableRow key={i}>
+                        <TableCell>
+                            {userGroup['groupname']}
+                        </TableCell>
+                        <TableCell>
+                            {userGroup['address']}
+                        </TableCell>
+                        <TableCell>
+                            {userGroup['traveltime']}
+                        </TableCell>
+                        <TableCell className="content-center">
+                            <Checkbox />
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </>
+        );
     }
 
 
@@ -227,7 +327,7 @@ export const ParametersList = () => {
                                                                 </TableHeader>
 
                                                                 <TableBody>
-                                                                    <GroupParametersRows param={{
+                                                                    <UserGroupsRows param={{
                                                                         id: "",
                                                                         address: "",
                                                                         nickname: "",
