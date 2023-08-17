@@ -52,18 +52,19 @@ import axios from "axios";
 import { User } from "@prisma/client";
 
 
-export async function getServerSideProps(context: any) {
-    const response = await axios.get('/api/user/parameter');
-    return {
-      props: {
-        data: response.data,
-      },
-    };
-}
+// export async function getServerSideProps(context: any) {
+//     const response = await axios.get('/api/user/parameter');
+//     return {
+//       props: {
+//         data: response.data,
+//       },
+//     };
+// }
+
 
 
 async function getUserParams(user: User) {
-    const response = await fetch(`/api/searchParams`, {
+    const response = await fetch(`/api/user/parameter`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -72,7 +73,7 @@ async function getUserParams(user: User) {
     });
 
     if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Error CHANGE TO LOG IN FIRST');
     }
 
     const userparams = await response.json();
@@ -82,7 +83,7 @@ async function getUserParams(user: User) {
 
 
 async function getUserGroups(user: User) {
-    const response = await fetch(`/api/searchGroups`, {
+    const response = await fetch(`/api/user/parameter`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

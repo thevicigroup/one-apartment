@@ -78,6 +78,7 @@ model UserGroup {
   groupId   String
   groupName String
   user      User     @relation("user", fields: [userId], references: [id])
+// Need Members here
 
   @@unique([userId, groupId])
   @@map("user_groups")

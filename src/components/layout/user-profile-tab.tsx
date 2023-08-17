@@ -31,7 +31,7 @@ export async function loadSavedSearchParams(user: User) {
     return parameters;
 }
 
-async function loadUserGroups(user: User) {
+export async function loadUserGroups(user: User) {
     const groups = await db.userGroup.findMany({
         where: {
             userId: user.id,
@@ -41,7 +41,7 @@ async function loadUserGroups(user: User) {
 }
 
 
-async function loadFriends(user: User) {
+export async function loadFriends(user: User) {
     return await db.friend.findMany({
         where: {
             userId: user.id,
@@ -86,8 +86,10 @@ const friends = [
 
 export const UserProfileTab: React.FC<Props> = async ({ user }) => {
     const parameters: SearchParameter[] = await loadSavedSearchParams(user);
-    const userGroups: UserGroup[] = await loadUserGroups(user);
-    const friends: Friend[] = await loadFriends(user);
+    const userGroups = ['', '', '', '', '', '', ''];
+    const friends = ['', '', '', '', '', '', ''];
+    // const userGroups: UserGroup[] = await loadUserGroups(user);
+    // const friends: Friend[] = await loadFriends(user);
 
     return (
         <div>
