@@ -1,29 +1,49 @@
 import React from "react";
+// import { useState } from "react";
+import { NextApiRequest, NextApiResponse } from "next";
+import { Group } from "next/dist/shared/lib/router/utils/route-regex";
+import dynamic from "next/dynamic";
 import type { Friend, SearchParameter, UserGroup } from "@prisma/client";
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { Select, SelectItem } from "@radix-ui/react-select";
 import type { User } from "next-auth";
 
 import { db } from "@/lib/database";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-
+import { Checkbox } from "@/components/ui/checkbox";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MaxPrice } from "@/components/parameters-form";
 
 import { FindFriends } from "../find-friends";
 import { FriendsCard } from "../friend-card";
 import { GroupCard } from "../group-card";
-import { SearchParameterOperations } from "./search-parameter-operations";
-import { Prisma } from "@prisma/client";
-import { Group } from "next/dist/shared/lib/router/utils/route-regex";
 import { Button } from "../ui/button";
-import { NextApiRequest, NextApiResponse } from "next";
-
+import { SearchParameterOperations } from "./search-parameter-operations";
 
 export async function loadSavedSearchParams(user: User) {
-    const parameters =  await db.searchParameter.findMany({
+    const parameters = await db.searchParameter.findMany({
         where: {
             userId: user.id,
         },
@@ -40,7 +60,6 @@ export async function loadUserGroups(user: User) {
     return groups;
 }
 
-
 export async function loadFriends(user: User) {
     return await db.friend.findMany({
         where: {
@@ -48,7 +67,6 @@ export async function loadFriends(user: User) {
         },
     });
 }
-
 
 // add friend function in prisma here
 // TODO: INTEGRATE ADD FRIEND FUNCTION INTO CODE
@@ -61,13 +79,10 @@ export async function loadFriends(user: User) {
 //         name: "Nicholas Mirabile",
 //         occupation: "Software Engineer",
 //     }
-    
+
 //     db.friend.create({
 //         data: friend})
 //     }
-
-
-
 
 interface Props {
     user: User;
@@ -84,10 +99,73 @@ const friends = [
     "jason",
 ];
 
+const FriendsRows: React.FC<Props> = () => {
+    return (
+        <>
+            {friends.map((friend, i) => (
+                <TableRow key={i}>
+                    <TableCell>{friend}</TableCell>
+                    <TableCell className="content-center">
+                        <Button>Add</Button>
+                    </TableCell>
+                </TableRow>
+            ))}
+        </>
+    );
+};
+
+const DynamicFriendsParameters = dynamic(() => import("./FriendsParameters"), {
+    ssr: false,
+});
+
+function MyComponent() {
+    const [showFriendsParameters, setShowFriendsParameters] = useState(false);
+    // const [showFriendsParameters, setShowFriendsParameters] = [1,1]
+    return (
+        <div className="flex">
+            <ScrollArea className="h-96 flex-none">
+                <Table className="table-auto">
+                    <TableHeader className="bg-blue-300">
+                        <TableRow>
+                            <TableHead className="w-[200px] font-bold">Friends</TableHead>
+                            <TableHead className="w-[75px] font-bold"></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <FriendsRows user={undefined} />
+                    <TableBody>
+                        <TableRow>
+                            <TableCell>
+                                <button onClick={() => setShowFriendsParameters(true)}>
+                                    Show Friends Parameters
+                                </button>
+                            </TableCell>
+                        </TableRow>
+                        {/* Other table rows */}
+                    </TableBody>
+                </Table>
+            </ScrollArea>
+            {showFriendsParameters && <DynamicFriendsParameters user={undefined} />}
+        </div>
+    );
+}
+
+const FriendsParameters: React.FC<Props> = () => {
+    const friendparameters = ["parameter 1", "parameter 2", "parameter 3..."];
+    return (
+        <Table className="table-auto flex-1">
+            {friendparameters.map((friendparameter, i) => (
+                <TableRow key={i}>
+                    <TableCell>{friendparameter}</TableCell>
+                </TableRow>
+            ))}
+        </Table>
+    );
+};
+
 export const UserProfileTab: React.FC<Props> = async ({ user }) => {
     const parameters: SearchParameter[] = await loadSavedSearchParams(user);
-    const userGroups = ['', '', '', '', '', '', ''];
-    const friends = ['', '', '', '', '', '', ''];
+    const userGroups = ["", "", "", "", "", "", ""];
+    const friends = ["", "", "", "", "", "", ""];
     // const userGroups: UserGroup[] = await loadUserGroups(user);
     // const friends: Friend[] = await loadFriends(user);
 
@@ -105,11 +183,12 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                     <h2 className="text-lg text-muted-foreground">{user.email}</h2>
                 </div>
             </div>
+
             <Tabs defaultValue="savedApartments" className="w-full px-2">
                 <TabsList className="grid w-full grid-cols-4">
                     <TabsTrigger value="savedApartments">Saved Apartments</TabsTrigger>
                     <TabsTrigger value="savedParameters">Saved Parameters</TabsTrigger>
-                    <TabsTrigger value="friends">Friends (1)</TabsTrigger>
+                    <TabsTrigger value="friends">Friends</TabsTrigger>
                     <TabsTrigger value="groups">Groups</TabsTrigger>
                 </TabsList>
 
@@ -120,7 +199,7 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                 </TabsContent>
 
                 <TabsContent value="savedParameters">
-                <Separator />
+                    <Separator />
                     <div className="grid grid-cols-2 space-y-4">
                         <div>
                             <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl">
@@ -157,7 +236,9 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
 
                 <TabsContent value="friends">
                     <Separator />
-                    <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl">Find Friends</h1>
+                    <h1 className="scroll-m-20 text-lg font-bold tracking-tight lg:text-xl">
+                        Find Friends
+                    </h1>
                     <FindFriends />
                     <Separator />
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
@@ -171,7 +252,59 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
 
                 <TabsContent value="groups">
                     <h1 className="text-xl mb-2">Your Groups</h1>
-                    <Separator />
+                    <Separator className="mb-2" />
+                    <AlertDialog>
+                        <AlertDialogTrigger>
+                            <Button className="w-full flex justify-center py-5 bg-green-400">
+                                Create New Group
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="bg-white w-content">
+                            <AlertDialogHeader className="font-bold">
+                                Create New Group Here
+                            </AlertDialogHeader>
+                            <Separator></Separator>
+                            <div className="flex flex-col gap-2">
+                                <label className="font-bold">Group Name</label>
+                                <input
+                                    type="text"
+                                    className="rounded-md border border-gray-300 p-2"
+                                />
+                            </div>
+                            <Separator></Separator>
+
+                            {/* <div className="flex">
+                                <ScrollArea className="h-96 flex-none">
+                                    <Table className="table-auto">
+                                        <TableHeader className="bg-blue-300">
+                                            <TableRow>
+                                                <TableHead className="w-[200px] font-bold">
+                                                    Friends
+                                                </TableHead>
+                                                <TableHead className="w-[75px] font-bold">
+                                                </TableHead>
+                                            </TableRow>
+                                        </TableHeader>
+                                        
+                                        <FriendsRows user={undefined} />
+
+                                        <TableBody></TableBody>
+                                    </Table>
+                                </ScrollArea>
+                                <FriendsParameters user={undefined} />
+                            </div> */}
+                            <MyComponent />
+
+                            <Separator></Separator>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction className="bg-green-400">
+                                    Create
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                    <Separator className="mb-2 mt-2" />
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
                         <div className="grid gap-4 grid-cols-2">
                             {userGroups?.map((item, i) => (
@@ -187,4 +320,3 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
 function uuid() {
     throw new Error("Function not implemented.");
 }
-

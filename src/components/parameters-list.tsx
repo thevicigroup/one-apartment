@@ -258,7 +258,7 @@ export const ParametersList = ({ user }: { user: User }) => {
                             <Search className="h-5 w-5" />
                             <p className="text-center font-medium">No search parameters yet.</p>
                         </div>
-                        <p className="text-sm">
+                        
                             Add a new parameter above or{" "}
                             <Form {...form}>
                                 <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -355,7 +355,7 @@ export const ParametersList = ({ user }: { user: User }) => {
                                     />
                                 </form>
                             </Form>{" "}saved parameters.
-                        </p>
+                        
                     </div>
                 )}
             </ScrollArea>

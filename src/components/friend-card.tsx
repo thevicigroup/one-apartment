@@ -32,7 +32,7 @@ export const FriendsCard: React.FC<Props> = ({ friendsInfo }) => {
     // TODO: Change all the default values to friendsInfo.name, .id...etc
     const sharedGroups = [1, 2, 3, "this is dynamic"];
     const name = "Nicholas Mirabile";
-    const occupation = "Aerospace Research Egnineer";
+    const occupation = "Aerospace Research Engineer";
 
     return (
         <Card>
