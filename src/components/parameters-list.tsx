@@ -1,16 +1,19 @@
 "use client";
 
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
 import { Title } from "@radix-ui/react-dialog";
 import { DividerHorizontalIcon } from "@radix-ui/react-icons";
+import axios from "axios";
 import { Check, Divide, Search } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
 
+import { getCurrentUser } from "@/lib/auth/get-server-session";
+import { db } from "@/lib/database";
 import { userParametersSchema } from "@/lib/validators/search-parameters";
 import {
     AlertDialog,
@@ -46,44 +49,29 @@ import {
 } from "@/components/ui/table";
 import { Parameter, useApartmentContext } from "@/components/providers";
 
-import { db } from "@/lib/database";
-import axios from "axios";
-
-import { User } from "@prisma/client";
-
-
-// export async function getServerSideProps(context: any) {
-//     const response = await axios.get('/api/user/parameter');
-//     return {
-//       props: {
-//         data: response.data,
-//       },
-//     };
-// }
-
-
-
 async function getUserParams(user: User) {
-    const response = await fetch(`/api/user/parameter`, {
+    // console.log('User:')
+    // console.log(user)
+    const response = await fetch(`/api/parameter`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
     });
-
+    // console.log('Response:')
+    // console.log(response)
     if (!response.ok) {
-        throw new Error('Error CHANGE TO LOG IN FIRST');
+        throw new Error("API ERROR");
     }
 
     const userparams = await response.json();
-    console.log(userparams)
+    // console.log(userparams)
     return userparams;
 }
 
-
 async function getUserGroups(user: User) {
-    const response = await fetch(`/api/user/parameter`, {
+    const response = await fetch(`/api/parameter`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -92,24 +80,16 @@ async function getUserGroups(user: User) {
     });
 
     if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("API ERROR");
     }
 
     const usergroups = await response.json();
-    console.log(usergroups)
     return usergroups;
 }
 
-
 // TODO: add in length check for 10 parameters max
-export const ParametersList = ({ user }: { user: User }) => {
 
-    const userparams = getUserParams(user)
-    const usergroups = getUserGroups(user)
-    // const userParameters = ['','','']
-    // const groupParameters = ['','','']
-    // const userParameters = savedUserParameters
-    // const groupParameters = userGroups
+export const ParametersList = (user: User) => {
     const router = useRouter();
     const { parameters } = useApartmentContext();
     const form = useForm<z.infer<typeof userParametersSchema>>({
@@ -123,6 +103,7 @@ export const ParametersList = ({ user }: { user: User }) => {
             maxPrice: 0,
         },
     });
+
     const { addParameter } = useApartmentContext();
     async function handleSubmit(values: z.infer<typeof userParametersSchema>) {
         values.id = uuid();
@@ -134,34 +115,28 @@ export const ParametersList = ({ user }: { user: User }) => {
     const UserParametersRows: React.FC<Props> = () => {
         const [userParams, setUserParams] = useState<any[]>([]); // Assuming userparams is an array
         const [error, setError] = useState<string | null>(null);
-    
+
         useEffect(() => {
             getUserParams(user)
-                .then(params => {
+                .then((params) => {
                     setUserParams(params);
                 })
-                .catch(err => {
+                .catch((err) => {
                     setError(err.message);
                 });
         }, [user]);
-    
+
         if (error) {
             return <div>Error: {error}</div>;
         }
-    
+
         return (
             <>
                 {userParams.map((userParam, i) => (
                     <TableRow key={i}>
-                        <TableCell>
-                            {userParam['nickname']}
-                        </TableCell>
-                        <TableCell>
-                            {userParam['address']}
-                        </TableCell>
-                        <TableCell>
-                            {userParam['traveltime']}
-                        </TableCell>
+                        <TableCell>{userParam["nickname"]}</TableCell>
+                        <TableCell>{userParam["address"]}</TableCell>
+                        <TableCell>{userParam["traveltime"]}</TableCell>
                         <TableCell className="content-center">
                             <Checkbox />
                         </TableCell>
@@ -169,7 +144,7 @@ export const ParametersList = ({ user }: { user: User }) => {
                 ))}
             </>
         );
-    }
+    };
 
     // const UserParametersRows: React.FC<Props> = () => {
     //     return(
@@ -189,38 +164,31 @@ export const ParametersList = ({ user }: { user: User }) => {
     //     )
     // }
 
-
     const UserGroupsRows: React.FC<Props> = () => {
         const [userGroups, setUserGroups] = useState<any[]>([]); // Assuming userparams is an array
         const [error, setError] = useState<string | null>(null);
-    
+
         useEffect(() => {
             getUserParams(user)
-                .then(params => {
+                .then((params) => {
                     setUserGroups(params);
                 })
-                .catch(err => {
+                .catch((err) => {
                     setError(err.message);
                 });
         }, [user]);
-    
+
         if (error) {
             return <div>Error: {error}</div>;
         }
-    
+
         return (
             <>
                 {userGroups.map((userGroup, i) => (
                     <TableRow key={i}>
-                        <TableCell>
-                            {userGroup['groupname']}
-                        </TableCell>
-                        <TableCell>
-                            {userGroup['address']}
-                        </TableCell>
-                        <TableCell>
-                            {userGroup['traveltime']}
-                        </TableCell>
+                        <TableCell>{userGroup["groupname"]}</TableCell>
+                        <TableCell>{userGroup["address"]}</TableCell>
+                        <TableCell>{userGroup["traveltime"]}</TableCell>
                         <TableCell className="content-center">
                             <Checkbox />
                         </TableCell>
@@ -228,11 +196,7 @@ export const ParametersList = ({ user }: { user: User }) => {
                 ))}
             </>
         );
-    }
-
-
-    
-
+    };
 
     // form.handleSubmit(handleSubmit) add this in after making the popup a form
     return (
@@ -258,104 +222,107 @@ export const ParametersList = ({ user }: { user: User }) => {
                             <Search className="h-5 w-5" />
                             <p className="text-center font-medium">No search parameters yet.</p>
                         </div>
-                        
-                            Add a new parameter above or{" "}
-                            <Form {...form}>
-                                <form onSubmit={form.handleSubmit(handleSubmit)}>
-                                    <FormField
-                                        control={form.control}
-                                        name="maxPrice"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <AlertDialog>
-                                                    
-                                                    <AlertDialogTrigger>
-                                                        <button className="underline-offset-4 underline">
-                                                            import
-                                                        </button>
-                                                    </AlertDialogTrigger>
+                        Add a new parameter above or{" "}
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(handleSubmit)}>
+                                <FormField
+                                    control={form.control}
+                                    name="maxPrice"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <AlertDialog>
+                                                <AlertDialogTrigger>
+                                                    <button className="underline-offset-4 underline">
+                                                        import
+                                                    </button>
+                                                </AlertDialogTrigger>
 
-                                                    <AlertDialogContent className="bg-white w-content">
-                                                        <AlertDialogHeader className="font-bold">
-                                                            Your Saved Parameters:
-                                                        </AlertDialogHeader>
-                                                        <Separator></Separator>
-                                                            <Table className="table-auto">
-                                                                <TableHeader className="bg-blue-300">
-                                                                    <TableRow>
-                                                                        <TableHead className="w-[200px] font-bold">
-                                                                            Nickname
-                                                                        </TableHead>
-                                                                        <TableHead className="w-[200px] font-bold">
-                                                                            Address
-                                                                        </TableHead>
-                                                                        <TableHead className="w-[50px] font-bold">
-                                                                            Select
-                                                                        </TableHead>
-                                                                    </TableRow>
-                                                                </TableHeader>
-                                                                
-                                                                <TableBody>
-                                                                    <UserParametersRows param={{
-                                                                        id: "",
-                                                                        address: "",
-                                                                        nickname: "",
-                                                                        traveltime: "",
-                                                                        travelmode: "",
-                                                                        isSaved: false
-                                                                    }} index={0} />
-                                                                </TableBody>
-                                                            </Table>
+                                                <AlertDialogContent className="bg-white w-content">
+                                                    <AlertDialogHeader className="font-bold">
+                                                        Your Saved Parameters:
+                                                    </AlertDialogHeader>
+                                                    <Separator></Separator>
+                                                    <Table className="table-auto">
+                                                        <TableHeader className="bg-blue-300">
+                                                            <TableRow>
+                                                                <TableHead className="w-[200px] font-bold">
+                                                                    Nickname
+                                                                </TableHead>
+                                                                <TableHead className="w-[200px] font-bold">
+                                                                    Address
+                                                                </TableHead>
+                                                                <TableHead className="w-[50px] font-bold">
+                                                                    Select
+                                                                </TableHead>
+                                                            </TableRow>
+                                                        </TableHeader>
 
-                                                        <AlertDialogHeader className="font-bold">
-                                                            Your Group Parameters:
-                                                        </AlertDialogHeader>
-                                                        <Separator></Separator>
+                                                        <TableBody>
+                                                            <UserParametersRows
+                                                                param={{
+                                                                    id: "",
+                                                                    address: "",
+                                                                    nickname: "",
+                                                                    traveltime: "",
+                                                                    travelmode: "",
+                                                                    isSaved: false,
+                                                                }}
+                                                                index={0}
+                                                            />
+                                                        </TableBody>
+                                                    </Table>
 
-                                                            <Table>
-                                                                <TableHeader className="bg-blue-300">
-                                                                    <TableRow>
-                                                                        <TableHead className="w-[200px] font-bold">
-                                                                            Group Name
-                                                                        </TableHead>
-                                                                        <TableHead className="w-[200px] font-bold">
-                                                                            Address
-                                                                        </TableHead>
-                                                                        <TableHead className="w-[50px] font-bold">
-                                                                            Select
-                                                                        </TableHead>
-                                                                    </TableRow>
-                                                                </TableHeader>
+                                                    <AlertDialogHeader className="font-bold">
+                                                        Your Group Parameters:
+                                                    </AlertDialogHeader>
+                                                    <Separator></Separator>
 
-                                                                <TableBody>
-                                                                    <UserGroupsRows param={{
-                                                                        id: "",
-                                                                        address: "",
-                                                                        nickname: "",
-                                                                        traveltime: "",
-                                                                        travelmode: "",
-                                                                        isSaved: false
-                                                                    }} index={0} />
-                                                                </TableBody>
-                                                            </Table>
+                                                    <Table>
+                                                        <TableHeader className="bg-blue-300">
+                                                            <TableRow>
+                                                                <TableHead className="w-[200px] font-bold">
+                                                                    Group Name
+                                                                </TableHead>
+                                                                <TableHead className="w-[200px] font-bold">
+                                                                    Address
+                                                                </TableHead>
+                                                                <TableHead className="w-[50px] font-bold">
+                                                                    Select
+                                                                </TableHead>
+                                                            </TableRow>
+                                                        </TableHeader>
 
+                                                        <TableBody>
+                                                            <UserGroupsRows
+                                                                param={{
+                                                                    id: "",
+                                                                    address: "",
+                                                                    nickname: "",
+                                                                    traveltime: "",
+                                                                    travelmode: "",
+                                                                    isSaved: false,
+                                                                }}
+                                                                index={0}
+                                                            />
+                                                        </TableBody>
+                                                    </Table>
 
-                                                        <AlertDialogFooter>
-                                                            <AlertDialogCancel>
-                                                                Cancel
-                                                            </AlertDialogCancel>
-                                                            <AlertDialogAction className="bg-green-400">
-                                                                Import
-                                                            </AlertDialogAction>
-                                                        </AlertDialogFooter>
-                                                    </AlertDialogContent>
-                                                </AlertDialog>
-                                            </FormItem>
-                                        )}
-                                    />
-                                </form>
-                            </Form>{" "}saved parameters.
-                        
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>
+                                                            Cancel
+                                                        </AlertDialogCancel>
+                                                        <AlertDialogAction className="bg-green-400">
+                                                            Import
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+                                        </FormItem>
+                                    )}
+                                />
+                            </form>
+                        </Form>{" "}
+                        saved parameters.
                     </div>
                 )}
             </ScrollArea>
@@ -419,5 +386,3 @@ export const SingleParameter: React.FC<Props> = ({ param, index }) => {
         </Card>
     );
 };
-
-

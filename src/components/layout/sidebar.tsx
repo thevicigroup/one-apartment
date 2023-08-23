@@ -12,9 +12,10 @@ import { ParametersForm } from "@/components/parameters-form";
 import { ParametersList } from "@/components/parameters-list";
 import { UpdateApartmentsButton } from "@/components/update-apartments-button";
 
+
+
 export const Sidebar = async () => {
     const user = await getCurrentUser();
-
     return (
         <Tabs defaultValue="parameters" className="w-full px-2">
             <TabsList className="grid w-full grid-cols-3">
@@ -28,8 +29,8 @@ export const Sidebar = async () => {
             <TabsContent value="parameters">
                 <div className="flex flex-col justify-between h-[calc(100vh-110px)]">
                     <div>
-                        <ParametersForm />
-                        <ParametersList />
+                        <ParametersForm user={user} />
+                        <ParametersList user={user} />
                     </div>
                     <UpdateApartmentsButton />
                 </div>

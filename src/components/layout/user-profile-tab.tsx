@@ -1,10 +1,10 @@
+
 import React from "react";
-// import { useState } from "react";
+import { useState } from "react";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Group } from "next/dist/shared/lib/router/utils/route-regex";
 import dynamic from "next/dynamic";
-import type { Friend, SearchParameter, UserGroup } from "@prisma/client";
-import { Prisma, PrismaClient } from "@prisma/client";
+// import type { Friend, SearchParameter, UserGroup } from "@prisma/client";
 import { Select, SelectItem } from "@radix-ui/react-select";
 import type { User } from "next-auth";
 
@@ -40,114 +40,24 @@ import { FindFriends } from "../find-friends";
 import { FriendsCard } from "../friend-card";
 import { GroupCard } from "../group-card";
 import { Button } from "../ui/button";
-import { SearchParameterOperations } from "./search-parameter-operations";
-
-export async function loadSavedSearchParams(user: User) {
-    const parameters = await db.searchParameter.findMany({
-        where: {
-            userId: user.id,
-        },
-    });
-    return parameters;
-}
-
-export async function loadUserGroups(user: User) {
-    const groups = await db.userGroup.findMany({
-        where: {
-            userId: user.id,
-        },
-    });
-    return groups;
-}
-
-export async function loadFriends(user: User) {
-    return await db.friend.findMany({
-        where: {
-            userId: user.id,
-        },
-    });
-}
-
-// add friend function in prisma here
-// TODO: INTEGRATE ADD FRIEND FUNCTION INTO CODE
-// TODO: MAYBE A POPUP FORM FOR SELECTING WHICH FRIEND YOU WANT
-// TODO: TO ADD BASED ON MATCHING USER IDS FROM WHAT THE USER ENTERED INTO THE FIND FRIEND TEXT BOX?
-// const addFriend = async (e: any) => {
-//     e.preventDefault();
-//     const friend = {
-//         id: uuid(),
-//         name: "Nicholas Mirabile",
-//         occupation: "Software Engineer",
-//     }
-
-//     db.friend.create({
-//         data: friend})
-//     }
+import { MyComponent } from "../search-functions";
+import { FriendsRows } from "@/components/search-functions"
 
 interface Props {
     user: User;
 }
 
 const friends = [
-    "brian",
-    "kyle",
+    "Brian",
+    "Kyle",
     "notjack",
     "fuckyoujack",
     "whydontyouevercodejack",
-    "ben",
-    "zach",
-    "jason",
+    "Ben",
+    "Zach",
+    "Jason",
 ];
 
-const FriendsRows: React.FC<Props> = () => {
-    return (
-        <>
-            {friends.map((friend, i) => (
-                <TableRow key={i}>
-                    <TableCell>{friend}</TableCell>
-                    <TableCell className="content-center">
-                        <Button>Add</Button>
-                    </TableCell>
-                </TableRow>
-            ))}
-        </>
-    );
-};
-
-const DynamicFriendsParameters = dynamic(() => import("./FriendsParameters"), {
-    ssr: false,
-});
-
-function MyComponent() {
-    const [showFriendsParameters, setShowFriendsParameters] = useState(false);
-    // const [showFriendsParameters, setShowFriendsParameters] = [1,1]
-    return (
-        <div className="flex">
-            <ScrollArea className="h-96 flex-none">
-                <Table className="table-auto">
-                    <TableHeader className="bg-blue-300">
-                        <TableRow>
-                            <TableHead className="w-[200px] font-bold">Friends</TableHead>
-                            <TableHead className="w-[75px] font-bold"></TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <FriendsRows user={undefined} />
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>
-                                <button onClick={() => setShowFriendsParameters(true)}>
-                                    Show Friends Parameters
-                                </button>
-                            </TableCell>
-                        </TableRow>
-                        {/* Other table rows */}
-                    </TableBody>
-                </Table>
-            </ScrollArea>
-            {showFriendsParameters && <DynamicFriendsParameters user={undefined} />}
-        </div>
-    );
-}
 
 const FriendsParameters: React.FC<Props> = () => {
     const friendparameters = ["parameter 1", "parameter 2", "parameter 3..."];
@@ -162,12 +72,7 @@ const FriendsParameters: React.FC<Props> = () => {
     );
 };
 
-export const UserProfileTab: React.FC<Props> = async ({ user }) => {
-    const parameters: SearchParameter[] = await loadSavedSearchParams(user);
-    const userGroups = ["", "", "", "", "", "", ""];
-    const friends = ["", "", "", "", "", "", ""];
-    // const userGroups: UserGroup[] = await loadUserGroups(user);
-    // const friends: Friend[] = await loadFriends(user);
+export const UserProfileTab: React.FC<Props> = ({ user }) => {
 
     return (
         <div>
@@ -214,23 +119,7 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                         Your Saved Search Parameters
                     </h1>
                     <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
-                        {parameters.length > 0 ? (
-                            parameters.map((param, i) => (
-                                <Card key={`${param.nickname}-${i}`}>
-                                    <div className="flex items-center justify-between px-4 py-2">
-                                        <CardTitle>{param.nickname}</CardTitle>
-                                        <SearchParameterOperations id={param.id} />
-                                    </div>
-                                    <Separator />
-                                    <CardContent>
-                                        {param.address} in {param.traveltime} minutes {"by "}
-                                        {param.travelmode}.
-                                    </CardContent>
-                                </Card>
-                            ))
-                        ) : (
-                            <p className="text-center">You have no saved search parameters.</p>
-                        )}
+                        {/* <userSavedSearchParameters /> */}
                     </ScrollArea>
                 </TabsContent>
 
@@ -292,8 +181,8 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                                     </Table>
                                 </ScrollArea>
                                 <FriendsParameters user={undefined} />
-                            </div> */}
-                            <MyComponent />
+                            </div>
+                            <MyComponent /> */}
 
                             <Separator></Separator>
                             <AlertDialogFooter>
@@ -305,13 +194,7 @@ export const UserProfileTab: React.FC<Props> = async ({ user }) => {
                         </AlertDialogContent>
                     </AlertDialog>
                     <Separator className="mb-2 mt-2" />
-                    <ScrollArea className="h-[65vh] w-full rounded-md border space-y-4 border-none">
-                        <div className="grid gap-4 grid-cols-2">
-                            {userGroups?.map((item, i) => (
-                                <GroupCard groupInfo={undefined} />
-                            ))}
-                        </div>
-                    </ScrollArea>
+                    {/* <UserGroups/> */}
                 </TabsContent>
             </Tabs>
         </div>

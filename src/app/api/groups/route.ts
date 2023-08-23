@@ -50,3 +50,35 @@ export async function POST(req: Request) {
       return new Response(null, { status: 500 });
   }
 }
+
+// import { NextRequest, NextResponse } from 'next/server';
+// import * as z from 'zod';
+
+// import { getCurrentUser } from '@/lib/auth/get-server-session';
+// import { db } from '@/lib/database';
+// import { userParametersSchema } from '@/lib/validators/search-parameters';
+// import { loadSavedSearchParams } from '@/components/search-functions';
+// import { User } from '@prisma/client';
+
+// export async function POST(req: NextRequest) {
+//     // const user = await getCurrentUser();
+//     // if (!user) {
+//     //     return new Response(null, { status: 403 });
+//     // }
+
+//     // const json = await req.json();
+//     // const body = userParametersSchema.parse(json);
+
+//     // const parameter = await db.searchParameter.create({
+//     //     data: {
+//     //         nickname: body.nickname,
+//     //         address: body.address,
+//     //         traveltime: body.traveltime,
+//     //         travelmode: body.travelmode,
+//     //         userId: user.id,
+//     //     },
+//     // });
+
+//     // return NextResponse.json(parameter);
+//     return new Response('Testing Complete')
+// }

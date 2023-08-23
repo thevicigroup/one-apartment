@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
-
+import { User } from "@prisma/client";
 import { userParametersSchema } from "@/lib/validators/search-parameters";
 import { Button } from "@/components/ui/button";
 import {
@@ -66,7 +66,7 @@ export const MaxPrice = () => {
     );
 };
 
-export const ParametersForm = () => {
+export const ParametersForm = (user: User) => {
     const router = useRouter();
     const { addParameter } = useApartmentContext();
 

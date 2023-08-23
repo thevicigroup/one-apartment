@@ -33,7 +33,7 @@ export const FriendsCard: React.FC<Props> = ({ friendsInfo }) => {
     const sharedGroups = [1, 2, 3, "this is dynamic"];
     const name = "Nicholas Mirabile";
     const occupation = "Aerospace Research Engineer";
-
+    const uniqueKey = '1'
     return (
         <Card>
             <CardHeader>
