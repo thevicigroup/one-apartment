@@ -52,24 +52,12 @@ import axios from "axios";
 import { User } from "@prisma/client";
 
 
-// export async function getServerSideProps(context: any) {
-//     const response = await axios.get('/api/user/parameter');
-//     return {
-//       props: {
-//         data: response.data,
-//       },
-//     };
-// }
-
-
-
 async function getUserParams(user: User) {
-    const response = await fetch(`/api/user/parameter`, {
-        method: "POST",
+    const response = await fetch(`/api/user/parameter/${user.id}`, {
+        method: "GET",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
     });
 
     if (!response.ok) {
